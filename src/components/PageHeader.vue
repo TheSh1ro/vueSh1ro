@@ -1,8 +1,8 @@
 <script></script>
 <template>
   <header id="header">
-    <div class="item">sh1roJobs</div>
-    <div class="item">username</div>
+    <RouterLink to="/" class="item">sh1roJobs</RouterLink>
+    <RouterLink to="/account" class="item">username</RouterLink>
   </header>
 </template>
 <style scoped>

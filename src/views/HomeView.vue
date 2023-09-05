@@ -2,7 +2,7 @@
 <template>
   <main id="main">
     <div id="content">
-      <RouterLink class="block" to="/valor">
+      <RouterLink class="block" to="/prize">
         <h1>EloJob</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -11,7 +11,7 @@
           classificação, tornando a jornada competitiva mais suave
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/valor">
+      <RouterLink class="block" to="/prize">
         <h1>DuoJob</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -21,7 +21,7 @@
           enquanto conquista a classificação desejada
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/valor">
+      <RouterLink class="block" to="/prize">
         <h1>MD10</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -31,7 +31,7 @@
           garantindo que você comece a temporada com a melhor classificação possível
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/valor">
+      <RouterLink class="block" to="/prize">
         <h1>Sh1ro Tips</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
