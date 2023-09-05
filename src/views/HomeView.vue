@@ -7,8 +7,7 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em jogos como
-          League of Legends. Com este serviço, jogadores experientes irão impulsionar sua
+          Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em menor tempo. Com este serviço, jogadores experientes irão impulsionar sua
           classificação, tornando a jornada competitiva mais suave
         </p>
       </RouterLink>
@@ -27,8 +26,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O MD10 é essencial para quem está pronto para iniciar uma nova temporada de competições no
-          League of Legends. Tenha suas 10 Artidas de posicionamento gerenciadas por profissionais,
+          O MD10 é essencial para quem está pronto para iniciar bem uma nova temporada no
+          League of Legends. Tenha suas partidas de posicionamento jogadas pelos melhores,
           garantindo que você comece a temporada com a melhor classificação possível
         </p>
       </RouterLink>
