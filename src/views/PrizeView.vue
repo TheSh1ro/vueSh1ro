@@ -36,6 +36,7 @@
           </ul>
         </div>
       </div>
+      <div id="leagueContainer"></div>
       <div id="prizeContainer"></div>
     </div>
   </main>
@@ -129,6 +130,15 @@
 
 hr {
   margin-block: 0px;
+}
+
+#leagueContainer {
+  background-color: rgb(255, 255, 255, 0.1);
+  border-radius: 30px;
+
+  display: grid;
+  grid-template-rows: 6vh 1fr;
+  border: 1px solid white;
 }
 
 #prizeContainer {
