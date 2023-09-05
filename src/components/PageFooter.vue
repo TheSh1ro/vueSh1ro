@@ -1,0 +1,33 @@
+<script></script>
+<template>
+  <footer id="footer">
+    <ul block>
+      <li>Central de Ajuda</li>
+      <li>Trabalhe conosco</li>
+      <li>Contato</li>
+    </ul>
+    <ul block>
+      <li>Discord</li>
+      <li>Twitter</li>
+      <li>Instagram</li>
+    </ul>
+  </footer>
+</template>
+<style scoped>
+#footer {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+li {
+  cursor: pointer;
+}
+li:hover {
+  color: bisque;
+  text-decoration: underline;
+}
+</style>
