@@ -52,27 +52,41 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  padding: 30px;
 }
 
 #content {
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  align-content: center;
   justify-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
-  gap: 20px;
+  gap: 40px;
+  margin: 50px;
+}
+@media (max-width: 1550px) {
+  #content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 875px) {
+  #content {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .block {
   background-color: rgba(0, 0, 0, 0.75);
   border: 4px double white;
-  width: 14rem;
+  height: 55vh;
+  font-size: 1.3rem;
+  max-width: 300px;
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  padding: 20px;
+  padding: 25px;
   text-align: center;
   transition: background-color 0.5s;
 }

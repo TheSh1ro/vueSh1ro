@@ -16,6 +16,7 @@
 <style scoped>
 #footer {
   background-color: rgba(0, 0, 0, 0.8);
+  font-size: 1.5rem;
   color: white;
 
   display: grid;

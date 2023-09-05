@@ -8,6 +8,7 @@
 <style scoped>
 #header {
   background-color: rgba(0, 0, 0, 0.8);
+  font-size: 1.8rem;
   color: white;
 
   display: flex;
