@@ -2,34 +2,41 @@
 <template>
   <main id="main">
     <div id="content">
-      <div class="container">
-        <ul class="startElo">
-          <li style="cursor: default;">Elo atual</li>
-          <hr />
-          <li class="startElo-item">Ferro</li>
-          <li class="startElo-item">Bronze</li>
-          <li class="startElo-item">Prata</li>
-          <li class="startElo-item">Ouro</li>
-          <li class="startElo-item">Platina</li>
-          <li class="startElo-item">Esmeralda</li>
-          <li class="startElo-item">Diamante</li>
-          <li class="startElo-item">Mestre</li>
-          <li class="startElo-item">Grão Mestre</li>
-        </ul>
-        <ul class="endElo">
-          <li style="cursor: default;">Elo desejado</li>
-          <hr />
-          <li class="endElo-item">Ferro</li>
-          <li class="endElo-item">Bronze</li>
-          <li class="endElo-item">Prata</li>
-          <li class="endElo-item">Ouro</li>
-          <li class="endElo-item">Platina</li>
-          <li class="endElo-item">Esmeralda</li>
-          <li class="endElo-item">Diamante</li>
-          <li class="endElo-item">Mestre</li>
-          <li class="endElo-item">Grão Mestre</li>
-        </ul>
+      <div id="selectContainer">
+        <div class="modalChanger">
+          <span class="modal">EloJob</span>
+          <span class="modal">DuoJob</span>
+          <span class="modal">MD10</span>
+        </div>
+        <div class="eloSelector">
+          <ul class="eloGroup">
+            <li class="eloGroup-title">Elo atual ↻</li>
+            <li class="elo-item">Ferro</li>
+            <li class="elo-item">Bronze</li>
+            <li class="elo-item">Prata</li>
+            <li class="elo-item">Ouro</li>
+            <li class="elo-item">Platina</li>
+            <li class="elo-item">Esmeralda</li>
+            <li class="elo-item">Diamante</li>
+            <li class="elo-item">Mestre</li>
+            <li class="elo-item" style="border-bottom-left-radius: 30px">Grão Mestre</li>
+          </ul>
+          <ul class="eloGroup">
+            <li class="eloGroup-title">Elo desejado ↻</li>
+            <li class="elo-item">Ferro</li>
+            <li class="elo-item">Bronze</li>
+            <li class="elo-item">Prata</li>
+            <li class="elo-item">Ouro</li>
+            <li class="elo-item">Platina</li>
+            <li class="elo-item">Esmeralda</li>
+            <li class="elo-item">Diamante</li>
+            <li class="elo-item">Mestre</li>
+            <li class="elo-item">Grão Mestre</li>
+            <li class="elo-item" style="border-bottom-right-radius: 30px">Desafiante</li>
+          </ul>
+        </div>
       </div>
+      <div id="prizeContainer"></div>
     </div>
   </main>
 </template>
@@ -44,38 +51,92 @@
 }
 
 #content {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
   margin: 50px;
 }
 
-.container {
+#selectContainer {
   background-color: rgb(255, 255, 255, 0.1);
-  font-size: 1.2rem;
-  border: 10px double white;
+  border: 1px solid white;
   border-radius: 30px;
 
-  padding: 20px;
+  display: grid;
+  grid-template-rows: 6vh 1fr;
+  grid-column: 1/2;
+}
+
+.modalChanger {
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+}
+.modal {
+  border-bottom: 1px solid white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+
   flex-grow: 1;
-  text-align: center;
+  padding: 20px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  
+}
+.modal:hover {
+  border-bottom: 1px solid var(--purple);
+  color: var(--purple);
 }
 
-.startElo-item,
-.endElo-item {
-  cursor: pointer;
-  transition: color 0.2s;
+.eloSelector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  font-size: 1.3rem;
 }
-.startElo-item:hover,
-.endElo-item:hover {
-  color: bisque;
+
+.eloGroup {
+  display: grid;
+  grid-template-rows: 8vh auto;
+}
+.eloGroup-title {
+  cursor: pointer;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+
+  flex-grow: 1;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.eloGroup-title:hover {
+  color: var(--purple);
+}
+.elo-item {
+  flex-grow: 1;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.elo-item:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--purple);
 }
 
 hr {
-  margin-block: 5px;
+  margin-block: 0px;
+}
+
+#prizeContainer {
+  background-color: rgb(255, 255, 255, 0.1);
+  border-radius: 30px;
+
+  display: grid;
+  grid-template-rows: 6vh 1fr;
+  border: 1px solid white;
 }
 </style>

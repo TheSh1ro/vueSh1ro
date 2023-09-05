@@ -10,6 +10,9 @@ import PageFooter from './components/PageFooter.vue'
   <PageFooter />
 </template>
 <style>
+:root {
+  --purple: rgb(152, 42, 255);
+}
 #app {
   display: grid;
   grid-template-columns: 1fr;
@@ -17,7 +20,7 @@ import PageFooter from './components/PageFooter.vue'
 
   font-family: Calibri;
   color: white;
-  
+
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Riven_23.jpg);
   background-size: cover;
 }
