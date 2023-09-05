@@ -14,9 +14,16 @@
   justify-content: space-between;
   align-items: center;
   padding-inline: 10px;
+
+  transition: background-color 0.5s;
 }
+#header:hover {
+  background-color: black;
+}
+
 .item {
   cursor: pointer;
+  transition: color 0.5s;
 }
 .item:hover {
 }

@@ -2,7 +2,7 @@
 <template>
   <main id="main">
     <div id="content">
-      <div class="block">
+      <RouterLink class="block" to="/valor">
         <h1>EloJob</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -11,8 +11,8 @@
           League of Legends. Com este serviço, jogadores experientes irão impulsionar sua
           classificação, tornando a jornada competitiva mais suave
         </p>
-      </div>
-      <div class="block">
+      </RouterLink>
+      <RouterLink class="block" to="/valor">
         <h1>DuoJob</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -21,8 +21,8 @@
           habilidades em League of Legends. Jogue ao lado de um jogador experiente e aprenda
           enquanto conquista a classificação desejada
         </p>
-      </div>
-      <div class="block">
+      </RouterLink>
+      <RouterLink class="block" to="/valor">
         <h1>MD10</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -31,8 +31,8 @@
           League of Legends. Tenha suas 10 Artidas de posicionamento gerenciadas por profissionais,
           garantindo que você comece a temporada com a melhor classificação possível
         </p>
-      </div>
-      <div class="block">
+      </RouterLink>
+      <RouterLink class="block" to="/valor">
         <h1>Sh1ro Tips</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -41,13 +41,13 @@
           de cada campeão. Tenha acesso a uma fonte inestimável de informações sobre campeões, itens
           e estratégias para levar seu jogo a um nível superior.
         </p>
-      </div>
+      </RouterLink>
     </div>
   </main>
 </template>
 <style scoped>
 #main {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
 
   display: grid;
   grid-template-columns: 1fr;
@@ -63,7 +63,7 @@
 }
 
 .block {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.75);
   border: 4px double white;
   width: 14rem;
 
@@ -74,6 +74,7 @@
 
   padding: 20px;
   text-align: center;
+  transition: background-color 0.5s;
 }
 .block:nth-of-type(1) {
   border-color: palevioletred;
