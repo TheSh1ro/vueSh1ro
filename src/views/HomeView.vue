@@ -7,7 +7,7 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em menor tempo.
+        Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em menor tempo.
           Com este serviço, jogadores experientes irão impulsionar sua classificação, tornando a
           jornada competitiva mais suave
         </p>
