@@ -25,8 +25,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          Essencial para iniciar bem uma nova temporada no League of Legends. Tenha suas
-          partidas iniciais jogadas pelos melhores e comece bem a temporada.
+          Essencial para iniciar bem uma nova temporada no League of Legends. Tenha suas partidas
+          iniciais jogadas pelos melhores e comece bem a temporada.
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
@@ -34,9 +34,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          Acesso a um conteúdo que guia você a extrair o máximo de cada
-          campeão. Acesse informações valiosas sobre campeões, itens e estratégias para elevar seu
-          jogo.
+          Acesso a um conteúdo que guia você a extrair o máximo de cada campeão. Acesse informações
+          valiosas sobre campeões, itens e estratégias para elevar seu jogo.
         </p>
       </RouterLink>
     </div>
@@ -54,14 +53,19 @@
 #content {
   display: grid;
   align-content: center;
-  grid-template-columns: repeat(4, 250px);
+  grid-template-columns: repeat(4, minmax(250px, 280px));
   justify-content: center;
-  gap: 40px;
+  gap: 35px;
   margin: 40px;
 }
-@media (max-width: 1240px) {
+@media (max-width: 1190px) {
   #content {
-    grid-template-columns: repeat(2, 250px);
+    grid-template-columns: repeat(2, minmax(250px, 300px));
+  }
+}
+@media (max-width: 620px) {
+  #content {
+    grid-template-columns: repeat(1, minmax(250px, 300px));
   }
 }
 
