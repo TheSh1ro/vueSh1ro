@@ -7,9 +7,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-        Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em menor tempo.
-          Com este serviço, jogadores experientes irão impulsionar sua classificação, tornando a
-          jornada competitiva mais suave
+          O EloJob é ideal para quem quer subir de ranque rapidamente. Jogadores experientes
+          impulsionarão sua classificação, tornando a jornada mais suave.
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
@@ -17,9 +16,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O DuoJob oferece a oportunidade perfeita para jogadores que desejam melhorar suas
-          habilidades em League of Legends. Jogue ao lado de um jogador experiente e aprenda
-          enquanto conquista a classificação desejada
+          O DuoJob é perfeito para jogadores que querem melhorar no League of Legends. Jogue duo e
+          aprenda enquanto sobe de classificação.
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
@@ -27,9 +25,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O MD10 é essencial para quem está pronto para iniciar bem uma nova temporada no League of
-          Legends. Tenha suas partidas de posicionamento jogadas pelos melhores, garantindo que você
-          comece a temporada com a melhor classificação possível
+          Essencial para iniciar bem uma nova temporada no League of Legends. Tenha suas
+          partidas iniciais jogadas pelos melhores e comece bem a temporada.
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
@@ -37,9 +34,9 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O Sh1ro Tips é um projeto feito por mono champions que vai te guiar para extrair o máximo
-          de cada campeão. Tenha acesso a uma fonte inestimável de informações sobre campeões, itens
-          e estratégias para levar seu jogo a um nível superior.
+          Acesso a um conteúdo que guia você a extrair o máximo de cada
+          campeão. Acesse informações valiosas sobre campeões, itens e estratégias para elevar seu
+          jogo.
         </p>
       </RouterLink>
     </div>
