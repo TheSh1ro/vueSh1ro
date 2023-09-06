@@ -13,6 +13,15 @@ import PageFooter from './components/PageFooter.vue'
 :root {
   --purple: rgb(152, 42, 255);
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: white;
+}
+::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
 #app {
   display: grid;
   grid-template-columns: 1fr;

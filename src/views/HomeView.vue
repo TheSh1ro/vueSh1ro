@@ -7,8 +7,9 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em menor tempo. Com este serviço, jogadores experientes irão impulsionar sua
-          classificação, tornando a jornada competitiva mais suave
+          Elojob é a solução para aqueles que desejam alcançar um ranque mais alto em menor tempo.
+          Com este serviço, jogadores experientes irão impulsionar sua classificação, tornando a
+          jornada competitiva mais suave
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
@@ -26,9 +27,9 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O MD10 é essencial para quem está pronto para iniciar bem uma nova temporada no
-          League of Legends. Tenha suas partidas de posicionamento jogadas pelos melhores,
-          garantindo que você comece a temporada com a melhor classificação possível
+          O MD10 é essencial para quem está pronto para iniciar bem uma nova temporada no League of
+          Legends. Tenha suas partidas de posicionamento jogadas pelos melhores, garantindo que você
+          comece a temporada com a melhor classificação possível
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
@@ -55,30 +56,21 @@
 
 #content {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: center;
   align-content: center;
-  justify-items: center;
+  grid-template-columns: repeat(4, 250px);
+  justify-content: center;
   gap: 40px;
-  margin: 50px;
+  margin: 40px;
 }
-@media (max-width: 1550px) {
+@media (max-width: 1240px) {
   #content {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 875px) {
-  #content {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 250px);
   }
 }
 
 .block {
   background-color: rgba(0, 0, 0, 0.75);
   border: 4px double white;
-  height: 55vh;
-  font-size: 1.3rem;
-  max-width: 300px;
 
   display: flex;
   justify-content: center;
@@ -87,7 +79,9 @@
 
   padding: 25px;
   text-align: center;
-  transition: background-color 0.5s;
+  transition:
+    background-color 0.5s,
+    box-shadow 1.5s ease;
 }
 .block:nth-of-type(1) {
   border-color: palevioletred;
@@ -103,12 +97,10 @@
 }
 
 .block:nth-child(odd) {
-  margin-bottom: 20px;
   border-top-left-radius: 50px;
   border-bottom-right-radius: 50px;
 }
 .block:nth-child(even) {
-  margin-top: 20px;
   border-top-right-radius: 50px;
   border-bottom-left-radius: 50px;
 }
@@ -132,8 +124,8 @@
 }
 
 .block > img {
-  height: 15rem;
-  width: 15rem;
+  height: 10rem;
+  width: 10rem;
 }
 .block:nth-of-type(1) > img {
   filter: hue-rotate(45deg);
@@ -154,17 +146,21 @@
 .block:nth-of-type(1):hover {
   border-style: solid;
   background-color: rgb(255, 0, 85, 0.05);
+  box-shadow: 0px 0px 30px 0px rgb(255, 0, 85, 1);
 }
 .block:nth-of-type(2):hover {
   border-style: solid;
   background-color: rgb(255, 217, 0, 0.05);
+  box-shadow: 0px 0px 30px 0px rgb(255, 217, 0, 1);
 }
 .block:nth-of-type(3):hover {
   border-style: solid;
   background-color: rgb(153, 255, 0, 0.05);
+  box-shadow: 0px 0px 30px 0px rgb(153, 255, 0, 1);
 }
 .block:nth-of-type(4):hover {
   border-style: solid;
   background-color: rgb(0, 191, 255, 0.05);
+  box-shadow: 0px 0px 30px 0px rgb(0, 191, 255, 1);
 }
 </style>

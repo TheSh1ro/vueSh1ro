@@ -16,7 +16,6 @@
 <style scoped>
 #footer {
   background-color: rgba(0, 0, 0, 0.8);
-  font-size: 1.5rem;
   color: white;
 
   display: grid;
@@ -27,7 +26,7 @@
   transition: background-color 0.5s;
 }
 #footer:hover {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 li {

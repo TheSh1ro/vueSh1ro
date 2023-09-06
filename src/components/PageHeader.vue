@@ -8,24 +8,28 @@
 <style scoped>
 #header {
   background-color: rgba(0, 0, 0, 0.8);
-  font-size: 1.8rem;
   color: white;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-inline: 10px;
 
   transition: background-color 0.5s;
 }
 #header:hover {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: color 0.5s;
+  padding-inline: 10px;
+  transition: color 0.5s, text-shadow 0.5s;
+  height: 100%;
 }
 .item:hover {
+  text-shadow: 0px 0px 5px white;
 }
 </style>
