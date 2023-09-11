@@ -53,24 +53,25 @@
 #content {
   display: grid;
   align-content: center;
-  grid-template-columns: repeat(4, minmax(250px, 280px));
+  grid-template-columns: repeat(4, minmax(300px, 320px));
   justify-content: center;
   gap: 35px;
   margin: 40px;
 }
-@media (max-width: 1190px) {
+@media (max-width: 1390px) {
   #content {
-    grid-template-columns: repeat(2, minmax(250px, 300px));
+    grid-template-columns: repeat(2, minmax(300px, 320px));
   }
 }
-@media (max-width: 620px) {
+@media (max-width: 710px) {
   #content {
-    grid-template-columns: repeat(1, minmax(250px, 300px));
+    grid-template-columns: repeat(1, minmax(300px, 320px));
   }
 }
 
 .block {
   background-color: rgba(0, 0, 0, 0.75);
+  font-size: 1.3rem;
   border: 4px double white;
 
   display: flex;
@@ -78,7 +79,7 @@
   align-items: center;
   flex-direction: column;
 
-  padding: 25px;
+  padding: 35px;
   text-align: center;
   transition:
     background-color 0.5s,

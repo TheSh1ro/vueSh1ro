@@ -3,14 +3,9 @@
   <main id="main">
     <div id="content">
       <div id="selectContainer">
-        <div class="modalChanger">
-          <span class="modal">EloJob</span>
-          <span class="modal">DuoJob</span>
-          <span class="modal">MD10</span>
-        </div>
         <div class="eloSelector">
-          <ul class="eloGroup">
-            <li class="eloGroup-title">Elo atual ↻</li>
+          <ul class="eloList">
+            <li class="eloList-title">Elo atual</li>
             <li class="elo-item">Ferro</li>
             <li class="elo-item">Bronze</li>
             <li class="elo-item">Prata</li>
@@ -21,8 +16,8 @@
             <li class="elo-item">Mestre</li>
             <li class="elo-item" style="border-bottom-left-radius: 30px">Grão Mestre</li>
           </ul>
-          <ul class="eloGroup">
-            <li class="eloGroup-title">Elo desejado ↻</li>
+          <ul class="eloList">
+            <li class="eloList-title">Elo desejado</li>
             <li class="elo-item">Ferro</li>
             <li class="elo-item">Bronze</li>
             <li class="elo-item">Prata</li>
@@ -36,7 +31,6 @@
           </ul>
         </div>
       </div>
-      <div id="leagueContainer"></div>
       <div id="prizeContainer"></div>
     </div>
   </main>
@@ -48,12 +42,11 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  align-items: stretch;
 }
 
 #content {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 3fr 2fr;
   gap: 50px;
   margin: 50px;
 }
@@ -64,12 +57,10 @@
   border-radius: 30px;
 
   display: grid;
-  grid-template-rows: 6vh 1fr;
-  grid-column: 1/2;
+  grid-template-rows: 1fr;
 }
 
 .modalChanger {
-  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
 }
 .modal {
@@ -87,6 +78,7 @@
 }
 .modal:hover {
   border-bottom: 1px solid var(--purple);
+  background-color: rgba(0, 0, 0, 0.5);
   color: var(--purple);
 }
 
@@ -96,11 +88,11 @@
   font-size: 1.3rem;
 }
 
-.eloGroup {
+.eloList {
   display: grid;
   grid-template-rows: 8vh auto;
 }
-.eloGroup-title {
+.eloList-title {
   cursor: pointer;
   font-weight: bold;
   border-bottom: 1px solid white;
@@ -112,9 +104,7 @@
   justify-content: center;
   align-items: center;
 }
-.eloGroup-title:hover {
-  color: var(--purple);
-}
+
 .elo-item {
   flex-grow: 1;
   cursor: pointer;
@@ -122,6 +112,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.elo-item:active {
+  background-color: black;
 }
 .elo-item:hover {
   background-color: rgba(0, 0, 0, 0.5);
@@ -132,21 +125,12 @@ hr {
   margin-block: 0px;
 }
 
-#leagueContainer {
-  background-color: rgb(255, 255, 255, 0.1);
-  border-radius: 30px;
-
-  display: grid;
-  grid-template-rows: 6vh 1fr;
-  border: 1px solid white;
-}
-
 #prizeContainer {
   background-color: rgb(255, 255, 255, 0.1);
+  border: 1px solid white;
   border-radius: 30px;
 
   display: grid;
-  grid-template-rows: 6vh 1fr;
-  border: 1px solid white;
+  grid-template-rows: 7vh 1fr;
 }
 </style>
