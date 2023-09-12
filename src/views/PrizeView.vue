@@ -1,35 +1,70 @@
-<script></script>
+<script>
+export default {
+  data() {
+    return {
+      eloAtual: [
+        { name: 'Ferro', visible: 1 },
+        { name: 'Bronze', visible: 1 },
+        { name: 'Prata', visible: 1 },
+        { name: 'Ouro', visible: 1 },
+        { name: 'Platina', visible: 1 },
+        { name: 'Esmeralda', visible: 1 },
+        { name: 'Diamante', visible: 1 },
+        { name: 'Mestre', visible: 1 },
+        { name: 'Grão Mestre', visible: 1 }
+      ],
+      eloDesejado: [
+        { name: 'Ferro', visible: 1 },
+        { name: 'Bronze', visible: 1 },
+        { name: 'Prata', visible: 1 },
+        { name: 'Ouro', visible: 1 },
+        { name: 'Platina', visible: 1 },
+        { name: 'Esmeralda', visible: 1 },
+        { name: 'Diamante', visible: 1 },
+        { name: 'Mestre', visible: 1 },
+        { name: 'Grão Mestre', visible: 1 },
+        { name: 'Desafiante', visible: 1 }
+      ]
+    }
+  },
+  methods: {
+    toggleVisibility(elo) {
+      elo.visible = !elo.visible
+    }
+  }
+}
+</script>
 <template>
   <main id="main">
     <div id="content">
       <div id="selectContainer">
-        <div class="eloSelector">
-          <ul class="eloList">
-            <li class="eloList-title">Elo atual</li>
-            <li class="elo-item">Ferro</li>
-            <li class="elo-item">Bronze</li>
-            <li class="elo-item">Prata</li>
-            <li class="elo-item">Ouro</li>
-            <li class="elo-item">Platina</li>
-            <li class="elo-item">Esmeralda</li>
-            <li class="elo-item">Diamante</li>
-            <li class="elo-item">Mestre</li>
-            <li class="elo-item" style="border-bottom-left-radius: 30px">Grão Mestre</li>
+        <header class="box-header">
+          <span>Elo Atual</span>
+          <span>Elo Desejado</span>
+        </header>
+        <body class="box-body">
+          <ul class="box-column">
+            <li
+              class="box-item"
+              v-for="(elo, index) in eloAtual"
+              :key="elo.name"
+              @click="toggleVisibility(elo)"
+            >
+              {{ elo.name }}
+            </li>
           </ul>
-          <ul class="eloList">
-            <li class="eloList-title">Elo desejado</li>
-            <li class="elo-item">Ferro</li>
-            <li class="elo-item">Bronze</li>
-            <li class="elo-item">Prata</li>
-            <li class="elo-item">Ouro</li>
-            <li class="elo-item">Platina</li>
-            <li class="elo-item">Esmeralda</li>
-            <li class="elo-item">Diamante</li>
-            <li class="elo-item">Mestre</li>
-            <li class="elo-item">Grão Mestre</li>
-            <li class="elo-item" style="border-bottom-right-radius: 30px">Desafiante</li>
+          <ul class="box-column">
+            <li
+              class="box-item"
+              v-for="(elo, index) in eloDesejado"
+              :key="elo.name"
+              @click="toggleVisibility(elo)"
+            >
+              <p v-if="elo.visible">{{ elo.name }}</p>
+              <div></div>
+            </li>
           </ul>
-        </div>
+        </body>
       </div>
       <div id="prizeContainer"></div>
     </div>
@@ -47,7 +82,7 @@
 #content {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: 50px;
+  gap: 5vw;
   margin: 50px;
 }
 
@@ -57,72 +92,29 @@
   border-radius: 30px;
 
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr 10fr;
 }
-
-.modalChanger {
-  display: flex;
+.box-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.modal {
-  border-bottom: 1px solid white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-
-  flex-grow: 1;
-  padding: 20px;
-
+.box-header > span {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid white;
 }
-.modal:hover {
-  border-bottom: 1px solid var(--purple);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: var(--purple);
-}
-
-.eloSelector {
+.box-body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  font-size: 1.3rem;
 }
-
-.eloList {
+.box-column {
   display: grid;
-  grid-template-rows: 8vh auto;
 }
-.eloList-title {
-  cursor: pointer;
-  font-weight: bold;
-  border-bottom: 1px solid white;
-
-  flex-grow: 1;
-  cursor: pointer;
-
+.box-item {
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-.elo-item {
-  flex-grow: 1;
-  cursor: pointer;
-
-  display: flex;
   justify-content: center;
-  align-items: center;
-}
-.elo-item:active {
-  background-color: black;
-}
-.elo-item:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: var(--purple);
-}
-
-hr {
-  margin-block: 0px;
 }
 
 #prizeContainer {
@@ -131,6 +123,5 @@ hr {
   border-radius: 30px;
 
   display: grid;
-  grid-template-rows: 7vh 1fr;
 }
 </style>
