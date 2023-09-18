@@ -3,61 +3,96 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', visible: 1 },
-        { name: 'Bronze', visible: 1 },
-        { name: 'Prata', visible: 1 },
-        { name: 'Ouro', visible: 1 },
-        { name: 'Platina', visible: 1 },
-        { name: 'Esmeralda', visible: 1 },
-        { name: 'Diamante', visible: 1 },
-        { name: 'Mestre', visible: 1 },
-        { name: 'Grão Mestre', visible: 1 }
+        { name: 'Ferro', visible: true, selected: false },
+        { name: 'Bronze', visible: true, selected: false },
+        { name: 'Prata', visible: true, selected: false },
+        { name: 'Ouro', visible: true, selected: false },
+        { name: 'Platina', visible: true, selected: false },
+        { name: 'Esmeralda', visible: true, selected: false },
+        { name: 'Diamante', visible: true, selected: false },
+        { name: 'Mestre', visible: true, selected: false },
+        { name: 'Grão Mestre', visible: true, selected: false }
       ],
       eloDesejado: [
-        { name: 'Ferro', visible: 1 },
-        { name: 'Bronze', visible: 1 },
-        { name: 'Prata', visible: 1 },
-        { name: 'Ouro', visible: 1 },
-        { name: 'Platina', visible: 1 },
-        { name: 'Esmeralda', visible: 1 },
-        { name: 'Diamante', visible: 1 },
-        { name: 'Mestre', visible: 1 },
-        { name: 'Grão Mestre', visible: 1 },
-        { name: 'Desafiante', visible: 1 }
+        { name: 'Ferro', visible: true, selected: false },
+        { name: 'Bronze', visible: true, selected: false },
+        { name: 'Prata', visible: true, selected: false },
+        { name: 'Ouro', visible: true, selected: false },
+        { name: 'Platina', visible: true, selected: false },
+        { name: 'Esmeralda', visible: true, selected: false },
+        { name: 'Diamante', visible: true, selected: false },
+        { name: 'Mestre', visible: true, selected: false },
+        { name: 'Grão Mestre', visible: true, selected: false },
+        { name: 'Desafiante', visible: true, selected: false }
       ],
       eloSelecionado: {
-        atual: { name: '', league: null },
-        desejado: { name: '', league: null }
+        atual: { name: null, league: null, index: null },
+        desejado: { name: null, league: null, index: null }
       }
     }
   },
   methods: {
+    // Impedir seleção de ligas acima do mestre
     toggleVisibilityAtual(elo, index) {
+      if (index > 6) {
+        this.selectElo(1, elo, null, index)
+        return
+      }
+
+      // Habilitar seleção de liga após clicar no elo
       this.eloAtual.forEach((elo, i) => {
         if (i == index) {
           elo.visible = !elo.visible
         } else {
-          elo.visible = 1
+          elo.visible = true
         }
       })
     },
+
     toggleVisibilityDesejado(elo, index) {
+      // Impedir selecionar o desejado antes do atual
+      if (this.eloSelecionado.atual.name == null) {
+        return
+      }
+
+      // Impedir seleção de ligas acima do mestre
+      if (index > 6) {
+        this.selectElo(2, elo)
+        return
+      }
+
+      // Habilitar seleção de liga após clicar no elo
       this.eloDesejado.forEach((elo, i) => {
         if (i == index) {
           elo.visible = !elo.visible
         } else {
-          elo.visible = 1
+          elo.visible = true
         }
       })
     },
-    selectElo(type, name, league) {
+
+    selectElo(type, elo, league, index) {
+      // Preencher this.eloSelecionado.atual
       if (type == 1) {
-        this.eloSelecionado.atual.name = name
+        this.eloSelecionado.atual.name = elo.name
         this.eloSelecionado.atual.league = league
+        this.eloSelecionado.atual.index = index
+        this.eloAtual.forEach((elo) => {
+          elo.selected = false
+        })
+        elo.selected = !elo.selected
       }
+
+      // Preencher this.eloSelecionado.desejado
       if (type == 2) {
-        this.eloSelecionado.desejado.name = name
+        this.eloSelecionado.desejado.name = elo.name
         this.eloSelecionado.desejado.league = league
+        this.eloSelecionado.desejado.index = index
+
+        this.eloDesejado.forEach((elo) => {
+          elo.selected = false
+        })
+        elo.selected = !elo.selected
       }
     }
   }
@@ -74,28 +109,33 @@ export default {
         <body class="box-body">
           <ul class="box-column">
             <li class="box-row" v-for="(elo, index) in eloAtual" :key="index">
-              <span class="row-elo" @click="toggleVisibilityAtual(elo, index)" v-if="elo.visible">
+              <span
+                class="row-elo"
+                @click="toggleVisibilityAtual(elo, index)"
+                v-if="elo.visible"
+                :class="{ rowSelected: elo.selected }"
+              >
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo.name, 1)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 1)"
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo.name, 2)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 2)"
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo.name, 3)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 3)"
                   >III</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo.name, 4)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 4)"
                   >IV</span
                 >
               </div>
@@ -111,28 +151,29 @@ export default {
                 class="row-elo"
                 @click="toggleVisibilityDesejado(elo, index)"
                 v-if="elo.visible"
+                :class="{ rowSelected: elo.selected }"
               >
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo.name, 1)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 1)"
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo.name, 2)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 2)"
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo.name, 3)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 3)"
                   >III</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo.name, 4)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 4, index)"
                   >IV</span
                 >
               </div>
@@ -141,7 +182,8 @@ export default {
         </body>
       </div>
       <div id="prizeContainer">
-        <p>{{ eloSelecionado }}</p>
+        <p>{{ eloSelecionado.atual }}</p>
+        <p>{{ eloSelecionado.desejado }}</p>
       </div>
     </div>
   </main>
@@ -199,6 +241,9 @@ export default {
 }
 .row-elo:hover {
   flex-grow: 1;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.rowSelected {
   background-color: rgba(0, 0, 0, 0.8);
 }
 .row-league {
