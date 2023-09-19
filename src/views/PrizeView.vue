@@ -3,27 +3,27 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', visible: true },
-        { name: 'Bronze', visible: true },
-        { name: 'Prata', visible: true },
-        { name: 'Ouro', visible: true },
-        { name: 'Platina', visible: true },
-        { name: 'Esmeralda', visible: true },
-        { name: 'Diamante', visible: true },
-        { name: 'Mestre', visible: true },
-        { name: 'Grão Mestre', visible: true }
+        { name: 'Ferro', image: '../assets/iron.png', visible: true },
+        { name: 'Bronze', image: '../assets/bronze.png', visible: true },
+        { name: 'Prata', image: '../assets/silver.png', visible: true },
+        { name: 'Ouro', image: '../assets/gold.png', visible: true },
+        { name: 'Platina', image: '../assets/platinum.png', visible: true },
+        { name: 'Esmeralda', image: '../assets/diamond.png', visible: true },
+        { name: 'Diamante', image: '../assets/diamond.png', visible: true },
+        { name: 'Mestre', image: '../assets/master.png', visible: true },
+        { name: 'Grão Mestre', image: '../assets/grandmaster.png', visible: true }
       ],
       eloDesejado: [
-        { name: 'Ferro', visible: true },
-        { name: 'Bronze', visible: true },
-        { name: 'Prata', visible: true },
-        { name: 'Ouro', visible: true },
-        { name: 'Platina', visible: true },
-        { name: 'Esmeralda', visible: true },
-        { name: 'Diamante', visible: true },
-        { name: 'Mestre', visible: true },
-        { name: 'Grão Mestre', visible: true },
-        { name: 'Desafiante', visible: true }
+        { name: 'Ferro', image: '../assets/iron.png', visible: true },
+        { name: 'Bronze', image: '../assets/bronze.png', visible: true },
+        { name: 'Prata', image: '../assets/silver.png', visible: true },
+        { name: 'Ouro', image: '../assets/gold.png', visible: true },
+        { name: 'Platina', image: '../assets/platinum.png', visible: true },
+        { name: 'Esmeralda', image: '../assets/diamond.png', visible: true },
+        { name: 'Diamante', image: '../assets/diamond.png', visible: true },
+        { name: 'Mestre', image: '../assets/master.png', visible: true },
+        { name: 'Grão Mestre', image: '../assets/grandmaster.png', visible: true },
+        { name: 'Desafiante', image: '../assets/challenger.png', visible: true }
       ],
       eloSelecionado: {
         atual: { name: null, league: null, index: null },
@@ -39,13 +39,13 @@ export default {
         this.eloSelecionado.desejado.index = null
       }
 
-      // Selecionar divisão acima do mestre sem mostrar ligas
+      // Selecionar elo acima do mestre sem mostrar ligas
       if (index > 6) {
         this.selectLeague('atual', elo, 1, index)
         return
       }
 
-      // Habilitar seleção de liga após clicar no elo
+      // Ao clicar no elo, mostrar as divisões (ligas) para seleção
       this.eloAtual.forEach((elo, i) => {
         if (i == index) {
           elo.visible = !elo.visible
@@ -56,14 +56,12 @@ export default {
     },
 
     toggleVisibilityDesejado(elo, index, league) {
+      // Impedir seleção de liga maior que a atual no mesmo elo (Exemplo, ir do bronze 2 ao bronze 4)
       if (index == this.eloSelecionado.atual.index && league >= this.eloSelecionado.atual.league) {
         return
       }
 
-      console.log('Desejada selecionando' + league)
-      console.log('Atual selecionada' + this.eloSelecionado.atual.league)
-
-      // Impedir selecionar o desejado antes ou abaixo do atual
+      // Impedir selecionar o elo desejado antes ou abaixo do atual (Exemplo, ir do ouro ao prata)
       if (this.eloSelecionado.atual.name == null || this.eloSelecionado.atual.index > index) {
         return
       }
@@ -87,6 +85,15 @@ export default {
     selectLeague(type, elo, league, index) {
       // Preencher this.eloSelecionado.atual
       if (type == 'atual') {
+        if (
+          this.eloSelecionado.desejado.index == index &&
+          this.eloSelecionado.desejado.league > league
+        ) {
+          this.eloSelecionado.desejado.name = null
+          this.eloSelecionado.desejado.league = null
+          this.eloSelecionado.desejado.index = null
+        }
+
         this.eloSelecionado.atual.name = elo.name
         this.eloSelecionado.atual.league = league
         this.eloSelecionado.atual.index = index
@@ -94,7 +101,10 @@ export default {
 
       // Preencher this.eloSelecionado.desejado
       if (type == 'desejado') {
-        if (index == this.eloSelecionado.atual.index && league >= this.eloSelecionado.atual.league) {
+        if (
+          index == this.eloSelecionado.atual.index &&
+          league >= this.eloSelecionado.atual.league
+        ) {
           return
         }
 
@@ -161,7 +171,7 @@ export default {
                 v-if="elo.visible"
                 :class="{
                   rowSelected: eloSelecionado.desejado.name == elo.name,
-                  rowBlocked: eloSelecionado.atual.index > index
+                  selectionBlocked: eloSelecionado.atual.index > index
                 }"
                 @mouseover="test"
               >
@@ -171,33 +181,45 @@ export default {
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index, 1),
-                      selectLeague('desejado', elo, 1, index)
+                    toggleVisibilityDesejado(elo, index, 1), selectLeague('desejado', elo, 1, index)
                   "
+                  :class="{
+                    selectionBlocked:
+                      eloSelecionado.atual.league <= 1 && eloSelecionado.atual.index == index
+                  }"
                   >I</span
                 >
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index, 2),
-                      selectLeague('desejado', elo, 2, index)
+                    toggleVisibilityDesejado(elo, index, 2), selectLeague('desejado', elo, 2, index)
                   "
+                  :class="{
+                    selectionBlocked:
+                      eloSelecionado.atual.league <= 2 && eloSelecionado.atual.index == index
+                  }"
                   >II</span
                 >
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index, 3),
-                      selectLeague('desejado', elo, 3, index)
+                    toggleVisibilityDesejado(elo, index, 3), selectLeague('desejado', elo, 3, index)
                   "
+                  :class="{
+                    selectionBlocked:
+                      eloSelecionado.atual.league <= 3 && eloSelecionado.atual.index == index
+                  }"
                   >III</span
                 >
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index, 4),
-                      selectLeague('desejado', elo, 4, index)
+                    toggleVisibilityDesejado(elo, index, 4), selectLeague('desejado', elo, 4, index)
                   "
+                  :class="{
+                    selectionBlocked:
+                      eloSelecionado.atual.league <= 4 && eloSelecionado.atual.index == index
+                  }"
                   >IV</span
                 >
               </div>
@@ -206,8 +228,12 @@ export default {
         </body>
       </div>
       <div id="prizeContainer">
-        <p>{{ eloSelecionado.atual }}</p>
-        <p>{{ eloSelecionado.desejado }}</p>
+        <ul>
+          <li>Atual</li>
+        </ul>
+        <ul>
+          <li>Desejado</li>
+        </ul>
       </div>
     </div>
   </main>
@@ -268,9 +294,6 @@ export default {
   flex-grow: 1;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.rowBlocked:hover {
-  background-color: rgba(150, 0, 0, 0.5);
-}
 .rowSelected {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -286,6 +309,9 @@ export default {
 }
 .league-item:hover {
   background-color: rgba(0, 0, 0, 0.5);
+}
+.selectionBlocked:hover {
+  background-color: rgba(150, 0, 0, 0.5);
 }
 
 #prizeContainer {
