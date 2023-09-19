@@ -3,27 +3,27 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', visible: true, selected: false },
-        { name: 'Bronze', visible: true, selected: false },
-        { name: 'Prata', visible: true, selected: false },
-        { name: 'Ouro', visible: true, selected: false },
-        { name: 'Platina', visible: true, selected: false },
-        { name: 'Esmeralda', visible: true, selected: false },
-        { name: 'Diamante', visible: true, selected: false },
-        { name: 'Mestre', visible: true, selected: false },
-        { name: 'Grão Mestre', visible: true, selected: false }
+        { name: 'Ferro', visible: true },
+        { name: 'Bronze', visible: true },
+        { name: 'Prata', visible: true },
+        { name: 'Ouro', visible: true },
+        { name: 'Platina', visible: true },
+        { name: 'Esmeralda', visible: true },
+        { name: 'Diamante', visible: true },
+        { name: 'Mestre', visible: true },
+        { name: 'Grão Mestre', visible: true }
       ],
       eloDesejado: [
-        { name: 'Ferro', visible: true, selected: false },
-        { name: 'Bronze', visible: true, selected: false },
-        { name: 'Prata', visible: true, selected: false },
-        { name: 'Ouro', visible: true, selected: false },
-        { name: 'Platina', visible: true, selected: false },
-        { name: 'Esmeralda', visible: true, selected: false },
-        { name: 'Diamante', visible: true, selected: false },
-        { name: 'Mestre', visible: true, selected: false },
-        { name: 'Grão Mestre', visible: true, selected: false },
-        { name: 'Desafiante', visible: true, selected: false }
+        { name: 'Ferro', visible: true },
+        { name: 'Bronze', visible: true },
+        { name: 'Prata', visible: true },
+        { name: 'Ouro', visible: true },
+        { name: 'Platina', visible: true },
+        { name: 'Esmeralda', visible: true },
+        { name: 'Diamante', visible: true },
+        { name: 'Mestre', visible: true },
+        { name: 'Grão Mestre', visible: true },
+        { name: 'Desafiante', visible: true }
       ],
       eloSelecionado: {
         atual: { name: null, league: null, index: null },
@@ -41,7 +41,7 @@ export default {
 
       // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
-        this.selectElo(1, elo, 1, index)
+        this.selectElo('atual', elo, 1, index)
         return
       }
 
@@ -63,7 +63,7 @@ export default {
 
       // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
-        this.selectElo(2, elo, 1, index)
+        this.selectElo('desejado', elo, 1, index)
         return
       }
 
@@ -79,7 +79,7 @@ export default {
 
     selectElo(type, elo, league, index) {
       // Preencher this.eloSelecionado.atual
-      if (type == 1) {
+      if (type == 'atual') {
         this.eloSelecionado.atual.name = elo.name
         this.eloSelecionado.atual.league = league
         this.eloSelecionado.atual.index = index
@@ -92,7 +92,7 @@ export default {
       }
 
       // Preencher this.eloSelecionado.desejado
-      if (type == 2) {
+      if (type == 'desejado') {
         this.eloSelecionado.desejado.name = elo.name
         this.eloSelecionado.desejado.league = league
         this.eloSelecionado.desejado.index = index
@@ -121,29 +121,29 @@ export default {
                 class="row-elo"
                 @click="toggleVisibilityAtual(elo, index)"
                 v-if="elo.visible"
-                :class="{ rowSelected: elo.selected }"
+                :class="{ rowSelected: eloSelecionado.atual.name == elo.name }"
               >
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 1, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 1, index)"
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 2, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 2, index)"
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 3, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 3, index)"
                   >III</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 4, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 4, index)"
                   >IV</span
                 >
               </div>
@@ -159,29 +159,41 @@ export default {
                 class="row-elo"
                 @click="toggleVisibilityDesejado(elo, index)"
                 v-if="elo.visible"
-                :class="{ rowSelected: elo.selected }"
+                :class="{
+                  rowSelected: eloSelecionado.desejado.name == elo.name,
+                  rowBlocked: eloSelecionado.atual.index > index
+                }"
+                @mouseover="test"
               >
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 1, index)"
+                  @click="
+                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 1, index)
+                  "
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 2, index)"
+                  @click="
+                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 2, index)
+                  "
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 3, index)"
+                  @click="
+                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 3, index)
+                  "
                   >III</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 4, index)"
+                  @click="
+                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 4, index)
+                  "
                   >IV</span
                 >
               </div>
@@ -242,6 +254,7 @@ export default {
 .box-row {
   display: grid;
 }
+
 .row-elo {
   display: flex;
   justify-content: center;
@@ -249,11 +262,15 @@ export default {
 }
 .row-elo:hover {
   flex-grow: 1;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.rowBlocked:hover {
+  background-color: rgba(150, 0, 0, 0.5);
 }
 .rowSelected {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
 }
+
 .row-league {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -264,7 +281,7 @@ export default {
   align-items: center;
 }
 .league-item:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 #prizeContainer {
