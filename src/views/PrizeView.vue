@@ -32,10 +32,16 @@ export default {
     }
   },
   methods: {
-    // Impedir seleção de ligas acima do mestre
     toggleVisibilityAtual(elo, index) {
+      if (this.eloSelecionado.desejado.index < index) {
+        this.eloSelecionado.desejado.name = null
+        this.eloSelecionado.desejado.league = null
+        this.eloSelecionado.desejado.index = null
+      }
+
+      // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
-        this.selectElo(1, elo, null, index)
+        this.selectElo(1, elo, 1, index)
         return
       }
 
@@ -50,14 +56,14 @@ export default {
     },
 
     toggleVisibilityDesejado(elo, index) {
-      // Impedir selecionar o desejado antes do atual
-      if (this.eloSelecionado.atual.name == null) {
+      // Impedir selecionar o desejado antes ou abaixo do atual
+      if (this.eloSelecionado.atual.name == null || this.eloSelecionado.atual.index > index) {
         return
       }
 
-      // Impedir seleção de ligas acima do mestre
+      // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
-        this.selectElo(2, elo)
+        this.selectElo(2, elo, 1, index)
         return
       }
 
@@ -77,6 +83,8 @@ export default {
         this.eloSelecionado.atual.name = elo.name
         this.eloSelecionado.atual.league = league
         this.eloSelecionado.atual.index = index
+
+        // Deixar elo selecionado marcado
         this.eloAtual.forEach((elo) => {
           elo.selected = false
         })
@@ -120,22 +128,22 @@ export default {
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 1)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 1, index)"
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 2)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 2, index)"
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 3)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 3, index)"
                   >III</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 4)"
+                  @click="toggleVisibilityAtual(elo, index), selectElo(1, elo, 4, index)"
                   >IV</span
                 >
               </div>
@@ -158,17 +166,17 @@ export default {
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 1)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 1, index)"
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 2)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 2, index)"
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 3)"
+                  @click="toggleVisibilityDesejado(elo, index), selectElo(2, elo, 3, index)"
                   >III</span
                 >
                 <span
