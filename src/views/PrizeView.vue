@@ -3,27 +3,27 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', image: '../assets/iron.png', visible: true },
-        { name: 'Bronze', image: '../assets/bronze.png', visible: true },
-        { name: 'Prata', image: '../assets/silver.png', visible: true },
-        { name: 'Ouro', image: '../assets/gold.png', visible: true },
-        { name: 'Platina', image: '../assets/platinum.png', visible: true },
-        { name: 'Esmeralda', image: '../assets/diamond.png', visible: true },
-        { name: 'Diamante', image: '../assets/diamond.png', visible: true },
-        { name: 'Mestre', image: '../assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '../assets/grandmaster.png', visible: true }
+        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
+        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
+        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
+        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
+        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
+        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
+        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
+        { name: 'Mestre', image: '/src/assets/master.png', visible: true },
+        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true }
       ],
       eloDesejado: [
-        { name: 'Ferro', image: '../assets/iron.png', visible: true },
-        { name: 'Bronze', image: '../assets/bronze.png', visible: true },
-        { name: 'Prata', image: '../assets/silver.png', visible: true },
-        { name: 'Ouro', image: '../assets/gold.png', visible: true },
-        { name: 'Platina', image: '../assets/platinum.png', visible: true },
-        { name: 'Esmeralda', image: '../assets/diamond.png', visible: true },
-        { name: 'Diamante', image: '../assets/diamond.png', visible: true },
-        { name: 'Mestre', image: '../assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '../assets/grandmaster.png', visible: true },
-        { name: 'Desafiante', image: '../assets/challenger.png', visible: true }
+        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
+        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
+        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
+        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
+        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
+        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
+        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
+        { name: 'Mestre', image: '/src/assets/master.png', visible: true },
+        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true },
+        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true }
       ],
       eloSelecionado: {
         atual: { name: null, league: null, index: null },
@@ -42,12 +42,11 @@ export default {
       // Selecionar elo acima do mestre sem mostrar ligas
       if (index > 6) {
         this.selectLeague('atual', elo, 1, index)
-        return
       }
 
       // Ao clicar no elo, mostrar as divisões (ligas) para seleção
       this.eloAtual.forEach((elo, i) => {
-        if (i == index) {
+        if (i == index && index <= 6) {
           elo.visible = !elo.visible
         } else {
           elo.visible = true
@@ -69,12 +68,11 @@ export default {
       // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
         this.selectLeague('desejado', elo, 1, index)
-        return
       }
 
       // Habilitar seleção de liga após clicar no elo
       this.eloDesejado.forEach((elo, i) => {
-        if (i == index) {
+        if (i == index && index <= 6) {
           elo.visible = !elo.visible
         } else {
           elo.visible = true
@@ -133,7 +131,10 @@ export default {
                 v-if="elo.visible"
                 :class="{ rowSelected: eloSelecionado.atual.name == elo.name }"
               >
-                {{ elo.name }}
+                <p>
+                  {{ elo.name }}
+                </p>
+                <img :src="elo.image" alt="" />
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <span
@@ -171,11 +172,15 @@ export default {
                 v-if="elo.visible"
                 :class="{
                   rowSelected: eloSelecionado.desejado.name == elo.name,
-                  selectionBlocked: eloSelecionado.atual.index > index
+                  selectionBlocked:
+                    eloSelecionado.atual.index > index || eloSelecionado.atual.name == null
                 }"
                 @mouseover="test"
               >
-                {{ elo.name }}
+                <p>
+                  {{ elo.name }}
+                </p>
+                <img :src="elo.image" alt="" />
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <span
@@ -230,9 +235,11 @@ export default {
       <div id="prizeContainer">
         <ul>
           <li>Atual</li>
+          <li>{{ eloSelecionado.atual }}</li>
         </ul>
         <ul>
           <li>Desejado</li>
+          <li>{{ eloSelecionado.desejado }}</li>
         </ul>
       </div>
     </div>
@@ -249,7 +256,7 @@ export default {
 
 #content {
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 5vw;
   margin: 50px;
 }
@@ -280,6 +287,7 @@ export default {
 }
 .box-column {
   display: grid;
+  grid-template-rows: repeat(10, 1fr);
 }
 .box-row {
   display: grid;
@@ -296,6 +304,9 @@ export default {
 }
 .rowSelected {
   background-color: rgba(0, 0, 0, 0.5);
+}
+.row-elo > img {
+  height: 1.5rem;
 }
 
 .row-league {
