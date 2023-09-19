@@ -41,7 +41,7 @@ export default {
 
       // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
-        this.selectElo('atual', elo, 1, index)
+        this.selectLeague('atual', elo, 1, index)
         return
       }
 
@@ -55,7 +55,14 @@ export default {
       })
     },
 
-    toggleVisibilityDesejado(elo, index) {
+    toggleVisibilityDesejado(elo, index, league) {
+      if (index == this.eloSelecionado.atual.index && league >= this.eloSelecionado.atual.league) {
+        return
+      }
+
+      console.log('Desejada selecionando' + league)
+      console.log('Atual selecionada' + this.eloSelecionado.atual.league)
+
       // Impedir selecionar o desejado antes ou abaixo do atual
       if (this.eloSelecionado.atual.name == null || this.eloSelecionado.atual.index > index) {
         return
@@ -63,7 +70,7 @@ export default {
 
       // Selecionar divisão acima do mestre sem mostrar ligas
       if (index > 6) {
-        this.selectElo('desejado', elo, 1, index)
+        this.selectLeague('desejado', elo, 1, index)
         return
       }
 
@@ -77,30 +84,23 @@ export default {
       })
     },
 
-    selectElo(type, elo, league, index) {
+    selectLeague(type, elo, league, index) {
       // Preencher this.eloSelecionado.atual
       if (type == 'atual') {
         this.eloSelecionado.atual.name = elo.name
         this.eloSelecionado.atual.league = league
         this.eloSelecionado.atual.index = index
-
-        // Deixar elo selecionado marcado
-        this.eloAtual.forEach((elo) => {
-          elo.selected = false
-        })
-        elo.selected = !elo.selected
       }
 
       // Preencher this.eloSelecionado.desejado
       if (type == 'desejado') {
+        if (index == this.eloSelecionado.atual.index && league >= this.eloSelecionado.atual.league) {
+          return
+        }
+
         this.eloSelecionado.desejado.name = elo.name
         this.eloSelecionado.desejado.league = league
         this.eloSelecionado.desejado.index = index
-
-        this.eloDesejado.forEach((elo) => {
-          elo.selected = false
-        })
-        elo.selected = !elo.selected
       }
     }
   }
@@ -128,22 +128,22 @@ export default {
               <div class="row-league" v-if="!elo.visible">
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 1, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 1, index)"
                   >I</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 2, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 2, index)"
                   >II</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 3, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 3, index)"
                   >III</span
                 >
                 <span
                   class="league-item"
-                  @click="toggleVisibilityAtual(elo, index), selectElo('atual', elo, 4, index)"
+                  @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 4, index)"
                   >IV</span
                 >
               </div>
@@ -157,7 +157,7 @@ export default {
             <li class="box-row" v-for="(elo, index) in eloDesejado" :key="index">
               <span
                 class="row-elo"
-                @click="toggleVisibilityDesejado(elo, index)"
+                @click="toggleVisibilityDesejado(elo, index, null)"
                 v-if="elo.visible"
                 :class="{
                   rowSelected: eloSelecionado.desejado.name == elo.name,
@@ -171,28 +171,32 @@ export default {
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 1, index)
+                    toggleVisibilityDesejado(elo, index, 1),
+                      selectLeague('desejado', elo, 1, index)
                   "
                   >I</span
                 >
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 2, index)
+                    toggleVisibilityDesejado(elo, index, 2),
+                      selectLeague('desejado', elo, 2, index)
                   "
                   >II</span
                 >
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 3, index)
+                    toggleVisibilityDesejado(elo, index, 3),
+                      selectLeague('desejado', elo, 3, index)
                   "
                   >III</span
                 >
                 <span
                   class="league-item"
                   @click="
-                    toggleVisibilityDesejado(elo, index), selectElo('desejado', elo, 4, index)
+                    toggleVisibilityDesejado(elo, index, 4),
+                      selectLeague('desejado', elo, 4, index)
                   "
                   >IV</span
                 >
