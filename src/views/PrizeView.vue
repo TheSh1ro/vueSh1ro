@@ -3,27 +3,27 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
-        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
-        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
-        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
-        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
-        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
-        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
+        { name: 'Ferro', image: '/src/assets/master.png', visible: true },
+        { name: 'Bronze', image: '/src/assets/master.png', visible: true },
+        { name: 'Prata', image: '/src/assets/master.png', visible: true },
+        { name: 'Ouro', image: '/src/assets/master.png', visible: true },
+        { name: 'Platina', image: '/src/assets/master.png', visible: true },
+        { name: 'Esmeralda', image: '/src/assets/master.png', visible: true },
+        { name: 'Diamante', image: '/src/assets/master.png', visible: true },
         { name: 'Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true }
+        { name: 'Grão Mestre', image: '/src/assets/master.png', visible: true }
       ],
       eloDesejado: [
-        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
-        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
-        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
-        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
-        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
-        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
-        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
+        { name: 'Ferro', image: '/src/assets/master.png', visible: true },
+        { name: 'Bronze', image: '/src/assets/master.png', visible: true },
+        { name: 'Prata', image: '/src/assets/master.png', visible: true },
+        { name: 'Ouro', image: '/src/assets/master.png', visible: true },
+        { name: 'Platina', image: '/src/assets/master.png', visible: true },
+        { name: 'Esmeralda', image: '/src/assets/master.png', visible: true },
+        { name: 'Diamante', image: '/src/assets/master.png', visible: true },
         { name: 'Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true },
-        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true }
+        { name: 'Grão Mestre', image: '/src/assets/master.png', visible: true },
+        { name: 'Desafiante', image: '/src/assets/master.png', visible: true }
       ],
       eloSelecionado: {
         atual: { name: null, league: null, index: null },
@@ -62,6 +62,11 @@ export default {
 
       // Impedir selecionar o elo desejado antes ou abaixo do atual (Exemplo, ir do ouro ao prata)
       if (this.eloSelecionado.atual.name == null || this.eloSelecionado.atual.index > index) {
+        return
+      }
+
+      // Impedir selecionar o elo desejado igual ao elo atual caso a divisão atual seja 1)
+      if (this.eloSelecionado.atual.index == index && this.eloSelecionado.atual.league == 1) {
         return
       }
 
@@ -173,7 +178,7 @@ export default {
                 :class="{
                   rowSelected: eloSelecionado.desejado.name == elo.name,
                   selectionBlocked:
-                    eloSelecionado.atual.index > index || eloSelecionado.atual.name == null
+                    eloSelecionado.atual.index > index || eloSelecionado.atual.name == null || (eloSelecionado.atual.index == index && eloSelecionado.atual.league == 1)
                 }"
                 @mouseover="test"
               >
@@ -288,7 +293,9 @@ export default {
 .box-column {
   display: grid;
   grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: 1fr;
 }
+
 .box-row {
   display: grid;
 }
@@ -297,9 +304,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 10px;
+
+  transition: background-color 0.2s;
 }
 .row-elo:hover {
-  flex-grow: 1;
   background-color: rgba(0, 0, 0, 0.5);
 }
 .rowSelected {
@@ -307,6 +317,16 @@ export default {
 }
 .row-elo > img {
   height: 1.5rem;
+  position: absolute;
+  left: 10px;
+}
+@media (max-width: 900px) {
+  .row-elo > img {
+    display: none;
+  }
+}
+.row-elo > p {
+  text-align: center;
 }
 
 .row-league {
@@ -335,5 +355,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.box-column:hover > .row-elo {
+  background-color: red;
 }
 </style>
