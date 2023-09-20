@@ -12,7 +12,8 @@ import PageFooter from './components/PageFooter.vue'
 <style>
 :root {
   --purple: rgb(152, 42, 255);
-  --selectHover: cyan;
+  --selectHover: rgb(100, 255, 100);
+  --selectedElo: rgb(0, 217, 255);
 }
 
 ::-webkit-scrollbar {

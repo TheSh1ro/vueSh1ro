@@ -3,27 +3,28 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', image: '/src/assets/master.png', visible: true },
-        { name: 'Bronze', image: '/src/assets/master.png', visible: true },
-        { name: 'Prata', image: '/src/assets/master.png', visible: true },
-        { name: 'Ouro', image: '/src/assets/master.png', visible: true },
-        { name: 'Platina', image: '/src/assets/master.png', visible: true },
-        { name: 'Esmeralda', image: '/src/assets/master.png', visible: true },
-        { name: 'Diamante', image: '/src/assets/master.png', visible: true },
+        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
+        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
+        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
+        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
+        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
+        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
+        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
         { name: 'Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '/src/assets/master.png', visible: true }
+        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true },
+        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true }
       ],
       eloDesejado: [
-        { name: 'Ferro', image: '/src/assets/master.png', visible: true },
-        { name: 'Bronze', image: '/src/assets/master.png', visible: true },
-        { name: 'Prata', image: '/src/assets/master.png', visible: true },
-        { name: 'Ouro', image: '/src/assets/master.png', visible: true },
-        { name: 'Platina', image: '/src/assets/master.png', visible: true },
-        { name: 'Esmeralda', image: '/src/assets/master.png', visible: true },
-        { name: 'Diamante', image: '/src/assets/master.png', visible: true },
+        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
+        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
+        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
+        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
+        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
+        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
+        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
         { name: 'Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Desafiante', image: '/src/assets/master.png', visible: true }
+        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true },
+        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true }
       ],
       eloSelecionado: {
         atual: { name: null, league: null, index: null },
@@ -132,77 +133,78 @@ export default {
 }
 </script>
 <template>
-  <main id="main">
-    <div id="content">
-      <div id="selectContainer">
-        <header class="box-header">
-          <span>Elo Atual</span>
-          <span>Elo Desejado</span>
-        </header>
-        <body class="box-body">
-          <ul class="box-column">
-            <li class="box-row" v-for="(elo, index) in eloAtual" :key="index">
+  <main id="main-container">
+    <div id="content-container">
+      <div class="rank-containers">
+        <div class="rank-container">
+          <template v-for="(elo, index) in eloAtual" :key="index">
+            <li class="rank-row">
               <span
-                class="row-elo"
+                class="rank"
                 @click="toggleVisibilityAtual(elo, index)"
                 v-if="elo.visible"
-                :class="{ rowSelected: eloSelecionado.atual.name == elo.name }"
+                :class="{ selectedRank: eloSelecionado.atual.name == elo.name }"
               >
+                <img :src="elo.image" alt="" />
                 <p>
                   {{ elo.name }}
                 </p>
-                <img :src="elo.image" alt="" />
               </span>
-              <div class="row-league" v-if="!elo.visible">
+              <div class="league-row" v-if="!elo.visible">
                 <span
-                  class="league-item"
+                  class="league"
                   @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 1, index)"
                   >I</span
                 >
                 <span
-                  class="league-item"
+                  class="league"
                   @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 2, index)"
                   >II</span
                 >
                 <span
-                  class="league-item"
+                  class="league"
                   @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 3, index)"
                   >III</span
                 >
                 <span
-                  class="league-item"
+                  class="league"
                   @click="toggleVisibilityAtual(elo, index), selectLeague('atual', elo, 4, index)"
                   >IV</span
                 >
               </div>
             </li>
-            <li class="box-row">
-              <span class="row-elo">- - - - -</span>
-            </li>
-          </ul>
+          </template>
+        </div>
 
-          <ul class="box-column">
-            <li class="box-row" v-for="(elo, index) in eloDesejado" :key="index">
+        <div class="rank-container">
+          <template v-for="(elo, index) in eloDesejado" :key="index">
+            <li
+              class="rank-row"
+              v-if="
+                (index >= eloSelecionado.atual.index && index <= 6) ||
+                (index > 6 && eloSelecionado.atual.index < index)
+              "
+            >
               <span
-                class="row-elo"
+                class="rank"
                 @click="toggleVisibilityDesejado(elo, index, null)"
                 v-if="elo.visible"
                 :class="{
-                  rowSelected: eloSelecionado.desejado.name == elo.name,
+                  selectedRank: eloSelecionado.desejado.name == elo.name,
                   selectionBlocked:
                     eloSelecionado.atual.index > index ||
                     eloSelecionado.atual.name == null ||
                     (eloSelecionado.atual.index == index && eloSelecionado.atual.league == 1)
                 }"
               >
+                <img :src="elo.image" alt="" />
                 <p>
                   {{ elo.name }}
                 </p>
-                <img :src="elo.image" alt="" />
               </span>
-              <div class="row-league" v-if="!elo.visible">
+              <div class="league-row" v-if="!elo.visible">
                 <span
-                  class="league-item"
+                  class="league"
                   @click="
                     toggleVisibilityDesejado(elo, index, 1), selectLeague('desejado', elo, 1, index)
                   "
@@ -213,7 +215,7 @@ export default {
                   >I</span
                 >
                 <span
-                  class="league-item"
+                  class="league"
                   @click="
                     toggleVisibilityDesejado(elo, index, 2), selectLeague('desejado', elo, 2, index)
                   "
@@ -224,7 +226,7 @@ export default {
                   >II</span
                 >
                 <span
-                  class="league-item"
+                  class="league"
                   @click="
                     toggleVisibilityDesejado(elo, index, 3), selectLeague('desejado', elo, 3, index)
                   "
@@ -235,7 +237,7 @@ export default {
                   >III</span
                 >
                 <span
-                  class="league-item"
+                  class="league"
                   @click="
                     toggleVisibilityDesejado(elo, index, 4), selectLeague('desejado', elo, 4, index)
                   "
@@ -247,16 +249,16 @@ export default {
                 >
               </div>
             </li>
-          </ul>
-        </body>
+          </template>
+        </div>
       </div>
-      <div id="prizeContainer">
+      <div class="prize-container">
         <ul>
-          <li>Atual</li>
+          <li>Classificação Atual</li>
           <li>{{ eloSelecionado.atual }}</li>
         </ul>
         <ul>
-          <li>Desejado</li>
+          <li>Classificação Desejada</li>
           <li>{{ eloSelecionado.desejado }}</li>
         </ul>
       </div>
@@ -265,122 +267,90 @@ export default {
 </template>
 <style scoped>
 /* Estilos gerais */
-#main {
+#main-container {
   background-color: rgba(0, 0, 0, 0.8);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
 }
 
-#content {
+#content-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
   gap: 5vw;
   margin: 50px;
 }
 
-/* Estilos do container de seleção de elos */
-#selectContainer {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid white;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  display: grid;
-  grid-template-rows: 1fr 10fr;
-
-  transition:
-    background-color 1s,
-    box-shadow 2s;
-}
-#selectContainer:hover {
-  box-shadow: 0px 0px 10px 0px white;
-}
-
-.box-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.box-header > span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid white;
-}
-
-.box-body {
+.rank-containers {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  justify-items: center;
+}
+
+.rank-container {
+  display: grid;
+}
+
+/* Estilos das linhas de classificações */
+.rank-row {
+  display: grid;
   cursor: pointer;
 }
 
-.box-column {
-  display: grid;
-  grid-template-rows: repeat(10, 1fr);
-  grid-template-columns: 1fr;
-}
-
-/* Estilos das linhas de elos */
-.box-row {
-  display: grid;
-}
-
-.row-elo {
+.rank {
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
+  gap: 5px;
   padding: 10px;
   transition: background-color 0.2s;
 }
 
-.row-elo:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+.rank:hover {
   color: var(--selectHover);
 }
 
-.rowSelected {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: var(--selectHover);
+.selectedRank {
+  color: var(--selectedElo);
 }
 
-.row-elo > img {
+.rank > img {
   height: 1.5rem;
-  position: absolute;
-  left: 10px;
+  width: 1.8rem;
 }
 
 @media (max-width: 900px) {
-  .row-elo > img {
+  .rank > img {
     display: none;
   }
 }
 
-.row-elo > p {
+.rank > p {
   text-align: center;
-  transition: color 1s;
+  transition: color 0.3s;
 }
 
-.row-league {
+.league-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
 
-.league-item {
+.league {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.league-item:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+.league:hover {
   color: var(--selectHover);
 }
 
 /* Estilos de bloqueio de seleção */
 .selectionBlocked:hover {
-  background-color: rgba(150, 0, 0, 0.5);
+  color: red;
 }
+
 .selectionBlocked:active {
   animation: shake 0.2s alternate;
 }
@@ -398,7 +368,7 @@ export default {
 }
 
 /* Estilos do container de prêmios */
-#prizeContainer {
+.prize-container {
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid white;
   border-top-left-radius: 30px;
@@ -407,10 +377,5 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-/* Estilos adicionais */
-.box-column:hover > .row-elo {
-  background-color: red;
 }
 </style>
