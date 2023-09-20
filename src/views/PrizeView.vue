@@ -33,6 +33,12 @@ export default {
   },
   methods: {
     toggleVisibilityAtual(elo, index) {
+      // Esconder seleção de liga desejada (Estética)
+      this.eloDesejado.forEach((elo) => {
+        elo.visible = true
+      })
+
+      // Caso já tenha selecionado um elo desejado, ao selecionar um elo atual maior limpa a seleção do desejado
       if (this.eloSelecionado.desejado.index < index) {
         this.eloSelecionado.desejado.name = null
         this.eloSelecionado.desejado.league = null
@@ -55,6 +61,11 @@ export default {
     },
 
     toggleVisibilityDesejado(elo, index, league) {
+      // Esconder seleção de liga atual (Estética)
+      this.eloAtual.forEach((elo) => {
+        elo.visible = true
+      })
+
       // Impedir seleção de liga maior que a atual no mesmo elo (Exemplo, ir do bronze 2 ao bronze 4)
       if (index == this.eloSelecionado.atual.index && league >= this.eloSelecionado.atual.league) {
         return
@@ -86,17 +97,18 @@ export default {
     },
 
     selectLeague(type, elo, league, index) {
-      // Preencher this.eloSelecionado.atual
       if (type == 'atual') {
+        // Evitar seleção de elo atual superior ou igual ao elo desejado
         if (
           this.eloSelecionado.desejado.index == index &&
-          this.eloSelecionado.desejado.league > league
+          this.eloSelecionado.desejado.league >= league
         ) {
           this.eloSelecionado.desejado.name = null
           this.eloSelecionado.desejado.league = null
           this.eloSelecionado.desejado.index = null
         }
 
+        // Preencher this.eloSelecionado.atual
         this.eloSelecionado.atual.name = elo.name
         this.eloSelecionado.atual.league = league
         this.eloSelecionado.atual.index = index
@@ -178,9 +190,10 @@ export default {
                 :class="{
                   rowSelected: eloSelecionado.desejado.name == elo.name,
                   selectionBlocked:
-                    eloSelecionado.atual.index > index || eloSelecionado.atual.name == null || (eloSelecionado.atual.index == index && eloSelecionado.atual.league == 1)
+                    eloSelecionado.atual.index > index ||
+                    eloSelecionado.atual.name == null ||
+                    (eloSelecionado.atual.index == index && eloSelecionado.atual.league == 1)
                 }"
-                @mouseover="test"
               >
                 <p>
                   {{ elo.name }}
@@ -251,9 +264,9 @@ export default {
   </main>
 </template>
 <style scoped>
+/* Estilos gerais */
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
@@ -266,36 +279,48 @@ export default {
   margin: 50px;
 }
 
+/* Estilos do container de seleção de elos */
 #selectContainer {
-  background-color: rgb(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-
   display: grid;
   grid-template-rows: 1fr 10fr;
+
+  transition:
+    background-color 1s,
+    box-shadow 2s;
 }
+#selectContainer:hover {
+  box-shadow: 0px 0px 10px 0px white;
+}
+
 .box-header {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
 .box-header > span {
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid white;
 }
+
 .box-body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   cursor: pointer;
 }
+
 .box-column {
   display: grid;
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: 1fr;
 }
 
+/* Estilos das linhas de elos */
 .box-row {
   display: grid;
 }
@@ -306,56 +331,85 @@ export default {
   align-items: center;
   position: relative;
   padding: 10px;
-
   transition: background-color 0.2s;
 }
+
 .row-elo:hover {
   background-color: rgba(0, 0, 0, 0.5);
+  color: var(--selectHover);
 }
+
 .rowSelected {
   background-color: rgba(0, 0, 0, 0.5);
+  color: var(--selectHover);
 }
+
 .row-elo > img {
   height: 1.5rem;
   position: absolute;
   left: 10px;
 }
+
 @media (max-width: 900px) {
   .row-elo > img {
     display: none;
   }
 }
+
 .row-elo > p {
   text-align: center;
+  transition: color 1s;
 }
 
 .row-league {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
+
 .league-item {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .league-item:hover {
   background-color: rgba(0, 0, 0, 0.5);
+  color: var(--selectHover);
 }
+
+/* Estilos de bloqueio de seleção */
 .selectionBlocked:hover {
   background-color: rgba(150, 0, 0, 0.5);
 }
+.selectionBlocked:active {
+  animation: shake 0.2s alternate;
+}
 
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
+}
+
+/* Estilos do container de prêmios */
 #prizeContainer {
-  background-color: rgb(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
+/* Estilos adicionais */
 .box-column:hover > .row-elo {
   background-color: red;
 }
