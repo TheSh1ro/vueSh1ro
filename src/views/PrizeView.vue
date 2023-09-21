@@ -133,10 +133,11 @@ export default {
 }
 </script>
 <template>
-  <main id="main-container">
-    <div id="content-container">
+  <main id="main">
+    <div id="content">
       <div class="rank-containers">
         <div class="rank-container">
+          <li class="title-row">Elo atual</li>
           <template v-for="(elo, index) in eloAtual" :key="index">
             <li class="rank-row">
               <span
@@ -177,12 +178,13 @@ export default {
         </div>
 
         <div class="rank-container">
+          <li class="title-row">Elo desejado</li>
           <template v-for="(elo, index) in eloDesejado" :key="index">
             <li
               class="rank-row"
               v-if="
-                (index >= eloSelecionado.atual.index && index <= 6) ||
-                (index > 6 && eloSelecionado.atual.index < index)
+                index >= eloSelecionado.atual.index &&
+                !(eloSelecionado.atual.index == index && eloSelecionado.atual.league == 1)
               "
             >
               <span
@@ -267,16 +269,16 @@ export default {
 </template>
 <style scoped>
 /* Estilos gerais */
-#main-container {
+#main {
   background-color: rgba(0, 0, 0, 0.8);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
 }
 
-#content-container {
+#content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 400px 1fr;
   grid-template-rows: 1fr;
   gap: 5vw;
   margin: 50px;
@@ -284,13 +286,16 @@ export default {
 
 .rank-containers {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   grid-template-rows: 1fr;
-  justify-items: center;
+
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .rank-container {
   display: grid;
+  grid-template-rows: repeat(11, 1fr);
 }
 
 /* Estilos das linhas de classificações */
@@ -299,9 +304,19 @@ export default {
   cursor: pointer;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
 .rank {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   padding: 10px;
   transition: background-color 0.2s;
@@ -309,6 +324,7 @@ export default {
 
 .rank:hover {
   color: var(--selectHover);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .selectedRank {
@@ -344,6 +360,7 @@ export default {
 
 .league:hover {
   color: var(--selectHover);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Estilos de bloqueio de seleção */
