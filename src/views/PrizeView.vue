@@ -3,28 +3,38 @@ export default {
   data() {
     return {
       eloAtual: [
-        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
-        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
-        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
-        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
-        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
-        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
-        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
-        { name: 'Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true },
-        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true }
+        { name: 'Ferro', image: '/src/assets/iron.png', visible: true, leaguePrice: 10 },
+        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true, leaguePrice: 15 },
+        { name: 'Prata', image: '/src/assets/silver.png', visible: true, leaguePrice: 20 },
+        { name: 'Ouro', image: '/src/assets/gold.png', visible: true, leaguePrice: 25 },
+        { name: 'Platina', image: '/src/assets/platinum.png', visible: true, leaguePrice: 30 },
+        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true, leaguePrice: 35 },
+        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true, leaguePrice: 40 },
+        { name: 'Mestre', image: '/src/assets/master.png', visible: true, leaguePrice: 45 },
+        {
+          name: 'Grão Mestre',
+          image: '/src/assets/grandmaster.png',
+          visible: true,
+          leaguePrice: 50
+        },
+        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true, leaguePrice: 10 }
       ],
       eloDesejado: [
-        { name: 'Ferro', image: '/src/assets/iron.png', visible: true },
-        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true },
-        { name: 'Prata', image: '/src/assets/silver.png', visible: true },
-        { name: 'Ouro', image: '/src/assets/gold.png', visible: true },
-        { name: 'Platina', image: '/src/assets/platinum.png', visible: true },
-        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true },
-        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true },
-        { name: 'Mestre', image: '/src/assets/master.png', visible: true },
-        { name: 'Grão Mestre', image: '/src/assets/grandmaster.png', visible: true },
-        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true }
+        { name: 'Ferro', image: '/src/assets/iron.png', visible: true, leaguePrice: 10 },
+        { name: 'Bronze', image: '/src/assets/bronze.png', visible: true, leaguePrice: 15 },
+        { name: 'Prata', image: '/src/assets/silver.png', visible: true, leaguePrice: 20 },
+        { name: 'Ouro', image: '/src/assets/gold.png', visible: true, leaguePrice: 25 },
+        { name: 'Platina', image: '/src/assets/platinum.png', visible: true, leaguePrice: 30 },
+        { name: 'Esmeralda', image: '/src/assets/emerald.png', visible: true, leaguePrice: 35 },
+        { name: 'Diamante', image: '/src/assets/diamond.png', visible: true, leaguePrice: 40 },
+        { name: 'Mestre', image: '/src/assets/master.png', visible: true, leaguePrice: 45 },
+        {
+          name: 'Grão Mestre',
+          image: '/src/assets/grandmaster.png',
+          visible: true,
+          leaguePrice: 50
+        },
+        { name: 'Desafiante', image: '/src/assets/challenger.png', visible: true, leaguePrice: 10 }
       ],
       eloSelecionado: {
         atual: { name: null, league: null, index: null },
@@ -32,6 +42,7 @@ export default {
       }
     }
   },
+
   methods: {
     toggleVisibilityAtual(elo, index) {
       // Esconder seleção de liga desejada (Estética)
@@ -128,6 +139,32 @@ export default {
         this.eloSelecionado.desejado.league = league
         this.eloSelecionado.desejado.index = index
       }
+    },
+    calcularPreçoTotal() {
+      let totalPrice = 0 // Inicializa o preço total como zero
+
+      // Verifica se o elo desejado foi selecionado
+      if (
+        this.eloSelecionado.desejado.name !== null &&
+        this.eloSelecionado.desejado.league !== null &&
+        this.eloSelecionado.atual.name !== null &&
+        this.eloSelecionado.atual.league !== null
+      ) {
+        // Obtém o índice do elo atual e do elo desejado
+        const atualIndex = this.eloAtual.findIndex(
+          (elo) => elo.name === this.eloSelecionado.atual.name
+        )
+        const desejadoIndex = this.eloDesejado.findIndex(
+          (elo) => elo.name === this.eloSelecionado.desejado.name
+        )
+
+        // Calcula o preço total com base nos elos e ligas selecionados
+        for (let i = atualIndex; i < desejadoIndex; i++) {
+          totalPrice += this.eloAtual[i].leaguePrice
+        }
+      }
+
+      return totalPrice
     }
   }
 }
@@ -262,6 +299,10 @@ export default {
         <ul>
           <li>Classificação Desejada</li>
           <li>{{ eloSelecionado.desejado }}</li>
+        </ul>
+        <ul>
+          <li>Preço Total</li>
+          <li>R$ {{ calcularPreçoTotal() }}</li>
         </ul>
       </div>
     </div>
