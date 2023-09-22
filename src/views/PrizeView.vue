@@ -84,6 +84,13 @@ export default {
       ],
       selectedElo: { current: { name: null, league: null }, target: { name: null, league: null } }
     }
+  },
+  methods: {
+    toggleSelector(elo, index) {
+      if (index < 7) {
+        elo.visible = !elo.visible
+      }
+    }
   }
 }
 </script>
@@ -94,12 +101,30 @@ export default {
         <div class="rank-column">
           <template v-for="(elo, index) in this.currentElo" :key="index">
             <div class="rank-row">
-              <span class="row-elo" @click="toggleSelector(elo, index)" v-if="elo.visible">{{
-                elo.name
-              }}</span>
+              <span class="row-elo" @click="toggleSelector(elo, index)" v-if="elo.visible">
+                {{ elo.name }}
+              </span>
               <div class="row-league" v-if="!elo.visible">
-                <template v-for="league in elo.leagues">
-                  <span class="league-item">{{ league.name }}</span>
+                <template v-for="(league, index) in elo.leagues" :key="index">
+                  <span class="league-item" @click="toggleSelector(elo, index)">
+                    {{ league.name }}
+                  </span>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="rank-column">
+          <template v-for="(elo, index) in this.targetElo" :key="index">
+            <div class="rank-row">
+              <span class="row-elo" @click="toggleSelector(elo, index)" v-if="elo.visible">
+                {{ elo.name }}
+              </span>
+              <div class="row-league" v-if="!elo.visible">
+                <template v-for="(league, index) in elo.leagues" :key="index">
+                  <span class="league-item" @click="toggleSelector(elo, index)">
+                    {{ league.name }}
+                  </span>
                 </template>
               </div>
             </div>
