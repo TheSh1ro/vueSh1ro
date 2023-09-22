@@ -87,8 +87,19 @@ export default {
   },
   methods: {
     toggleSelector(elo, index) {
+      console.log(index)
       if (index < 7) {
-        elo.visible = !elo.visible
+        this.currentElo.forEach((elo, i) => {
+          if (i === index) {
+            elo.visible = !elo.visible
+          } else {
+            elo.visible = true
+          }
+        })
+      } else {
+        this.currentElo.forEach((elo, i) => {
+          elo.visible = true
+        })
       }
     }
   }
@@ -99,14 +110,17 @@ export default {
     <div id="content">
       <div class="rankBox">
         <div class="rank-column">
-          <template v-for="(elo, index) in this.currentElo" :key="index">
+          <div class="rank-row">
+            <span class="row-title">Elo atual</span>
+          </div>
+          <template v-for="(elo, eloIndex) in this.currentElo" :key="index">
             <div class="rank-row">
-              <span class="row-elo" @click="toggleSelector(elo, index)" v-if="elo.visible">
+              <span class="row-elo" @click="toggleSelector(elo, eloIndex)" v-if="elo.visible">
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, index) in elo.leagues" :key="index">
-                  <span class="league-item" @click="toggleSelector(elo, index)">
+                <template v-for="(league, leagueIndex) in elo.leagues" :key="league.name">
+                  <span class="league-item" @click="toggleSelector(elo, eloIndex)">
                     {{ league.name }}
                   </span>
                 </template>
@@ -114,15 +128,20 @@ export default {
             </div>
           </template>
         </div>
+
         <div class="rank-column">
-          <template v-for="(elo, index) in this.targetElo" :key="index">
+          <div class="rank-row">
+            <span class="row-title">Elo desejado</span>
+          </div>
+
+          <template v-for="(elo, eloIndex) in this.targetElo" :key="index">
             <div class="rank-row">
-              <span class="row-elo" @click="toggleSelector(elo, index)" v-if="elo.visible">
+              <span class="row-elo" @click="toggleSelector(elo, eloIndex)" v-if="elo.visible">
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, index) in elo.leagues" :key="index">
-                  <span class="league-item" @click="toggleSelector(elo, index)">
+                <template v-for="(league, leagueIndex) in elo.leagues" :key="index">
+                  <span class="league-item" @click="toggleSelector(elo, eloIndex)">
                     {{ league.name }}
                   </span>
                 </template>
@@ -133,12 +152,16 @@ export default {
       </div>
 
       <div class="priceBox">
-        <head class="priceHeader">
-          Valor do serviço
-        </head>
+        <header class="priceHeader">Valor do serviço</header>
         <body class="priceBody">
-          <p></p>
-          <p></p>
+          <div class="priceBody-box">
+            <h1>current</h1>
+            <p>{{ selectedElo.current }}</p>
+          </div>
+          <div class="priceBody-box">
+            <h1>target</h1>
+            <p>{{ selectedElo.target }}</p>
+          </div>
         </body>
       </div>
     </div>
@@ -158,22 +181,36 @@ export default {
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 5vw;
 }
 
 .rankBox {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  row-gap: 20px;
   border: 1px solid white;
 }
 
 .rank-column {
   display: grid;
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-rows: repeat(11, 1fr);
 }
 
 .rank-row {
   display: flex;
   cursor: pointer;
+}
+
+.row-title {
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-bottom: 1px solid white;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .row-elo {
@@ -203,5 +240,32 @@ export default {
 
 .league-item:hover {
   background-color: var(--selectHover);
+}
+
+.priceBox {
+  display: grid;
+  grid-template-rows: 1fr 10fr;
+  border: 1px solid white;
+}
+
+.priceHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  border-bottom: 1px solid white;
+}
+
+.priceBody {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.priceBody-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 </style>
