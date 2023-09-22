@@ -94,12 +94,13 @@ export default {
         <div class="rank-column">
           <template v-for="(elo, index) in this.currentElo" :key="index">
             <div class="rank-row">
-              <span class="row-elo" v-if="0">{{ elo.name }}</span>
-              <div class="row-league" v-if="1">
-                <span class="league-item">I</span>
-                <span class="league-item">II</span>
-                <span class="league-item">III</span>
-                <span class="league-item">IV</span>
+              <span class="row-elo" @click="toggleSelector(elo, index)" v-if="elo.visible">{{
+                elo.name
+              }}</span>
+              <div class="row-league" v-if="!elo.visible">
+                <template v-for="league in elo.leagues">
+                  <span class="league-item">{{ league.name }}</span>
+                </template>
               </div>
             </div>
           </template>
@@ -147,6 +148,7 @@ export default {
 
 .rank-row {
   display: flex;
+  cursor: pointer;
 }
 
 .row-elo {
@@ -158,13 +160,23 @@ export default {
 }
 
 .row-elo:hover {
-  background-color: rgba(250, 250, 0, 0.3);
+  background-color: var(--selectHover);
 }
 
 .row-league {
   flex: 1;
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background-color: red;
+}
+
+.league-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.league-item:hover {
+  background-color: var(--selectHover);
 }
 </style>
