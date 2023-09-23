@@ -141,7 +141,6 @@ export default {
 
     selectElo(elo, index, leagueIndex) {
       if (elo.type == 'current') {
-        this.toggleSelectorCurrent(elo, index)
         if (index <= 6) {
           if (leagueIndex != null) {
             this.selectedElo.current.name = elo.name
@@ -150,13 +149,13 @@ export default {
           }
         } else {
           this.selectedElo.current.name = elo.name
-          this.selectedElo.current.league = 1
+          this.selectedElo.current.league = 0
           this.selectedElo.current.index = index
         }
+        this.toggleSelectorCurrent(elo, index)
       }
 
       if (elo.type == 'target') {
-        this.toggleSelectorTarget(elo, index)
         if (index <= 6) {
           if (leagueIndex != null) {
             this.selectedElo.target.name = elo.name
@@ -167,9 +166,10 @@ export default {
 
         if (index >= 7) {
           this.selectedElo.target.name = elo.name
-          this.selectedElo.target.league = 1
+          this.selectedElo.target.league = 0
           this.selectedElo.target.index = index
         }
+        this.toggleSelectorTarget(elo, index)
       }
     },
 
@@ -221,7 +221,13 @@ export default {
             <span class="row-title">Elo desejado</span>
           </div>
           <template v-for="(elo, index) in targetElo" :key="index">
-            <div class="rank-row" v-if="index > selectedElo.current.index">
+            <div
+              class="rank-row"
+              v-if="
+                index >= selectedElo.current.index &&
+                !(index == selectedElo.current.index && selectedElo.current.league == 0)
+              "
+            >
               <span
                 class="row-elo"
                 @click="selectElo(elo, index)"
