@@ -6,101 +6,175 @@ export default {
         {
           name: 'Ferro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'current'
         },
-        { name: 'Mestre', visible: true },
-        { name: 'Grão Mestre', leagues: null, visible: true },
-        { name: 'Desafiante', leagues: null, visible: true }
+        { name: 'Mestre', visible: true, type: 'current' },
+        { name: 'Grão Mestre', leagues: null, visible: true, type: 'current' },
+        { name: 'Desafiante', leagues: null, visible: true, type: 'current' }
       ],
       targetElo: [
         {
           name: 'Ferro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
-          visible: true
+          visible: true,
+          type: 'target'
         },
-        { name: 'Mestre', visible: true },
-        { name: 'Grão Mestre', leagues: null, visible: true },
-        { name: 'Desafiante', leagues: null, visible: true }
+        { name: 'Mestre', visible: true, type: 'target' },
+        { name: 'Grão Mestre', leagues: null, visible: true, type: 'target' },
+        { name: 'Desafiante', leagues: null, visible: true, type: 'target' }
       ],
-      selectedElo: { current: { name: null, league: null }, target: { name: null, league: null } }
+      selectedElo: {
+        current: { name: null, league: null, eloIndex: null },
+        target: { name: null, league: null, eloIndex: null }
+      }
     }
   },
   methods: {
-    toggleSelector(elo, index) {
-      console.log(index)
-      if (index < 7) {
+    toggleSelectorCurrent(elo, eloIndex) {
+      // Caso seja diamante ou inferior, mostrar seletor de divisão ao clicar
+      if (eloIndex < 7) {
         this.currentElo.forEach((elo, i) => {
-          if (i === index) {
+          if (i === eloIndex) {
             elo.visible = !elo.visible
           } else {
             elo.visible = true
           }
         })
-      } else {
-        this.currentElo.forEach((elo, i) => {
-          elo.visible = true
+      }
+
+      // Fechar seletor de divisão da coluna oposta (estética)
+      this.targetElo.forEach((elo) => {
+        elo.visible = true
+      })
+    },
+
+    toggleSelectorTarget(elo, eloIndex) {
+      // Caso seja diamante ou inferior, mostrar seletor de divisão ao clicar
+      if (eloIndex < 7) {
+        this.targetElo.forEach((elo, i) => {
+          if (i === eloIndex) {
+            elo.visible = !elo.visible
+          } else {
+            elo.visible = true
+          }
         })
       }
+
+      // Fechar seletor de divisão da coluna oposta (estética)
+      this.currentElo.forEach((elo) => {
+        elo.visible = true
+      })
+    },
+
+    selectElo(elo, eloIndex, leagueIndex) {
+      if (elo.type == 'current') {
+        if (eloIndex < 7) {
+          this.toggleSelectorCurrent(elo, eloIndex)
+          if (leagueIndex != null) {
+            this.selectedElo.current.name = elo.name
+            this.selectedElo.current.league = leagueIndex
+            this.selectedElo.current.eloIndex = eloIndex
+          }
+        } else {
+          this.selectedElo.current.name = elo.name
+          this.selectedElo.current.league = 1
+          this.selectedElo.current.eloIndex = eloIndex
+        }
+      }
+
+      if (elo.type == 'target') {
+        if (eloIndex < 7) {
+          this.toggleSelectorTarget(elo, eloIndex)
+          if (leagueIndex != null) {
+            this.selectedElo.target.name = elo.name
+            this.selectedElo.target.league = leagueIndex
+            this.selectedElo.target.eloIndex = eloIndex
+          }
+        } else {
+          this.selectedElo.target.name = elo.name
+          this.selectedElo.target.league = 1
+          this.selectedElo.target.eloIndex = eloIndex
+        }
+      }
+    },
+
+    resetSelection(type) {
+      this.selectedElo.type.name = null
+      this.selectedElo.type.league = null
+      this.selectedElo.type.eloIndex = null
     }
   }
 }
@@ -113,14 +187,19 @@ export default {
           <div class="rank-row">
             <span class="row-title">Elo atual</span>
           </div>
-          <template v-for="(elo, eloIndex) in this.currentElo" :key="index">
+          <template v-for="(elo, eloIndex) in currentElo" :key="eloIndex">
             <div class="rank-row">
-              <span class="row-elo" @click="toggleSelector(elo, eloIndex)" v-if="elo.visible">
+              <span
+                class="row-elo"
+                @click="selectElo(elo, eloIndex)"
+                v-if="elo.visible"
+                :class="{ 'row-elo-selected': elo.name == selectedElo.current.name }"
+              >
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, leagueIndex) in elo.leagues" :key="league.name">
-                  <span class="league-item" @click="toggleSelector(elo, eloIndex)">
+                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
+                  <span class="league-item" @click="selectElo(elo, eloIndex, leagueIndex)">
                     {{ league.name }}
                   </span>
                 </template>
@@ -133,15 +212,19 @@ export default {
           <div class="rank-row">
             <span class="row-title">Elo desejado</span>
           </div>
-
-          <template v-for="(elo, eloIndex) in this.targetElo" :key="index">
+          <template v-for="(elo, eloIndex) in targetElo" :key="eloIndex">
             <div class="rank-row">
-              <span class="row-elo" @click="toggleSelector(elo, eloIndex)" v-if="elo.visible">
+              <span
+                class="row-elo"
+                @click="selectElo(elo, eloIndex)"
+                v-if="elo.visible"
+                :class="{ 'row-elo-selected': elo.name == selectedElo.target.name }"
+              >
                 {{ elo.name }}
               </span>
               <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, leagueIndex) in elo.leagues" :key="index">
-                  <span class="league-item" @click="toggleSelector(elo, eloIndex)">
+                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
+                  <span class="league-item" @click="selectElo(elo, eloIndex, leagueIndex)">
                     {{ league.name }}
                   </span>
                 </template>
@@ -161,6 +244,10 @@ export default {
           <div class="priceBody-box">
             <h1>target</h1>
             <p>{{ selectedElo.target }}</p>
+          </div>
+          <div class="priceBody-box">
+            <h1>result</h1>
+            <p>R$0,00</p>
           </div>
         </body>
       </div>
@@ -221,6 +308,10 @@ export default {
   align-items: center;
 }
 
+.row-elo-selected {
+  background-color: var(--selectHover);
+}
+
 .row-elo:hover {
   background-color: var(--selectHover);
 }
@@ -260,6 +351,7 @@ export default {
   display: grid;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .priceBody-box {
@@ -267,5 +359,6 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  text-align: center;
 }
 </style>
