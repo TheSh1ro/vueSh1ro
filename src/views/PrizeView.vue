@@ -97,17 +97,17 @@ export default {
         { name: 'Desafiante', leagues: null, visible: true, type: 'target' }
       ],
       selectedElo: {
-        current: { name: null, league: null, eloIndex: null },
-        target: { name: null, league: null, eloIndex: null }
+        current: { name: null, league: null, index: null },
+        target: { name: null, league: null, index: null }
       }
     }
   },
   methods: {
-    toggleSelectorCurrent(elo, eloIndex) {
+    toggleSelectorCurrent(elo, index) {
       // Caso seja diamante ou inferior, mostrar seletor de divisão ao clicar
-      if (eloIndex < 7) {
+      if (index <= 6) {
         this.currentElo.forEach((elo, i) => {
-          if (i === eloIndex) {
+          if (i === index) {
             elo.visible = !elo.visible
           } else {
             elo.visible = true
@@ -121,11 +121,11 @@ export default {
       })
     },
 
-    toggleSelectorTarget(elo, eloIndex) {
+    toggleSelectorTarget(elo, index) {
       // Caso seja diamante ou inferior, mostrar seletor de divisão ao clicar
-      if (eloIndex < 7) {
+      if (index <= 6) {
         this.targetElo.forEach((elo, i) => {
-          if (i === eloIndex) {
+          if (i === index) {
             elo.visible = !elo.visible
           } else {
             elo.visible = true
@@ -139,42 +139,50 @@ export default {
       })
     },
 
-    selectElo(elo, eloIndex, leagueIndex) {
+    selectElo(elo, index, leagueIndex) {
       if (elo.type == 'current') {
-        if (eloIndex < 7) {
-          this.toggleSelectorCurrent(elo, eloIndex)
+        this.toggleSelectorCurrent(elo, index)
+        if (index <= 6) {
           if (leagueIndex != null) {
             this.selectedElo.current.name = elo.name
             this.selectedElo.current.league = leagueIndex
-            this.selectedElo.current.eloIndex = eloIndex
+            this.selectedElo.current.index = index
           }
         } else {
           this.selectedElo.current.name = elo.name
           this.selectedElo.current.league = 1
-          this.selectedElo.current.eloIndex = eloIndex
+          this.selectedElo.current.index = index
         }
       }
 
       if (elo.type == 'target') {
-        if (eloIndex < 7) {
-          this.toggleSelectorTarget(elo, eloIndex)
+        this.toggleSelectorTarget(elo, index)
+        if (index <= 6) {
           if (leagueIndex != null) {
             this.selectedElo.target.name = elo.name
             this.selectedElo.target.league = leagueIndex
-            this.selectedElo.target.eloIndex = eloIndex
+            this.selectedElo.target.index = index
           }
-        } else {
+        }
+
+        if (index >= 7) {
           this.selectedElo.target.name = elo.name
           this.selectedElo.target.league = 1
-          this.selectedElo.target.eloIndex = eloIndex
+          this.selectedElo.target.index = index
         }
       }
     },
 
     resetSelection(type) {
-      this.selectedElo.type.name = null
-      this.selectedElo.type.league = null
-      this.selectedElo.type.eloIndex = null
+      if (type == 'current') {
+        this.selectedElo.current.name = null
+        this.selectedElo.current.league = null
+        this.selectedElo.current.index = null
+      } else {
+        this.selectedElo.target.name = null
+        this.selectedElo.target.league = null
+        this.selectedElo.target.index = null
+      }
     }
   }
 }
@@ -187,11 +195,11 @@ export default {
           <div class="rank-row">
             <span class="row-title">Elo atual</span>
           </div>
-          <template v-for="(elo, eloIndex) in currentElo" :key="eloIndex">
+          <template v-for="(elo, index) in currentElo" :key="index">
             <div class="rank-row">
               <span
                 class="row-elo"
-                @click="selectElo(elo, eloIndex)"
+                @click="selectElo(elo, index)"
                 v-if="elo.visible"
                 :class="{ 'row-elo-selected': elo.name == selectedElo.current.name }"
               >
@@ -199,7 +207,7 @@ export default {
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span class="league-item" @click="selectElo(elo, eloIndex, leagueIndex)">
+                  <span class="league-item" @click="selectElo(elo, index, leagueIndex)">
                     {{ league.name }}
                   </span>
                 </template>
@@ -212,11 +220,11 @@ export default {
           <div class="rank-row">
             <span class="row-title">Elo desejado</span>
           </div>
-          <template v-for="(elo, eloIndex) in targetElo" :key="eloIndex">
-            <div class="rank-row">
+          <template v-for="(elo, index) in targetElo" :key="index">
+            <div class="rank-row" v-if="index > selectedElo.current.index">
               <span
                 class="row-elo"
-                @click="selectElo(elo, eloIndex)"
+                @click="selectElo(elo, index)"
                 v-if="elo.visible"
                 :class="{ 'row-elo-selected': elo.name == selectedElo.target.name }"
               >
@@ -224,7 +232,7 @@ export default {
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span class="league-item" @click="selectElo(elo, eloIndex, leagueIndex)">
+                  <span class="league-item" @click="selectElo(elo, index, leagueIndex)">
                     {{ league.name }}
                   </span>
                 </template>
