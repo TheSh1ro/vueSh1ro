@@ -7,95 +7,145 @@ export default {
           name: 'Ferro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current'
+          type: 'current',
+          image: '/src/assets/diamond.png'
         },
-        { name: 'Mestre', visible: true, type: 'current' },
-        { name: 'Grão Mestre', leagues: null, visible: true, type: 'current' },
-        { name: 'Desafiante', leagues: null, visible: true, type: 'current' }
+        {
+          name: 'Mestre',
+          visible: true,
+          type: 'current',
+          image: '/src/assets/master.png'
+        },
+        {
+          name: 'Grão Mestre',
+          leagues: null,
+          visible: true,
+          type: 'current',
+          image: '/src/assets/grandmaster.png'
+        },
+        {
+          name: 'Desafiante',
+          leagues: null,
+          visible: true,
+          type: 'current',
+          image: '/src/assets/challenger.png'
+        }
       ],
+
       targetElo: [
         {
           name: 'Ferro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target'
+          type: 'target',
+          image: '/src/assets/diamond.png'
         },
-        { name: 'Mestre', visible: true, type: 'target' },
-        { name: 'Grão Mestre', leagues: null, visible: true, type: 'target' },
-        { name: 'Desafiante', leagues: null, visible: true, type: 'target' }
+        {
+          name: 'Mestre',
+          visible: true,
+          type: 'target',
+          image: '/src/assets/master.png'
+        },
+        {
+          name: 'Grão Mestre',
+          leagues: null,
+          visible: true,
+          type: 'target',
+          image: '/src/assets/grandmaster.png'
+        },
+        {
+          name: 'Desafiante',
+          leagues: null,
+          visible: true,
+          type: 'target',
+          image: '/src/assets/challenger.png'
+        }
       ],
+
       selectedElo: {
         current: { name: null, league: null, index: null },
         target: { name: null, league: null, index: null }
@@ -104,7 +154,7 @@ export default {
   },
   methods: {
     toggleSelectorCurrent(elo, index) {
-      // Caso seja diamante ou inferior, mostrar seletor de divisão ao clicar
+      // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
       if (index <= 6) {
         this.currentElo.forEach((elo, i) => {
           if (i === index) {
@@ -112,6 +162,10 @@ export default {
           } else {
             elo.visible = true
           }
+        })
+      } else {
+        this.currentElo.forEach((elo, i) => {
+          elo.visible = true
         })
       }
 
@@ -122,7 +176,7 @@ export default {
     },
 
     toggleSelectorTarget(elo, index) {
-      // Caso seja diamante ou inferior, mostrar seletor de divisão ao clicar
+      // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
       if (index <= 6) {
         this.targetElo.forEach((elo, i) => {
           if (i === index) {
@@ -130,6 +184,10 @@ export default {
           } else {
             elo.visible = true
           }
+        })
+      } else {
+        this.targetElo.forEach((elo, i) => {
+          elo.visible = true
         })
       }
 
@@ -141,30 +199,60 @@ export default {
 
     selectElo(elo, index, leagueIndex) {
       if (elo.type == 'current') {
-        if (index <= 6) {
-          if (leagueIndex != null) {
-            this.selectedElo.current.name = elo.name
-            this.selectedElo.current.league = leagueIndex
-            this.selectedElo.current.index = index
+        // Entre ferro e diamante, (executado apenas ao clicar na divisão, não no elo)
+        if (index <= 6 && leagueIndex != null) {
+          // Reseta selectedElo caso seja inferior elo atual
+          if (
+            index > this.selectedElo.target.index ||
+            (index == this.selectedElo.target.index &&
+              leagueIndex <= this.selectedElo.target.league)
+          ) {
+            this.resetTargetSelection()
           }
-        } else {
+
+          this.selectedElo.current.name = elo.name
+          this.selectedElo.current.league = leagueIndex
+          this.selectedElo.current.index = index
+        }
+
+        // Entre mestre e desafiante
+        if (index >= 7) {
+          if (index >= this.selectedElo.target.index) {
+            this.resetTargetSelection()
+          }
+
           this.selectedElo.current.name = elo.name
           this.selectedElo.current.league = 0
           this.selectedElo.current.index = index
         }
+
         this.toggleSelectorCurrent(elo, index)
       }
 
       if (elo.type == 'target') {
-        if (index <= 6) {
-          if (leagueIndex != null) {
-            this.selectedElo.target.name = elo.name
-            this.selectedElo.target.league = leagueIndex
-            this.selectedElo.target.index = index
-          }
+        // Bloquear seleção caso o elo seja: inferior ao elo atual EX: (Platina ao Ouro) ou mesmo elo porém com divisão inferior EX: (Platina 2 ao Platina 4)
+        if (
+          index < this.selectedElo.current.index ||
+          (index == this.selectedElo.current.index &&
+            leagueIndex >= this.selectedElo.current.league)
+        ) {
+          return
         }
 
+        // Entre ferro e diamante, (executado apenas ao clicar na divisão, não no elo)
+        if (index <= 6 && leagueIndex != null) {
+          this.selectedElo.target.name = elo.name
+          this.selectedElo.target.league = leagueIndex
+          this.selectedElo.target.index = index
+        }
+
+        // Entre mestre e desafiante
         if (index >= 7) {
+          // Bloquear seleção caso o elo seja igual ao elo atual (Ex: Mestre - Mestre)
+          if (index == this.selectedElo.current.index) {
+            return
+          }
+
           this.selectedElo.target.name = elo.name
           this.selectedElo.target.league = 0
           this.selectedElo.target.index = index
@@ -173,16 +261,10 @@ export default {
       }
     },
 
-    resetSelection(type) {
-      if (type == 'current') {
-        this.selectedElo.current.name = null
-        this.selectedElo.current.league = null
-        this.selectedElo.current.index = null
-      } else {
-        this.selectedElo.target.name = null
-        this.selectedElo.target.league = null
-        this.selectedElo.target.index = null
-      }
+    resetTargetSelection() {
+      this.selectedElo.target.name = null
+      this.selectedElo.target.league = null
+      this.selectedElo.target.index = null
     }
   }
 }
@@ -204,6 +286,7 @@ export default {
                 :class="{ 'row-elo-selected': elo.name == selectedElo.current.name }"
               >
                 {{ elo.name }}
+                <img :src="elo.image" />
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
@@ -221,24 +304,30 @@ export default {
             <span class="row-title">Elo desejado</span>
           </div>
           <template v-for="(elo, index) in targetElo" :key="index">
-            <div
-              class="rank-row"
-              v-if="
-                index >= selectedElo.current.index &&
-                !(index == selectedElo.current.index && selectedElo.current.league == 0)
-              "
-            >
+            <div class="rank-row">
               <span
                 class="row-elo"
                 @click="selectElo(elo, index)"
                 v-if="elo.visible"
-                :class="{ 'row-elo-selected': elo.name == selectedElo.target.name }"
+                :class="{
+                  'row-elo-selected': elo.name == selectedElo.target.name,
+                  blockSelection: index < selectedElo.current.index
+                }"
               >
                 {{ elo.name }}
+                <img :src="elo.image" />
               </span>
               <div class="row-league" v-if="!elo.visible">
                 <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span class="league-item" @click="selectElo(elo, index, leagueIndex)">
+                  <span
+                    class="league-item"
+                    @click="selectElo(elo, index, leagueIndex)"
+                    :class="{
+                      blockSelection:
+                        index == selectedElo.current.index &&
+                        leagueIndex >= selectedElo.current.league
+                    }"
+                  >
                     {{ league.name }}
                   </span>
                 </template>
@@ -268,6 +357,7 @@ export default {
     </div>
   </main>
 </template>
+<!-- v-if="index >= selectedElo.current.index && !(index == selectedElo.current.index && selectedElo.current.league == 0)" -->
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
@@ -320,10 +410,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5px;
+}
+.row-elo > img {
+  height: 1.5rem;
 }
 
 .row-elo-selected {
-  background-color: var(--selectHover);
+  background-color: var(--selectedRow);
 }
 
 .row-elo:hover {
@@ -345,6 +439,25 @@ export default {
 
 .league-item:hover {
   background-color: var(--selectHover);
+}
+
+.blockSelection:hover {
+  background-color: var(--blockSelection);
+}
+.blockSelection:active {
+  animation: shake 0.2s alternate;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
 }
 
 .priceBox {
