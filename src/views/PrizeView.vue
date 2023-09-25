@@ -159,11 +159,18 @@ export default {
       selectedElo: {
         current: { name: null, league: null, index: null },
         target: { name: null, league: null, index: null }
-      }
+      },
+
+      priceArray: []
     }
   },
   methods: {
     toggleSelectorCurrent(elo, index) {
+      // Calcular preço do elojob
+      if (this.selectedElo.current && this.selectedElo.target) {
+        this.calcular()
+      }
+
       // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
       if (index <= 6) {
         this.currentElo.forEach((elo, i) => {
@@ -186,6 +193,11 @@ export default {
     },
 
     toggleSelectorTarget(elo, index) {
+      // Calcular preço do elojob
+      if (this.selectedElo.current && this.selectedElo.target) {
+        this.calcular()
+      }
+
       // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
       if (index <= 6) {
         this.targetElo.forEach((elo, i) => {
@@ -275,6 +287,20 @@ export default {
       this.selectedElo.target.name = null
       this.selectedElo.target.league = null
       this.selectedElo.target.index = null
+    },
+
+    calcular() {
+      const current = this.selectedElo.current
+      const target = this.selectedElo.target
+
+      const currentIndex = current.index
+      const targetIndex = target.index
+
+      this.priceArray = [] // Limpa o array antes de calcular novamente
+
+      for (let index = currentIndex; index <= targetIndex; index++) {
+        this.priceArray.push(this.currentElo[index])
+      }
     }
   }
 }
@@ -352,19 +378,19 @@ export default {
       <div class="priceBox">
         <header class="priceHeader">Valor do serviço</header>
         <body class="priceBody">
-          <div class="priceBody-box">
+          <div class="priceBlock">
             <h1>current</h1>
             <p>{{ selectedElo.current }}</p>
           </div>
-          <div class="priceBody-box">
+          <div class="priceBlock">
             <h1>target</h1>
             <p>{{ selectedElo.target }}</p>
           </div>
-          <div class="priceBody-box">
-            <h1>result</h1>
-            <p v-for="(elo, index) in cuttedArray" :key="index">
-              {{ elo.name }}
-            </p>
+          <div class="priceBlock">
+            <div v-for="elo in priceArray" :key="elo" class="">
+              <p>{{ elo.name }}</p>
+              <p>{{ elo.price }}</p>
+            </div>
           </div>
         </body>
       </div>
@@ -494,16 +520,22 @@ export default {
 
 .priceBody {
   display: grid;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  grid-template-rows: 1fr 1fr 3fr;
 }
 
-.priceBody-box {
+.priceBlock {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
   text-align: center;
+  background-color: rgba(250, 250, 0, 0.1);
+  justify-content: center;
+  gap: 10px;
+}
+
+.priceBlock:nth-child(odd) {
+  background-color: rgba(250, 0, 250, 0.1);
+}
+.priceBlock:nth-child(even) {
+  background-color: rgba(0, 250, 250, 0.1);
 }
 </style>
