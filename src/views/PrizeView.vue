@@ -8,69 +8,79 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/iron.png'
+          image: '/src/assets/iron.png',
+          price: 10
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/bronze.png'
+          image: '/src/assets/bronze.png',
+          price: 15
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/silver.png'
+          image: '/src/assets/silver.png',
+          price: 20
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/gold.png'
+          image: '/src/assets/gold.png',
+          price: 25
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/platinum.png'
+          image: '/src/assets/platinum.png',
+          price: 30
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/emerald.png'
+          image: '/src/assets/emerald.png',
+          price: 35
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/diamond.png'
+          image: '/src/assets/diamond.png',
+          price: 40
         },
         {
           name: 'Mestre',
           visible: true,
           type: 'current',
-          image: '/src/assets/master.png'
+          image: '/src/assets/master.png',
+          price: 45
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/grandmaster.png'
+          image: '/src/assets/grandmaster.png',
+          price: 50
         },
         {
           name: 'Desafiante',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/challenger.png'
+          image: '/src/assets/challenger.png',
+          price: 60
         }
       ],
 
@@ -164,7 +174,7 @@ export default {
           }
         })
       } else {
-        this.currentElo.forEach((elo, i) => {
+        this.currentElo.forEach((elo) => {
           elo.visible = true
         })
       }
@@ -186,7 +196,7 @@ export default {
           }
         })
       } else {
-        this.targetElo.forEach((elo, i) => {
+        this.targetElo.forEach((elo) => {
           elo.visible = true
         })
       }
@@ -311,7 +321,9 @@ export default {
                 v-if="elo.visible"
                 :class="{
                   'row-elo-selected': elo.name == selectedElo.target.name,
-                  blockSelection: index < selectedElo.current.index
+                  blockSelection:
+                    index < selectedElo.current.index ||
+                    (index >= 7 && index == selectedElo.current.index)
                 }"
               >
                 {{ elo.name }}
@@ -350,7 +362,9 @@ export default {
           </div>
           <div class="priceBody-box">
             <h1>result</h1>
-            <p>R$0,00</p>
+            <p v-for="(elo, index) in cuttedArray" :key="index">
+              {{ elo.name }}
+            </p>
           </div>
         </body>
       </div>
@@ -416,12 +430,16 @@ export default {
   height: 1.5rem;
 }
 
-.row-elo-selected {
-  background-color: var(--selectedRow);
-}
-
 .row-elo:hover {
   background-color: var(--selectHover);
+}
+
+.row-elo-selected {
+  background-color: var(--selectTrue);
+}
+
+.row-elo-selected:hover {
+  background-color: var(--selectTrue);
 }
 
 .row-league {

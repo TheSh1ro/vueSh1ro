@@ -13,7 +13,7 @@ import PageFooter from './components/PageFooter.vue'
 :root {
   --purple: rgb(152, 42, 255);
   --selectHover: rgb(0, 255, 255, 0.15);
-  --selectedRow: rgb(0, 255, 255, 0.3);
+  --selectTrue: rgb(0, 255, 255, 0.3);
   --blockSelection: rgba(255, 0, 0, 0.2);
 }
 
