@@ -162,8 +162,8 @@ export default {
       ],
 
       selectedElo: {
-        current: { name: null, league: null, index: null },
-        target: { name: null, league: null, index: null }
+        current: { name: null, league: null, index: null, image: null },
+        target: { name: null, league: null, index: null, image: null }
       },
 
       computedEloArray: [],
@@ -174,7 +174,7 @@ export default {
     toggleSelectorCurrent(elo, index) {
       // Calcular preço do elojob
       if (this.selectedElo.current.name != null && this.selectedElo.target.name != null) {
-        this.calculatePrice()
+        this.getComputedElo()
       }
 
       // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
@@ -201,7 +201,7 @@ export default {
     toggleSelectorTarget(elo, index) {
       // Calcular preço do elojob
       if (this.selectedElo.current.name != null && this.selectedElo.target.name != null) {
-        this.calculatePrice()
+        this.getComputedElo()
       }
 
       // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
@@ -235,7 +235,7 @@ export default {
             (index == this.selectedElo.target.index &&
               leagueIndex <= this.selectedElo.target.league)
           ) {
-            this.resetTargetSelection()
+            this.resetSelection()
           }
 
           this.selectedElo.current.name = elo.name
@@ -246,7 +246,7 @@ export default {
         // Entre mestre e desafiante
         if (index >= 7) {
           if (index >= this.selectedElo.target.index) {
-            this.resetTargetSelection()
+            this.resetSelection()
           }
 
           this.selectedElo.current.name = elo.name
@@ -289,18 +289,20 @@ export default {
       }
     },
 
-    resetTargetSelection() {
+    resetSelection() {
       this.selectedElo.target.name = null
       this.selectedElo.target.league = null
       this.selectedElo.target.index = null
+      this.computedEloArray = []
+      this.totalPrice = 0
     },
 
-    calculatePrice() {
+    getComputedElo() {
       const currentIndex = this.selectedElo.current.index
       const targetIndex = this.selectedElo.target.index
 
       this.computedEloArray = [] // Limpa o array antes de calcular novamente
-      let totalPrice = 0
+      this.totalPrice = 0
 
       for (let index = currentIndex; index <= targetIndex; index++) {
         const currentElo = { ...this.currentElo[index] }
@@ -312,7 +314,38 @@ export default {
           multiplier = 1
         }
 
-        
+        // O elo inicial selecionado recebe o multiplicador conforme a liga selecionada / First run
+        if (index == currentIndex && index <= 6) {
+          multiplier = this.selectedElo.current.league + 1
+        }
+
+        // O elo final selecionado recebe o multiplicador inverso a liga selecionada / Last run
+        if (index == targetIndex) {
+          if (index <= 6) {
+            switch (this.selectedElo.target.league) {
+              case 3:
+                multiplier = 0
+                return
+              case 2:
+                multiplier = 1
+                break
+              case 1:
+                multiplier = 2
+                break
+              case 0:
+                multiplier = 3
+                break
+            }
+          } else {
+            return
+          }
+        }
+
+        // Caso o elo final seja igual ao elo inicial, calcular preço por divisão:
+        if (currentIndex == targetIndex) {
+          multiplier = this.selectedElo.current.league - this.selectedElo.target.league
+        }
+
         const computedElo = {
           name: currentElo.name,
           price: price.value,
@@ -320,37 +353,8 @@ export default {
           multiplier: multiplier
         }
 
-        // O elo inicial selecionado recebe o multiplicador conforme a liga selecionada
-        if (index == currentIndex && currentElo.leagues != null) {
-          computedElo.multiplier = this.selectedElo.current.league + 1
-        }
-
-        // O elo final selecionado recebe o multiplicador conforme a liga selecionada
-        if (index == targetIndex && currentElo.leagues != null) {
-          switch (this.selectedElo.target.league) {
-            case 3:
-              computedElo.multiplier = 0
-              break
-            case 2:
-              computedElo.multiplier = 1
-              break
-            case 1:
-              computedElo.multiplier = 2
-              break
-            case 0:
-              computedElo.multiplier = 3
-              break
-          }
-        }
-
-        console.log(computedElo.multiplier)
-
-        // Caso o elo final seja igual ao elo inicial, calcular preço por divisão:
-        if (currentIndex == targetIndex) {
-          computedElo.multiplier = this.selectedElo.current.league - this.selectedElo.target.league
-        }
-
         this.computedEloArray.push(computedElo)
+        this.totalPrice += computedElo.price * computedElo.multiplier
       }
     }
   }
@@ -426,26 +430,20 @@ export default {
         </div>
       </div>
 
-      <div class="priceBox">
-        <h1 class="priceHeader">Valor do serviço</h1>
-        <body class="priceBody">
-          <div class="priceBlock">
-            <h2>current</h2>
-            <p>{{ selectedElo.current }}</p>
-          </div>
-          <div class="priceBlock">
-            <h2>target</h2>
-            <p>{{ selectedElo.target }}</p>
-          </div>
-          <div class="priceBlock">
-            <div v-for="(elo, index) in computedEloArray" :key="index">
-              <!-- <p>{{ elo.name }}</p> -->
-              <!-- <p>{{ elo.price * elo.multiplier }}</p> -->
-
-              <p v-for="(item, key) in elo" :key="item">{{ key }}: {{ item }}</p>
-            </div>
-          </div>
-        </body>
+      <div id="priceBox">
+        <div class="price-block">
+          <img :src="
+          selectedElo.current.image" alt="" />
+          <p>
+            {{ selectedElo.current.name }}
+          </p>
+        </div>
+        <div class="price-block">
+          <img :src="
+          selectedElo.target.image" alt="">
+          <p>{{ selectedElo.target.name }}</p>
+        </div>
+        <div class="price-block">R${{ totalPrice }}</div>
       </div>
     </div>
   </main>
@@ -563,43 +561,16 @@ export default {
   }
 }
 
-.priceBox {
+#priceBox {
   flex-grow: 1;
 
   display: grid;
-  grid-template-rows: 1fr 10fr;
   border: 1px solid white;
 }
 
-.priceHeader {
+.price-block {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
-  border-bottom: 1px solid white;
-}
-
-.priceBody {
-  display: grid;
-  grid-template-rows: 1fr 1fr 3fr;
-}
-
-.priceBlock {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  text-align: center;
-  background-color: rgba(250, 250, 0, 0.1);
-  justify-content: center;
-  padding: 10px;
-  gap: 5px;
-}
-
-.priceBlock > div {
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 100, 150, 0.5);
 }
 </style>
