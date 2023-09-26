@@ -327,11 +327,6 @@ export default {
           computedElo.multiplier = this.selectedElo.target.league + 1
         }
 
-        // Última execução do loop
-        if (index == targetIndex) {
-          this.totalPrice = CHATGPT: Todos os price.value multiplicados pelo multiplier
-        }
-
         computedEloArray.push(computedElo)
       }
     }
