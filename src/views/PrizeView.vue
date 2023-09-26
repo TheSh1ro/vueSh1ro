@@ -300,34 +300,57 @@ export default {
       const targetIndex = this.selectedElo.target.index
 
       this.computedEloArray = [] // Limpa o array antes de calcular novamente
+      let totalPrice = 0
 
       for (let index = currentIndex; index <= targetIndex; index++) {
         const currentElo = { ...this.currentElo[index] }
-        const computedEloArray = this.computedEloArray
         const price = this.priceList[index]
+        let multiplier = 4
+
+        // Elos acima do mestre recebem multiplier = 1
+        if (index >= 7) {
+          multiplier = 1
+        }
+
+        
         const computedElo = {
           name: currentElo.name,
           price: price.value,
           index: index,
-          multiplier: 4
+          multiplier: multiplier
         }
 
-        // Elos acima do mestre só multiplicam uma vez o valor
-        if (index >= 7) {
-          computedElo.multiplier = 1
-        }
-
-        // O elo inicial selecionado recebe o multiplicador da liga selecionada
+        // O elo inicial selecionado recebe o multiplicador conforme a liga selecionada
         if (index == currentIndex && currentElo.leagues != null) {
           computedElo.multiplier = this.selectedElo.current.league + 1
         }
 
-        // O elo final selecionado recebe o multiplicador da liga selecionada
+        // O elo final selecionado recebe o multiplicador conforme a liga selecionada
         if (index == targetIndex && currentElo.leagues != null) {
-          computedElo.multiplier = this.selectedElo.target.league + 1
+          switch (this.selectedElo.target.league) {
+            case 3:
+              computedElo.multiplier = 0
+              break
+            case 2:
+              computedElo.multiplier = 1
+              break
+            case 1:
+              computedElo.multiplier = 2
+              break
+            case 0:
+              computedElo.multiplier = 3
+              break
+          }
         }
 
-        computedEloArray.push(computedElo)
+        console.log(computedElo.multiplier)
+
+        // Caso o elo final seja igual ao elo inicial, calcular preço por divisão:
+        if (currentIndex == targetIndex) {
+          computedElo.multiplier = this.selectedElo.current.league - this.selectedElo.target.league
+        }
+
+        this.computedEloArray.push(computedElo)
       }
     }
   }
@@ -416,9 +439,10 @@ export default {
           </div>
           <div class="priceBlock">
             <div v-for="(elo, index) in computedEloArray" :key="index">
-              <p>{{ elo.name }} ao {{ currentElo[index + 1].name }}</p>
-              <p>{{ elo.price * elo.multiplier }}</p>
-              <!-- <p v-for="(item, key) in elo" :key="item">{{ key }}: {{ item }}</p> -->
+              <!-- <p>{{ elo.name }}</p> -->
+              <!-- <p>{{ elo.price * elo.multiplier }}</p> -->
+
+              <p v-for="(item, key) in elo" :key="item">{{ key }}: {{ item }}</p>
             </div>
           </div>
         </body>
