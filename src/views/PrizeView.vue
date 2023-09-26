@@ -8,79 +8,70 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/iron.png',
-          price: 10
+          image: '/src/assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/bronze.png',
-          price: 15
+          image: '/src/assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/silver.png',
-          price: 20
+          image: '/src/assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/gold.png',
-          price: 25
+          image: '/src/assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/platinum.png',
-          price: 30
+          image: '/src/assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/emerald.png',
-          price: 35
+          image: '/src/assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/diamond.png',
-          price: 40
+          image: '/src/assets/diamond.png'
         },
         {
           name: 'Mestre',
+          leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/master.png',
-          price: 45
+          image: '/src/assets/master.png'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/grandmaster.png',
-          price: 50
+          image: '/src/assets/grandmaster.png'
         },
         {
           name: 'Desafiante',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/challenger.png',
-          price: 60
+          image: '/src/assets/challenger.png'
         }
       ],
 
@@ -136,6 +127,7 @@ export default {
         },
         {
           name: 'Mestre',
+          leagues: null,
           visible: true,
           type: 'target',
           image: '/src/assets/master.png'
@@ -156,19 +148,33 @@ export default {
         }
       ],
 
+      priceList: [
+        { name: 'Ferro', value: 10 },
+        { name: 'Bronze', value: 10 },
+        { name: 'Prata', value: 12.5 },
+        { name: 'Ouro', value: 15 },
+        { name: 'Platina', value: 22.5 },
+        { name: 'Esmeralda', value: 30 },
+        { name: 'Diamante', value: 45 },
+        { name: 'Mestre', value: 600 },
+        { name: 'Grão Mestre', value: 1200 },
+        { name: 'Desafiante', value: 0 }
+      ],
+
       selectedElo: {
         current: { name: null, league: null, index: null },
         target: { name: null, league: null, index: null }
       },
 
-      priceArray: []
+      computedEloArray: [],
+      totalPrice: null
     }
   },
   methods: {
     toggleSelectorCurrent(elo, index) {
       // Calcular preço do elojob
-      if (this.selectedElo.current && this.selectedElo.target) {
-        this.calcular()
+      if (this.selectedElo.current.name != null && this.selectedElo.target.name != null) {
+        this.calculatePrice()
       }
 
       // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
@@ -194,8 +200,8 @@ export default {
 
     toggleSelectorTarget(elo, index) {
       // Calcular preço do elojob
-      if (this.selectedElo.current && this.selectedElo.target) {
-        this.calcular()
+      if (this.selectedElo.current.name != null && this.selectedElo.target.name != null) {
+        this.calculatePrice()
       }
 
       // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
@@ -289,17 +295,44 @@ export default {
       this.selectedElo.target.index = null
     },
 
-    calcular() {
-      const current = this.selectedElo.current
-      const target = this.selectedElo.target
+    calculatePrice() {
+      const currentIndex = this.selectedElo.current.index
+      const targetIndex = this.selectedElo.target.index
 
-      const currentIndex = current.index
-      const targetIndex = target.index
-
-      this.priceArray = [] // Limpa o array antes de calcular novamente
+      this.computedEloArray = [] // Limpa o array antes de calcular novamente
 
       for (let index = currentIndex; index <= targetIndex; index++) {
-        this.priceArray.push(this.currentElo[index])
+        const currentElo = { ...this.currentElo[index] }
+        const computedEloArray = this.computedEloArray
+        const price = this.priceList[index]
+        const computedElo = {
+          name: currentElo.name,
+          price: price.value,
+          index: index,
+          multiplier: 4
+        }
+
+        // Elos acima do mestre só multiplicam uma vez o valor
+        if (index >= 7) {
+          computedElo.multiplier = 1
+        }
+
+        // O elo inicial selecionado recebe o multiplicador da liga selecionada
+        if (index == currentIndex && currentElo.leagues != null) {
+          computedElo.multiplier = this.selectedElo.current.league + 1
+        }
+
+        // O elo final selecionado recebe o multiplicador da liga selecionada
+        if (index == targetIndex && currentElo.leagues != null) {
+          computedElo.multiplier = this.selectedElo.target.league + 1
+        }
+
+        // Última execução do loop
+        if (index == targetIndex) {
+          this.totalPrice = CHATGPT: Todos os price.value multiplicados pelo multiplier
+        }
+
+        computedEloArray.push(computedElo)
       }
     }
   }
@@ -311,7 +344,7 @@ export default {
       <div class="rankBox">
         <div class="rank-column">
           <div class="rank-row">
-            <span class="row-title">Elo atual</span>
+            <span class="row-title">Elo inicial</span>
           </div>
           <template v-for="(elo, index) in currentElo" :key="index">
             <div class="rank-row">
@@ -337,7 +370,7 @@ export default {
 
         <div class="rank-column">
           <div class="rank-row">
-            <span class="row-title">Elo desejado</span>
+            <span class="row-title">Elo final</span>
           </div>
           <template v-for="(elo, index) in targetElo" :key="index">
             <div class="rank-row">
@@ -376,20 +409,21 @@ export default {
       </div>
 
       <div class="priceBox">
-        <header class="priceHeader">Valor do serviço</header>
+        <h1 class="priceHeader">Valor do serviço</h1>
         <body class="priceBody">
           <div class="priceBlock">
-            <h1>current</h1>
+            <h2>current</h2>
             <p>{{ selectedElo.current }}</p>
           </div>
           <div class="priceBlock">
-            <h1>target</h1>
+            <h2>target</h2>
             <p>{{ selectedElo.target }}</p>
           </div>
           <div class="priceBlock">
-            <div v-for="elo in priceArray" :key="elo" class="">
-              <p>{{ elo.name }}</p>
-              <p>{{ elo.price }}</p>
+            <div v-for="(elo, index) in computedEloArray" :key="index">
+              <p>{{ elo.name }} ao {{ currentElo[index + 1].name }}</p>
+              <p>{{ elo.price * elo.multiplier }}</p>
+              <!-- <p v-for="(item, key) in elo" :key="item">{{ key }}: {{ item }}</p> -->
             </div>
           </div>
         </body>
@@ -397,7 +431,9 @@ export default {
     </div>
   </main>
 </template>
+
 <!-- v-if="index >= selectedElo.current.index && !(index == selectedElo.current.index && selectedElo.current.league == 0)" -->
+
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
@@ -410,16 +446,16 @@ export default {
 #content {
   margin: 40px;
 
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5vw;
+  display: flex;
+  gap: 3vw;
 }
 
 .rankBox {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   row-gap: 20px;
   border: 1px solid white;
+  width: fit-content;
 }
 
 .rank-column {
@@ -442,14 +478,18 @@ export default {
   border-bottom: 1px solid white;
   font-weight: bold;
   font-size: 1.5rem;
+  text-align: center;
+  padding-inline: 5px;
 }
 
 .row-elo {
   flex-grow: 1;
+  padding: 10px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   gap: 5px;
 }
 .row-elo > img {
@@ -505,6 +545,8 @@ export default {
 }
 
 .priceBox {
+  flex-grow: 1;
+
   display: grid;
   grid-template-rows: 1fr 10fr;
   border: 1px solid white;
@@ -514,7 +556,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   border-bottom: 1px solid white;
 }
 
@@ -524,18 +566,21 @@ export default {
 }
 
 .priceBlock {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   text-align: center;
   background-color: rgba(250, 250, 0, 0.1);
   justify-content: center;
-  gap: 10px;
+  padding: 10px;
+  gap: 5px;
 }
 
-.priceBlock:nth-child(odd) {
-  background-color: rgba(250, 0, 250, 0.1);
-}
-.priceBlock:nth-child(even) {
-  background-color: rgba(0, 250, 250, 0.1);
+.priceBlock > div {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 100, 150, 0.5);
 }
 </style>
