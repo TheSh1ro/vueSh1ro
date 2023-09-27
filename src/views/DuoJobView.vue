@@ -487,11 +487,10 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  padding: 40px;
 }
 
 .content {
-  margin: 40px;
-
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
