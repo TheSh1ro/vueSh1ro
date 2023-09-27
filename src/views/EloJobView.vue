@@ -461,38 +461,36 @@ export default {
           </template>
         </div>
       </div>
-
-      <div id="priceBox" v-if="totalPrice">
-        <body class="priceBox-body">
-          <div class="priceBox-body-block">
-            <img :src="selectedElo.current.image" alt="" />
-            <p>{{ getCurrentSelected }}</p>
+      <div class="priceBox" v-if="totalPrice">
+        <div class="priceBox-block">
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
+            <p class="priceBox-name">{{ getCurrentSelected }}</p>
           </div>
-          <div class="priceBox-body-block">Ao</div>
-          <div class="priceBox-body-block">
-            <img :src="selectedElo.target.image" alt="" />
-            <p>{{ getTargetSelected }}</p>
+          <h2>ao</h2>
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
+            <p class="priceBox-name">{{ getTargetSelected }}</p>
           </div>
-        </body>
-        <footer class="priceBox-footer">
-          <div class="priceBox-footer">
-            <RouterLink
-              class="priceBox-footer-value"
-              :to="{
-                path: '/payment',
-                query: {
-                  totalPrice: totalPrice,
-                  currentEloName: getCurrentSelected,
-                  currentEloImage: selectedElo.current.image,
-                  targetEloName: getTargetSelected,
-                  targetEloImage: selectedElo.target.image,
-                  deadline: totalLeagues * 2
-                }
-              }"
-              >Confirmar R${{ totalPrice }}</RouterLink
-            >
-          </div>
-        </footer>
+        </div>
+        <div class="priceBox-block">
+          <RouterLink
+            class="priceBox-button"
+            :to="{
+              path: '/payment',
+              query: {
+                totalPrice: totalPrice,
+                currentEloName: getCurrentSelected,
+                currentEloImage: selectedElo.current.image,
+                targetEloName: getTargetSelected,
+                targetEloImage: selectedElo.target.image,
+                deadline: totalLeagues * 2
+              }
+            }"
+          >
+            Confirmar por R${{ totalPrice }}
+          </RouterLink>
+        </div>
       </div>
     </div>
   </main>
@@ -614,49 +612,27 @@ export default {
   }
 }
 
-#priceBox {
+.priceBox {
   display: grid;
-  grid-template-rows: 6fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
   align-self: center;
-
-  align-items: center;
   height: fit-content;
 }
 
-.priceBox-body {
+.priceBox-block {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
-
-.priceBox-body-block {
+.priceBox-block > div {
   display: flex;
+  align-items: center;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  gap: 20px;
 }
 
-.priceBox-body-block > img {
-  height: 4rem;
-}
-
-.priceBox-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.priceBox-footer-value {
-  cursor: pointer;
-  font-size: 1.5rem;
-  background-color: rgb(16, 184, 121);
-  color: black;
-
-  border-radius: 10px;
-  padding: 7px;
-  border: 5px double black;
-}
-.priceBox-footer-value:hover {
-  background-color: rgb(16, 144, 121);
+.priceBox-block > div > img {
+  height: 8vw;
+  width: 12vw;
 }
 </style>
