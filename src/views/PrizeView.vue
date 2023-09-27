@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from 'vue-router'
 export default {
   data() {
     return {
@@ -447,7 +448,9 @@ export default {
         </body>
         <footer class="priceBox-footer">
           <div class="priceBox-footer">
-            <RouterLink class="priceBox-footer-value" to="/vapo"
+            <RouterLink
+              class="priceBox-footer-value"
+              :to="{ path: '/payment', query: { totalPrice, selectedElo } }"
               >Confirmar R${{ totalPrice }}</RouterLink
             >
           </div>
