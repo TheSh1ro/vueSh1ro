@@ -2,7 +2,7 @@
 <template>
   <main id="main">
     <div id="content">
-      <RouterLink class="block" to="/prize">
+      <RouterLink class="block" to="/elojob">
         <h1>EloJob</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -11,7 +11,7 @@
           impulsionarão sua classificação, tornando a jornada mais suave.
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/prize">
+      <RouterLink class="block" to="/duojob">
         <h1>DuoJob</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />

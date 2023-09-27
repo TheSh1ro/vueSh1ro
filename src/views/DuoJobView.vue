@@ -54,14 +54,14 @@ export default {
           image: '/src/assets/diamond.png'
         },
         {
-          name: 'Mestre',
+          name: 'Mestre - Flex',
           leagues: null,
           visible: true,
           type: 'current',
           image: '/src/assets/master.png'
         },
         {
-          name: 'Grão Mestre',
+          name: 'Grão Mestre - Flex',
           leagues: null,
           visible: true,
           type: 'current',
@@ -127,14 +127,14 @@ export default {
           image: '/src/assets/master.png'
         },
         {
-          name: 'Grão Mestre',
+          name: 'Grão Mestre - Flex',
           leagues: null,
           visible: true,
           type: 'target',
           image: '/src/assets/grandmaster.png'
         },
         {
-          name: 'Desafiante',
+          name: 'Desafiante - Flex',
           leagues: null,
           visible: true,
           type: 'target',
@@ -143,13 +143,13 @@ export default {
       ],
 
       priceList: [
-        { name: 'Ferro', value: 10 },
-        { name: 'Bronze', value: 10 },
-        { name: 'Prata', value: 12.5 },
-        { name: 'Ouro', value: 15 },
-        { name: 'Platina', value: 22.5 },
-        { name: 'Esmeralda', value: 30 },
-        { name: 'Diamante', value: 45 },
+        { name: 'Ferro', value: 15 },
+        { name: 'Bronze', value: 15 },
+        { name: 'Prata', value: 17.5 },
+        { name: 'Ouro', value: 20 },
+        { name: 'Platina', value: 30 },
+        { name: 'Esmeralda', value: 45 },
+        { name: 'Diamante', value: 65 },
         { name: 'Mestre', value: 600 },
         { name: 'Grão Mestre', value: 1200 },
         { name: 'Desafiante', value: 0 }
@@ -161,7 +161,8 @@ export default {
       },
 
       computedEloArray: [],
-      totalPrice: null
+      totalPrice: null,
+      totalLeagues: null
     }
   },
   methods: {
@@ -293,6 +294,7 @@ export default {
       this.selectedElo.target.index = null
       this.computedEloArray = []
       this.totalPrice = 0
+      this.totalLeagues = 0
     },
 
     getComputedElo() {
@@ -301,6 +303,7 @@ export default {
 
       this.computedEloArray = [] // Limpa o array antes de calcular novamente
       this.totalPrice = 0
+      this.totalLeagues = 0
 
       for (let index = currentIndex; index <= targetIndex; index++) {
         const currentElo = { ...this.currentElo[index] }
@@ -349,6 +352,13 @@ export default {
           price: price.value,
           index: index,
           multiplier: multiplier
+        }
+
+        // Calcular quantidade de ligas, para calcular prazoo
+        if (index <= 6) {
+          this.totalLeagues += multiplier
+        } else {
+          this.totalLeagues += 7
         }
 
         this.computedEloArray.push(computedElo)
@@ -450,7 +460,17 @@ export default {
           <div class="priceBox-footer">
             <RouterLink
               class="priceBox-footer-value"
-              :to="{ path: '/payment', query: { totalPrice, selectedElo } }"
+              :to="{
+                path: '/payment',
+                query: {
+                  totalPrice: totalPrice,
+                  currentEloName: selectedElo.current.name + ' ' + (selectedElo.current.league + 1),
+                  currentEloImage: selectedElo.current.image,
+                  targetEloName: selectedElo.target.name + ' ' + (selectedElo.target.league + 1),
+                  targetEloImage: selectedElo.target.image,
+                  deadline: totalLeagues * 2
+                }
+              }"
               >Confirmar R${{ totalPrice }}</RouterLink
             >
           </div>
@@ -602,7 +622,6 @@ export default {
 
 .priceBox-body-block > img {
   height: 4rem;
-  width: 8rem;
 }
 
 .priceBox-footer {
