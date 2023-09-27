@@ -29,7 +29,7 @@
           iniciais jogadas pelos melhores e comece bem a temporada.
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/prize">
+      <RouterLink class="block" to="/elojob">
         <h1>Sh1ro Tips</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -48,16 +48,15 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  height: 100vh;
+  height: 92vh;
 }
 
 #content {
   display: grid;
-  align-content: center;
+  align-items: center;
   grid-template-columns: repeat(4, minmax(250px, 280px));
   justify-content: center;
   gap: 35px;
-  margin: 40px;
 }
 @media (max-width: 1300px) {
   #content {
@@ -72,7 +71,7 @@
 
 .block {
   background-color: rgba(0, 0, 0, 0.75);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   border: 4px double white;
 
   display: flex;
@@ -80,6 +79,7 @@
   align-items: center;
   flex-direction: column;
 
+  height: fit-content;
   padding: 25px;
   text-align: center;
   transition:
