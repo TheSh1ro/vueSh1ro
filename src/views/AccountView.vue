@@ -8,6 +8,7 @@ export default {
         username: '',
         password: ''
       },
+
       placeholder: {
         login: 'Login',
         password: 'Senha',
@@ -31,7 +32,7 @@ export default {
         return
       }
 
-      authStore.login(this.formData.username) // Assume que o usuário está autenticado
+      authStore.login(this.formData.username, this.formData.password) // Assume que o usuário está autenticado
       this.$router.push('/elojob')
     }
   }

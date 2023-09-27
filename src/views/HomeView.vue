@@ -48,24 +48,25 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  height: 92vh;
+  min-height: 92vh;
+  padding: 40px;
 }
 
 #content {
   display: grid;
   align-items: center;
+  justify-content: space-evenly;
   grid-template-columns: repeat(4, minmax(250px, 280px));
-  justify-content: center;
-  gap: 35px;
+  gap: 40px 20px;
 }
 @media (max-width: 1300px) {
   #content {
-    grid-template-columns: repeat(2, minmax(300px, 320px));
+    grid-template-columns: repeat(2, minmax(250px, 280px));
   }
 }
 @media (max-width: 710px) {
   #content {
-    grid-template-columns: repeat(1, minmax(300px, 320px));
+    grid-template-columns: repeat(1, minmax(250px, 280px));
   }
 }
 

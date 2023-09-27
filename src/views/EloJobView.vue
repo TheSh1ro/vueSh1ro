@@ -364,6 +364,25 @@ export default {
         this.totalPrice += computedElo.price * computedElo.multiplier
       }
     }
+  },
+  computed: {
+    getCurrentSelected() {
+      const elo = this.selectedElo.current
+      if (elo.index >= 7) {
+        return elo.name
+      } else {
+        return elo.name + ' ' + elo.league
+      }
+    },
+
+    getTargetSelected() {
+      const elo = this.selectedElo.target
+      if (elo.index >= 7) {
+        return elo.name
+      } else {
+        return elo.name + ' ' + elo.league
+      }
+    }
   }
 }
 </script>
@@ -447,12 +466,12 @@ export default {
         <body class="priceBox-body">
           <div class="priceBox-body-block">
             <img :src="selectedElo.current.image" alt="" />
-            <p>{{ selectedElo.current.name }} {{ selectedElo.current.league + 1 }}</p>
+            <p>{{ getCurrentSelected }}</p>
           </div>
           <div class="priceBox-body-block">Ao</div>
           <div class="priceBox-body-block">
             <img :src="selectedElo.target.image" alt="" />
-            <p>{{ selectedElo.target.name }} {{ selectedElo.target.league + 1 }}</p>
+            <p>{{ getTargetSelected }}</p>
           </div>
         </body>
         <footer class="priceBox-footer">
@@ -463,9 +482,9 @@ export default {
                 path: '/payment',
                 query: {
                   totalPrice: totalPrice,
-                  currentEloName: selectedElo.current.name + ' ' + (selectedElo.current.league + 1),
+                  currentEloName: getCurrentSelected,
                   currentEloImage: selectedElo.current.image,
-                  targetEloName: selectedElo.target.name + ' ' + (selectedElo.target.league + 1),
+                  targetEloName: getTargetSelected,
                   targetEloImage: selectedElo.target.image,
                   deadline: totalLeagues * 2
                 }
