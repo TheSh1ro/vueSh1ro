@@ -21,7 +21,7 @@
         </p>
       </RouterLink>
       <RouterLink class="block" to="/prize">
-        <h1>MD10</h1>
+        <h1>MD5</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
