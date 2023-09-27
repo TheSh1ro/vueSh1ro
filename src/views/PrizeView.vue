@@ -239,6 +239,7 @@ export default {
           }
 
           this.selectedElo.current.name = elo.name
+          this.selectedElo.current.image = elo.image
           this.selectedElo.current.league = leagueIndex
           this.selectedElo.current.index = index
         }
@@ -250,6 +251,7 @@ export default {
           }
 
           this.selectedElo.current.name = elo.name
+          this.selectedElo.current.image = elo.image
           this.selectedElo.current.league = 0
           this.selectedElo.current.index = index
         }
@@ -270,6 +272,7 @@ export default {
         // Entre ferro e diamante, (executado apenas ao clicar na divisão, não no elo)
         if (index <= 6 && leagueIndex != null) {
           this.selectedElo.target.name = elo.name
+          this.selectedElo.target.image = elo.image
           this.selectedElo.target.league = leagueIndex
           this.selectedElo.target.index = index
         }
@@ -282,6 +285,7 @@ export default {
           }
 
           this.selectedElo.target.name = elo.name
+          this.selectedElo.target.image = elo.image
           this.selectedElo.target.league = 0
           this.selectedElo.target.index = index
         }
@@ -431,19 +435,22 @@ export default {
       </div>
 
       <div id="priceBox">
-        <div class="price-block">
-          <img :src="
-          selectedElo.current.image" alt="" />
-          <p>
-            {{ selectedElo.current.name }}
-          </p>
-        </div>
-        <div class="price-block">
-          <img :src="
-          selectedElo.target.image" alt="">
-          <p>{{ selectedElo.target.name }}</p>
-        </div>
-        <div class="price-block">R${{ totalPrice }}</div>
+        <body class="priceBox-body">
+          <div class="priceBox-body-block">
+            <img :src="selectedElo.current.image" alt="" />
+            <p>{{ selectedElo.current.name }} {{ selectedElo.current.league + 1 }}</p>
+          </div>
+          <div class="priceBox-body-block">Ao</div>
+          <div class="priceBox-body-block">
+            <img :src="selectedElo.target.image" alt="" />
+            <p>{{ selectedElo.target.name }} {{ selectedElo.target.league + 1 }}</p>
+          </div>
+        </body>
+        <footer class="priceBox-footer">
+          <div class="priceBox-footer">
+            <p class="priceBox-footer-value">R${{ totalPrice }}</p>
+          </div>
+        </footer>
       </div>
     </div>
   </main>
@@ -463,7 +470,8 @@ export default {
 #content {
   margin: 40px;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 3vw;
 }
 
@@ -471,8 +479,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 20px;
-  border: 1px solid white;
-  width: fit-content;
 }
 
 .rank-column {
@@ -492,7 +498,6 @@ export default {
   justify-content: center;
   align-items: center;
 
-  border-bottom: 1px solid white;
   font-weight: bold;
   font-size: 1.5rem;
   text-align: center;
@@ -562,15 +567,40 @@ export default {
 }
 
 #priceBox {
-  flex-grow: 1;
-
   display: grid;
-  border: 1px solid white;
+  grid-template-rows: 6fr 1fr;
+  align-self: center;
+
+  align-items: center;
+  height: fit-content;
 }
 
-.price-block {
+.priceBox-body {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.priceBox-body-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  gap: 20px;
+}
+
+.priceBox-body-block > img {
+  height: 4rem;
+  width: 8rem;
+}
+
+.priceBox-footer {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.priceBox-footer-value {
+  font-size: 2rem;
+  color: rgb(16, 234, 121);
 }
 </style>
