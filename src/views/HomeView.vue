@@ -48,17 +48,18 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  height: 100vh;
 }
 
 #content {
   display: grid;
   align-content: center;
-  grid-template-columns: repeat(4, minmax(300px, 320px));
+  grid-template-columns: repeat(4, minmax(250px, 280px));
   justify-content: center;
   gap: 35px;
   margin: 40px;
 }
-@media (max-width: 1390px) {
+@media (max-width: 1300px) {
   #content {
     grid-template-columns: repeat(2, minmax(300px, 320px));
   }
@@ -79,7 +80,7 @@
   align-items: center;
   flex-direction: column;
 
-  padding: 35px;
+  padding: 25px;
   text-align: center;
   transition:
     background-color 0.5s,

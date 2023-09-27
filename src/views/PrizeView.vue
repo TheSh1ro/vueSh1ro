@@ -65,13 +65,6 @@ export default {
           visible: true,
           type: 'current',
           image: '/src/assets/grandmaster.png'
-        },
-        {
-          name: 'Desafiante',
-          leagues: null,
-          visible: true,
-          type: 'current',
-          image: '/src/assets/challenger.png'
         }
       ],
 
@@ -366,7 +359,7 @@ export default {
 </script>
 <template>
   <main id="main">
-    <div id="content">
+    <div :class="{ content: !totalPrice, contentTrue: totalPrice }">
       <div class="rankBox">
         <div class="rank-column">
           <div class="rank-row">
@@ -399,7 +392,13 @@ export default {
             <span class="row-title">Elo final</span>
           </div>
           <template v-for="(elo, index) in targetElo" :key="index">
-            <div class="rank-row">
+            <div
+              class="rank-row"
+              v-if="
+                index >= selectedElo.current.index &&
+                !(index == selectedElo.current.index && selectedElo.current.league == 0)
+              "
+            >
               <span
                 class="row-elo"
                 @click="selectElo(elo, index)"
@@ -434,7 +433,7 @@ export default {
         </div>
       </div>
 
-      <div id="priceBox">
+      <div id="priceBox" v-if="totalPrice">
         <body class="priceBox-body">
           <div class="priceBox-body-block">
             <img :src="selectedElo.current.image" alt="" />
@@ -448,15 +447,15 @@ export default {
         </body>
         <footer class="priceBox-footer">
           <div class="priceBox-footer">
-            <p class="priceBox-footer-value">R${{ totalPrice }}</p>
+            <RouterLink class="priceBox-footer-value" to="/vapo"
+              >Confirmar R${{ totalPrice }}</RouterLink
+            >
           </div>
         </footer>
       </div>
     </div>
   </main>
 </template>
-
-<!-- v-if="index >= selectedElo.current.index && !(index == selectedElo.current.index && selectedElo.current.league == 0)" -->
 
 <style scoped>
 #main {
@@ -467,18 +466,28 @@ export default {
   grid-template-rows: 1fr;
 }
 
-#content {
+.content {
+  margin: 40px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.contentTrue {
   margin: 40px;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3vw;
+  gap: 5px;
 }
 
 .rankBox {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 20px;
+  width: 40vw;
+  gap: 5px;
 }
 
 .rank-column {
@@ -506,7 +515,6 @@ export default {
 
 .row-elo {
   flex-grow: 1;
-  padding: 10px;
 
   display: flex;
   justify-content: center;
@@ -600,7 +608,16 @@ export default {
   align-items: center;
 }
 .priceBox-footer-value {
-  font-size: 2rem;
-  color: rgb(16, 234, 121);
+  cursor: pointer;
+  font-size: 1.5rem;
+  background-color: rgb(16, 184, 121);
+  color: black;
+
+  border-radius: 10px;
+  padding: 7px;
+  border: 5px double black;
+}
+.priceBox-footer-value:hover {
+  background-color: rgb(16, 144, 121);
 }
 </style>
