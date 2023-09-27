@@ -20,7 +20,7 @@
           aprenda enquanto sobe de classificação.
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/prize">
+      <RouterLink class="block" to="/account">
         <h1>MD5</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -57,7 +57,7 @@
   align-items: center;
   justify-content: space-evenly;
   grid-template-columns: repeat(4, minmax(250px, 280px));
-  gap: 40px 20px;
+  gap: 40px20px;
 }
 @media (max-width: 1300px) {
   #content {
