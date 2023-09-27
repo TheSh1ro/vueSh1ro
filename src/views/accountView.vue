@@ -1,26 +1,41 @@
 <script>
-import { defineComponent } from 'vue'
 import { useAuthStore } from '../stores/store.js'
 
-export default defineComponent({
-  name: 'AccountView',
+export default {
   data() {
     return {
       formData: {
         username: '',
         password: ''
+      },
+      placeholder: {
+        login: 'Login',
+        password: 'Senha',
+        error: 0
       }
     }
   },
   methods: {
     login() {
       const authStore = useAuthStore()
-      // Aqui você pode realizar a verificação do login e senha, mas vamos apenas definir o usuário como autenticado
+
+      if (this.formData.username.length < 3) {
+        this.placeholder.login = 'Insira um login'
+        this.placeholder.error = 1
+        return
+      }
+
+      if (!this.formData.password) {
+        this.placeholder.login = 'Insira uma senha'
+        this.placeholder.error = 2
+        return
+      }
+
       authStore.login(this.formData.username) // Assume que o usuário está autenticado
-      this.$router.push('/') // Redireciona para a página de sucesso
+      this.$router.push('/elojob')
     }
   }
-})
+}
 </script>
 
 <template>
@@ -30,11 +45,23 @@ export default defineComponent({
       <form @submit.prevent="login">
         <div class="form-group">
           <label for="username">Username:</label>
-          <input placeholder="Login" type="text" id="username" v-model="formData.username" />
+          <input
+            :placeholder="placeholder.login"
+            type="text"
+            id="username"
+            v-model="formData.username"
+            :class="{ inputRed: placeholder.error == 1 }"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
-          <input placeholder="Senha" type="password" id="password" v-model="formData.password" />
+          <input
+            :placeholder="placeholder.password"
+            type="password"
+            id="password"
+            v-model="formData.password"
+            :class="{ inputRed: placeholder.error == 2 }"
+          />
         </div>
         <button type="submit">Login</button>
       </form>
@@ -76,6 +103,7 @@ input {
   border-radius: 3px;
   color: black;
   text-align: center;
+  border-radius: 7px;
 }
 
 button {
@@ -85,6 +113,10 @@ button {
   border-radius: 3px;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.inputRed {
+  border: 1px solid red;
 }
 </style>
 ``

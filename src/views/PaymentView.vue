@@ -1,4 +1,6 @@
 <script>
+import { useAuthStore } from '../stores/store.js'
+
 export default {
   data() {
     return {
@@ -24,9 +26,50 @@ export default {
     this.targetEloImage = this.$route.query.targetEloImage
 
     this.deadline = this.$route.query.deadline
+  },
+
+  computed: {
+    username() {
+      const authStore = useAuthStore()
+      return authStore.user ? authStore.user.username : ''
+    }
+  },
+
+  methods: {
+    handlePaymentConfirmation() {
+      // Verificar se o usuário está logado
+      if (!this.username) {
+        // Redirecionar para a página /account
+        this.$router.push('/account')
+      } else {
+        // Se o usuário estiver logado, envia os dados para o backend
+
+        const deadlineDate = new Date()
+        deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
+
+        const dataToBackend = {
+          date: new Date(),
+          deadline: this.deadline,
+          deadlineDate: deadlineDate,
+          currentEloName: this.currentEloName,
+          targetEloName: this.targetEloName,
+          totalPrice: this.totalPrice
+        }
+
+        console.log(dataToBackend)
+
+        // axios
+        //   .post('/sua-rota-backend', dataToBackend)
+        //   .then((response) => {
+        //   })
+        //   .catch((error) => {
+        //   })
+      }
+    }
   }
 }
 </script>
+
 <template>
   <div id="main">
     <div class="content">
@@ -57,7 +100,7 @@ export default {
         </p>
       </div>
       <div class="content-block confirm-block">
-        <button class="button">Confirmar compra</button>
+        <button class="button" @click="handlePaymentConfirmation">Confirmar compra</button>
       </div>
     </div>
   </div>
