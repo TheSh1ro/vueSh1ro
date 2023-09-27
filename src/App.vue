@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import PageHeader from './components/PageHeader.vue'
 import PageFooter from './components/PageFooter.vue'
 </script>
@@ -13,7 +13,7 @@ import PageFooter from './components/PageFooter.vue'
 :root {
   --purple: rgb(152, 42, 255);
   --selectHover: rgb(0, 255, 255, 0.05);
-  --selectTrue: rgb(0, 255, 255, 0p.1);
+  --selectTrue: rgb(0, 255, 255, 0.1);
   --blockSelection: rgba(255, 0, 0, 0.2);
 }
 
