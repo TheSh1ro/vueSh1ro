@@ -7,8 +7,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O EloJob é ideal para quem quer subir de ranque rapidamente. Jogadores experientes
-          impulsionarão sua classificação, tornando a jornada mais suave.
+          Jogamos na sua conta, a forma mais rápida de chegar no elo que você deseja sem gastar sua
+          energia ou se estressar
         </p>
       </RouterLink>
       <RouterLink class="block" to="/duojob">
@@ -16,8 +16,8 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          O DuoJob é perfeito para jogadores que querem melhorar no League of Legends. Jogue duo e
-          aprenda enquanto sobe de classificação.
+          Jogue Duo com um dos nossos boosters, uma oportunidade única para observar de perto como
+          os melhores vencem
         </p>
       </RouterLink>
       <RouterLink class="block" to="/account">
@@ -25,18 +25,15 @@
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
         <p>
-          Essencial para iniciar bem uma nova temporada no League of Legends. Tenha suas partidas
-          iniciais jogadas pelos melhores e comece bem a temporada.
+          Para iniciar bem, tenha suas partidas de colocação jogadas por um dos nossos Boosters,
+          garantindo um bom elo inicial
         </p>
       </RouterLink>
       <RouterLink class="block" to="/elojob">
         <h1>Sh1ro Tips</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
-        <p>
-          Acesso a um conteúdo que guia você a extrair o máximo de cada campeão. Acesse informações
-          valiosas sobre campeões, itens e estratégias para elevar seu jogo.
-        </p>
+        <p>Acesso a um conteúdo exclusivo que guiará você a extrair o máximo de cada campeão</p>
       </RouterLink>
     </div>
   </main>
@@ -49,40 +46,31 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   min-height: 92vh;
-  padding: 40px;
 }
 
 #content {
-  display: grid;
-  align-items: center;
-  justify-content: space-evenly;
-  grid-template-columns: repeat(4, minmax(250px, 280px));
-  gap: 40px20px;
-}
-@media (max-width: 1300px) {
-  #content {
-    grid-template-columns: repeat(2, minmax(250px, 280px));
-  }
-}
-@media (max-width: 710px) {
-  #content {
-    grid-template-columns: repeat(1, minmax(250px, 280px));
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 30px;
 }
 
 .block {
   background-color: rgba(0, 0, 0, 0.75);
-  font-size: 1.2rem;
   border: 4px double white;
+  font-size: 1.1rem;
+  text-align: center;
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  height: fit-content;
-  padding: 25px;
-  text-align: center;
+  height: 340px;
+  width: 220px;
+  padding: 20px;
+
   transition:
     background-color 0.5s,
     box-shadow 1.5s ease;
