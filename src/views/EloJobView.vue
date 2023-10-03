@@ -8,35 +8,35 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/iron.png'
+          image: '/src/assets/iron.webp'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/bronze.png'
+          image: '/src/assets/bronze.webp'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/silver.png'
+          image: '/src/assets/silver.webp'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/gold.png'
+          image: '/src/assets/gold.webp'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/platinum.png'
+          image: '/src/assets/platinum.webp'
         },
         {
           name: 'Esmeralda',
@@ -50,21 +50,21 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/diamond.png'
+          image: '/src/assets/diamond.webp'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/master.png'
+          image: '/src/assets/master.webp'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/grandmaster.png'
+          image: '/src/assets/grandmaster.webp'
         }
       ],
 
@@ -74,35 +74,35 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/iron.png'
+          image: '/src/assets/iron.webp'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/bronze.png'
+          image: '/src/assets/bronze.webp'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/silver.png'
+          image: '/src/assets/silver.webp'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/gold.png'
+          image: '/src/assets/gold.webp'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/platinum.png'
+          image: '/src/assets/platinum.webp'
         },
         {
           name: 'Esmeralda',
@@ -116,28 +116,28 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/diamond.png'
+          image: '/src/assets/diamond.webp'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/master.png'
+          image: '/src/assets/master.webp'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/grandmaster.png'
+          image: '/src/assets/grandmaster.webp'
         },
         {
           name: 'Desafiante',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/challenger.png'
+          image: '/src/assets/challenger.webp'
         }
       ],
 
@@ -560,7 +560,7 @@ export default {
   gap: 5px;
 }
 .row-elo > img {
-  height: 1.5rem;
+  height: 2rem;
 }
 
 .row-elo:hover {
@@ -631,16 +631,17 @@ export default {
 }
 
 .priceBox-block > div > img {
-  height: 8vw;
-  width: 12vw;
+  height: 12vw;
 }
 .priceBox-button {
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 5px;
+
   display: flex;
   gap: 3px;
-  border: 1px solid white;
   padding: 5px;
-  background-color: black;
-  border-radius: 5px;
+
   transition: background-color 0.1s;
 }
 .priceBox-button:hover {
