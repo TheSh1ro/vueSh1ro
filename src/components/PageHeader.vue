@@ -6,6 +6,11 @@ export default {
     username() {
       const authStore = useAuthStore()
       return authStore.user ? authStore.user.username : 'Entrar'
+    },
+
+    isUserLoggedIn() {
+      const authStore = useAuthStore()
+      return !!authStore.user // Verifica se o usuário está logado
     }
   }
 }
@@ -14,7 +19,10 @@ export default {
 <template>
   <header id="header">
     <RouterLink to="/" class="item">sh1roJobs</RouterLink>
-    <RouterLink to="/account" class="item">{{ username }}</RouterLink>
+    <RouterLink to="/account" class="item">
+      <span>{{ username }}</span>
+      <img v-if="isUserLoggedIn" src="../assets/user.webp" alt="" />
+    </RouterLink>
   </header>
 </template>
 
@@ -29,6 +37,7 @@ export default {
 
   transition: background-color 0.5s;
 }
+
 #header:hover {
   background-color: rgba(0, 0, 0, 0.9);
 }
@@ -43,8 +52,16 @@ export default {
     color 0.5s,
     text-shadow 0.5s;
   height: 100%;
+  gap: 3px;
 }
+
 .item:hover {
   text-shadow: 0px 0px 5px white;
+}
+
+img {
+  height: 4vh;
+  border: 1px solid white;
+  border-radius: 50px;
 }
 </style>
