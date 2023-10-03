@@ -371,7 +371,7 @@ export default {
       if (elo.index >= 7) {
         return elo.name
       } else {
-        return elo.name + ' ' + elo.league
+        return elo.name + ' ' + (elo.league + 1)
       }
     },
 
@@ -380,7 +380,7 @@ export default {
       if (elo.index >= 7) {
         return elo.name
       } else {
-        return elo.name + ' ' + elo.league
+        return elo.name + ' ' + (elo.league + 1)
       }
     }
   }
@@ -388,7 +388,7 @@ export default {
 </script>
 <template>
   <main id="main">
-    <div :class="{ content: !totalPrice, contentTrue: totalPrice }">
+    <div :class="{ contentSingle: !totalPrice, contentDual: totalPrice }">
       <div class="rankBox">
         <div class="rank-column">
           <div class="rank-row">
@@ -488,7 +488,8 @@ export default {
               }
             }"
           >
-            Confirmar por R${{ totalPrice }}
+            Confirmar por:
+            <p style="color: rgb(47, 255, 95)">R${{ totalPrice }}</p>
           </RouterLink>
         </div>
       </div>
@@ -506,15 +507,13 @@ export default {
   padding: 40px;
 }
 
-.content {
+.contentSingle {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
 }
 
-.contentTrue {
-  margin: 40px;
-
+.contentDual {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
@@ -634,5 +633,17 @@ export default {
 .priceBox-block > div > img {
   height: 8vw;
   width: 12vw;
+}
+.priceBox-button {
+  display: flex;
+  gap: 3px;
+  border: 1px solid white;
+  padding: 5px;
+  background-color: black;
+  border-radius: 5px;
+  transition: background-color 0.1s;
+}
+.priceBox-button:hover {
+  background-color: rgba(0, 0, 255, 0.2);
 }
 </style>

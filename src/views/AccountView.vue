@@ -19,20 +19,22 @@ export default {
   methods: {
     login() {
       const authStore = useAuthStore()
+      const username = this.formData.username
+      const password = this.formData.password
 
-      if (this.formData.username.length < 3) {
+      if (username.length < 3) {
         this.placeholder.login = 'Insira um login'
         this.placeholder.error = 1
         return
       }
 
-      if (!this.formData.password) {
+      if (!password) {
         this.placeholder.login = 'Insira uma senha'
         this.placeholder.error = 2
         return
       }
 
-      authStore.login(this.formData.username, this.formData.password) // Assume que o usuário está autenticado
+      authStore.login(username.toLowerCase(), password) // Assume que o usuário está autenticado
       this.$router.push('/elojob')
     }
   }
@@ -42,10 +44,10 @@ export default {
 <template>
   <div id="main">
     <div class="login">
-      <h2>Login</h2>
+      <h2>Entrar</h2>
       <form @submit.prevent="login">
         <div class="form-group">
-          <label for="username">Username:</label>
+          <label for="username">Username / Email</label>
           <input
             :placeholder="placeholder.login"
             type="text"
@@ -55,7 +57,7 @@ export default {
           />
         </div>
         <div class="form-group">
-          <label for="password">Password:</label>
+          <label for="password">Password</label>
           <input
             :placeholder="placeholder.password"
             type="password"
@@ -64,7 +66,7 @@ export default {
             :class="{ inputRed: placeholder.error == 2 }"
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Done</button>
       </form>
     </div>
   </div>
@@ -73,23 +75,36 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
   padding: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
 }
 
 .login {
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  width: fit-content;
+  height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+
+  border: 10px double white;
+  background-color: rgba(0, 170, 255, 0.2);
   text-align: center;
+  border-radius: 15px;
+  padding: 100px 75px;
 }
 
 .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  text-align: center;
   margin-bottom: 10px;
 }
 
@@ -99,12 +114,19 @@ label {
 
 input {
   width: 100%;
-  padding: 5px;
+  padding: 5px 6px;
   border: 1px solid #ccc;
-  border-radius: 3px;
   color: black;
   text-align: center;
   border-radius: 7px;
+  transition: background-color 0.2s;
+}
+
+input:focus {
+  padding: 5px 5px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  font-weight: bold;
 }
 
 button {
@@ -113,6 +135,7 @@ button {
   border: none;
   border-radius: 3px;
   padding: 10px 20px;
+  margin-top: 5px;
   cursor: pointer;
 }
 
