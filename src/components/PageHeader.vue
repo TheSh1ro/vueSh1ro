@@ -30,16 +30,17 @@ export default {
 #header {
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
+  font-size: 1.2rem;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  transition: background-color 0.5s;
+  transition: background-color 0.2s;
 }
 
 #header:hover {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgb(8, 58, 91);
 }
 
 .item {

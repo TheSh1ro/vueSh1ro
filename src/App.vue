@@ -22,7 +22,7 @@ import PageFooter from './components/PageFooter.vue'
   background-color: white;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: black;
+  background-color: rgb(8, 58, 91);
 }
 
 #app {

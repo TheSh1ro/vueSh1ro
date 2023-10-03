@@ -23,10 +23,10 @@
   justify-items: center;
   align-items: center;
 
-  transition: background-color 0.5s;
+  transition: background-color 0.2s;
 }
 #footer:hover {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgb(8, 58, 91);
 }
 
 li {
