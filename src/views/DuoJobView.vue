@@ -1,5 +1,4 @@
 <script>
-import { RouterLink } from 'vue-router'
 export default {
   data() {
     return {
@@ -9,35 +8,35 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/iron.png'
+          image: '/src/assets/iron.webp'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/bronze.png'
+          image: '/src/assets/bronze.webp'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/silver.png'
+          image: '/src/assets/silver.webp'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/gold.png'
+          image: '/src/assets/gold.webp'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/platinum.png'
+          image: '/src/assets/platinum.webp'
         },
         {
           name: 'Esmeralda',
@@ -51,21 +50,21 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/diamond.png'
+          image: '/src/assets/diamond.webp'
         },
         {
-          name: 'Mestre - Flex',
+          name: 'Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/master.png'
+          image: '/src/assets/master.webp'
         },
         {
-          name: 'Grão Mestre - Flex',
+          name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/grandmaster.png'
+          image: '/src/assets/grandmaster.webp'
         }
       ],
 
@@ -75,35 +74,35 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/iron.png'
+          image: '/src/assets/iron.webp'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/bronze.png'
+          image: '/src/assets/bronze.webp'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/silver.png'
+          image: '/src/assets/silver.webp'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/gold.png'
+          image: '/src/assets/gold.webp'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/platinum.png'
+          image: '/src/assets/platinum.webp'
         },
         {
           name: 'Esmeralda',
@@ -117,42 +116,44 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/diamond.png'
+          image: '/src/assets/diamond.webp'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/master.png'
+          image: '/src/assets/master.webp'
         },
         {
-          name: 'Grão Mestre - Flex',
+          name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/grandmaster.png'
+          image: '/src/assets/grandmaster.webp'
         },
         {
-          name: 'Desafiante - Flex',
+          name: 'Desafiante',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/challenger.png'
+          image: '/src/assets/challenger.webp'
         }
       ],
 
       priceList: [
-        { name: 'Ferro', value: 15 },
-        { name: 'Bronze', value: 15 },
-        { name: 'Prata', value: 17.5 },
-        { name: 'Ouro', value: 20 },
-        { name: 'Platina', value: 30 },
-        { name: 'Esmeralda', value: 45 },
-        { name: 'Diamante', value: 65 },
-        { name: 'Mestre', value: 600 },
-        { name: 'Grão Mestre', value: 1200 },
-        { name: 'Desafiante', value: 0 }
+        [
+          { name: 'Ferro', value: 12.5 },
+          { name: 'Bronze', value: 12.5 },
+          { name: 'Prata', value: 15.625 },
+          { name: 'Ouro', value: 18.75 },
+          { name: 'Platina', value: 28.125 },
+          { name: 'Esmeralda', value: 37.5 },
+          { name: 'Diamante', value: 56.25 },
+          { name: 'Mestre', value: 750 },
+          { name: 'Grão Mestre', value: 1500 },
+          { name: 'Desafiante', value: 0 }
+        ]
       ],
 
       selectedElo: {
@@ -365,12 +366,31 @@ export default {
         this.totalPrice += computedElo.price * computedElo.multiplier
       }
     }
+  },
+  computed: {
+    getCurrentSelected() {
+      const elo = this.selectedElo.current
+      if (elo.index >= 7) {
+        return elo.name
+      } else {
+        return elo.name + ' ' + (elo.league + 1)
+      }
+    },
+
+    getTargetSelected() {
+      const elo = this.selectedElo.target
+      if (elo.index >= 7) {
+        return elo.name
+      } else {
+        return elo.name + ' ' + (elo.league + 1)
+      }
+    }
   }
 }
 </script>
 <template>
   <main id="main">
-    <div :class="{ content: !totalPrice, contentTrue: totalPrice }">
+    <div :class="{ contentSingle: !totalPrice, contentDual: totalPrice }">
       <div class="rankBox">
         <div class="rank-column">
           <div class="rank-row">
@@ -443,38 +463,37 @@ export default {
           </template>
         </div>
       </div>
-
-      <div id="priceBox" v-if="totalPrice">
-        <body class="priceBox-body">
-          <div class="priceBox-body-block">
-            <img :src="selectedElo.current.image" alt="" />
-            <p>{{ selectedElo.current.name }} {{ selectedElo.current.league + 1 }}</p>
+      <div class="priceBox" v-if="totalPrice">
+        <div class="priceBox-block">
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
+            <p class="priceBox-name">{{ getCurrentSelected }}</p>
           </div>
-          <div class="priceBox-body-block">Ao</div>
-          <div class="priceBox-body-block">
-            <img :src="selectedElo.target.image" alt="" />
-            <p>{{ selectedElo.target.name }} {{ selectedElo.target.league + 1 }}</p>
+          <h2>ao</h2>
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
+            <p class="priceBox-name">{{ getTargetSelected }}</p>
           </div>
-        </body>
-        <footer class="priceBox-footer">
-          <div class="priceBox-footer">
-            <RouterLink
-              class="priceBox-footer-value"
-              :to="{
-                path: '/payment',
-                query: {
-                  totalPrice: totalPrice,
-                  currentEloName: selectedElo.current.name + ' ' + (selectedElo.current.league + 1),
-                  currentEloImage: selectedElo.current.image,
-                  targetEloName: selectedElo.target.name + ' ' + (selectedElo.target.league + 1),
-                  targetEloImage: selectedElo.target.image,
-                  deadline: totalLeagues * 2
-                }
-              }"
-              >Confirmar R${{ totalPrice }}</RouterLink
-            >
-          </div>
-        </footer>
+        </div>
+        <div class="priceBox-block">
+          <RouterLink
+            class="priceBox-button"
+            :to="{
+              path: '/payment',
+              query: {
+                totalPrice: totalPrice,
+                currentEloName: getCurrentSelected,
+                currentEloImage: selectedElo.current.image,
+                targetEloName: getTargetSelected,
+                targetEloImage: selectedElo.target.image,
+                deadline: totalLeagues * 2
+              }
+            }"
+          >
+            Confirmar por:
+            <p style="color: rgb(47, 255, 95)">R${{ totalPrice }}</p>
+          </RouterLink>
+        </div>
       </div>
     </div>
   </main>
@@ -490,15 +509,13 @@ export default {
   padding: 40px;
 }
 
-.content {
+.contentSingle {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
 }
 
-.contentTrue {
-  margin: 40px;
-
+.contentDual {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
@@ -545,7 +562,7 @@ export default {
   gap: 5px;
 }
 .row-elo > img {
-  height: 1.5rem;
+  height: 2rem;
 }
 
 .row-elo:hover {
@@ -596,49 +613,40 @@ export default {
   }
 }
 
-#priceBox {
+.priceBox {
   display: grid;
-  grid-template-rows: 6fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
   align-self: center;
-
-  align-items: center;
   height: fit-content;
 }
 
-.priceBox-body {
+.priceBox-block {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
-
-.priceBox-body-block {
+.priceBox-block > div {
   display: flex;
+  align-items: center;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  gap: 20px;
 }
 
-.priceBox-body-block > img {
-  height: 4rem;
+.priceBox-block > div > img {
+  height: 12vw;
 }
+.priceBox-button {
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 5px;
 
-.priceBox-footer {
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.priceBox-footer-value {
-  cursor: pointer;
-  font-size: 1.5rem;
-  background-color: rgb(16, 184, 121);
-  color: black;
+  gap: 3px;
+  padding: 5px;
 
-  border-radius: 10px;
-  padding: 7px;
-  border: 5px double black;
+  transition: background-color 0.1s;
 }
-.priceBox-footer-value:hover {
-  background-color: rgb(16, 144, 121);
+.priceBox-button:hover {
+  background-color: rgba(0, 0, 255, 0.2);
 }
 </style>

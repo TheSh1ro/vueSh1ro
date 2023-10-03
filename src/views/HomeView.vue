@@ -20,7 +20,7 @@
           os melhores vencem
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/account">
+      <RouterLink class="block" to="/md5">
         <h1>MD5</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
@@ -29,7 +29,7 @@
           garantindo um bom elo inicial
         </p>
       </RouterLink>
-      <RouterLink class="block" to="/elojob">
+      <RouterLink class="block" to="/tips">
         <h1>Sh1ro Tips</h1>
         <hr />
         <img class="block-art" src="../assets/riven.png" alt="" />
