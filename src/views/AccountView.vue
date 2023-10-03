@@ -17,6 +17,11 @@ export default {
     }
   },
   methods: {
+    restrictSpecialCharacters(event) {
+      const input = event.target
+      input.value = input.value.replace(/[^\w.@]/gi, '')
+    },
+
     login() {
       const authStore = useAuthStore()
       const username = this.formData.username
@@ -53,6 +58,7 @@ export default {
             type="text"
             id="username"
             v-model="formData.username"
+            @input="restrictSpecialCharacters"
             :class="{ inputRed: placeholder.error == 1 }"
           />
         </div>
@@ -63,11 +69,13 @@ export default {
             type="password"
             id="password"
             v-model="formData.password"
+            @input="restrictSpecialCharacters"
             :class="{ inputRed: placeholder.error == 2 }"
           />
         </div>
-        <button type="submit">Done</button>
+        <button class="button-submit" type="submit">Done</button>
       </form>
+      <button class="button-register">Criar conta</button>
     </div>
   </div>
 </template>
@@ -80,12 +88,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
 }
 
 .login {
   width: fit-content;
   height: fit-content;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -123,13 +131,28 @@ input {
 }
 
 input:focus {
-  padding: 5px 5px;
-  background-color: rgba(0, 0, 0, 0);
+  padding: 5px 2px;
+  background-color: transparent;
   color: white;
   font-weight: bold;
 }
 
-button {
+.button-register {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.button-register:hover {
+  color: lightblue;
+  text-decoration: underline;
+}
+
+.button-submit {
   background-color: #007bff;
   color: white;
   border: none;
