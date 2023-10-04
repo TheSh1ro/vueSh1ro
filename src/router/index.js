@@ -17,32 +17,32 @@ const router = createRouter({
     },
     {
       path: '/account',
-      name: 'account',
+      name: 'Account',
       component: AccountView
     },
     {
       path: '/eloJob',
-      name: 'eloJob',
+      name: 'EloJob',
       component: EloJobView
     },
     {
       path: '/duoJob',
-      name: 'duoJob',
+      name: 'DuoJob',
       component: DuoJobView
     },
     {
       path: '/tips',
-      name: 'tips',
+      name: 'Tips',
       component: TipsView
     },
     {
       path: '/md5',
-      name: 'md5',
+      name: 'MD5',
       component: Md5View
     },
     {
       path: '/payment',
-      name: 'payment',
+      name: 'Payment',
       component: PaymentView
     }
   ]

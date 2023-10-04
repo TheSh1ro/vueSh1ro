@@ -79,7 +79,6 @@
             <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
             <p class="priceBox-name">{{ getCurrentSelected }}</p>
           </div>
-          <h2>ao</h2>
           <div class="priceBox-elo">
             <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
             <p class="priceBox-name">{{ getTargetSelected }}</p>
@@ -88,7 +87,7 @@
         <div class="priceBox-block">
           <RouterLink
             class="priceBox-button"
-            to="/payment"
+            :to="{ path: '/payment', query: { service: this.$route.name } }"
             @click="
               sendPurchase(
                 totalPrice,
@@ -100,7 +99,7 @@
               )
             "
           >
-            Confirmar por:
+            Confirmar |
             <p style="color: rgb(47, 255, 95)">R${{ totalPrice }}</p>
           </RouterLink>
         </div>

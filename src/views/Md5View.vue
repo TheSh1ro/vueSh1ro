@@ -1,25 +1,13 @@
 <template>
   <main id="main">
-    <div class="content">
-      <div>{{ user }}</div>
-      <div></div>
-    </div>
+    <div class="content">Em construção</div>
   </main>
 </template>
 
 <script>
-import { useAuthStore } from '../stores/store.js'
-
 export default {
   data() {
     return {}
-  },
-
-  computed: {
-    user() {
-      const authStore = useAuthStore()
-      return authStore.user ? authStore.user : ''
-    }
   }
 }
 </script>

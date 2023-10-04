@@ -57,6 +57,7 @@ export default {
     logoutAccount() {
       const authStore = useAuthStore()
       authStore.logout()
+      this.showDropdown = false
     }
   }
 }
@@ -107,7 +108,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 5px;
 }
 
 .header-logo > img {

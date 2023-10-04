@@ -1,4 +1,116 @@
+<template>
+  <main id="main">
+    <div :class="{ contentSingle: !totalPrice, contentDual: totalPrice }">
+      <div class="rankBox">
+        <div class="rank-column">
+          <div class="rank-row">
+            <span class="row-title">Elo inicial</span>
+          </div>
+          <template v-for="(elo, index) in currentElo" :key="index">
+            <div class="rank-row">
+              <span
+                class="row-elo"
+                @click="selectElo(elo, index)"
+                v-if="elo.visible"
+                :class="{ 'row-elo-selected': elo.name == selectedElo.current.name }"
+              >
+                {{ elo.name }}
+                <img :src="elo.image" />
+              </span>
+              <div class="row-league" v-if="!elo.visible">
+                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
+                  <span class="league-item" @click="selectElo(elo, index, leagueIndex)">
+                    {{ league.name }}
+                  </span>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <div class="rank-column">
+          <div class="rank-row">
+            <span class="row-title">Elo final</span>
+          </div>
+          <template v-for="(elo, index) in targetElo" :key="index">
+            <div
+              class="rank-row"
+              v-if="
+                index >= selectedElo.current.index &&
+                !(index == selectedElo.current.index && selectedElo.current.league == 0)
+              "
+            >
+              <span
+                class="row-elo"
+                @click="selectElo(elo, index)"
+                v-if="elo.visible"
+                :class="{
+                  'row-elo-selected': elo.name == selectedElo.target.name,
+                  blockSelection:
+                    index < selectedElo.current.index ||
+                    (index >= 7 && index == selectedElo.current.index)
+                }"
+              >
+                {{ elo.name }}
+                <img :src="elo.image" />
+              </span>
+              <div class="row-league" v-if="!elo.visible">
+                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
+                  <span
+                    class="league-item"
+                    @click="selectElo(elo, index, leagueIndex)"
+                    :class="{
+                      blockSelection:
+                        index == selectedElo.current.index &&
+                        leagueIndex >= selectedElo.current.league
+                    }"
+                  >
+                    {{ league.name }}
+                  </span>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="priceBox" v-if="totalPrice">
+        <div class="priceBox-block">
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
+            <p class="priceBox-name">{{ getCurrentSelected }}</p>
+          </div>
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
+            <p class="priceBox-name">{{ getTargetSelected }}</p>
+          </div>
+        </div>
+        <div class="priceBox-block">
+          <RouterLink
+            class="priceBox-button"
+            :to="{ path: '/payment', query: { service: this.$route.name } }"
+            @click="
+              sendPurchase(
+                totalPrice,
+                getCurrentSelected,
+                selectedElo.current.image,
+                getTargetSelected,
+                selectedElo.target.image,
+                totalLeagues * 2
+              )
+            "
+          >
+            Confirmar |
+            <p style="color: rgb(47, 255, 95)">R${{ totalPrice }}</p>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
+  </main>
+</template>
+
 <script>
+import { usePurchaseStore } from '../stores/store.js'
+
 export default {
   data() {
     return {
@@ -142,18 +254,16 @@ export default {
       ],
 
       priceList: [
-        [
-          { name: 'Ferro', value: 12.5 },
-          { name: 'Bronze', value: 12.5 },
-          { name: 'Prata', value: 15.625 },
-          { name: 'Ouro', value: 18.75 },
-          { name: 'Platina', value: 28.125 },
-          { name: 'Esmeralda', value: 37.5 },
-          { name: 'Diamante', value: 56.25 },
-          { name: 'Mestre', value: 750 },
-          { name: 'Grão Mestre', value: 1500 },
-          { name: 'Desafiante', value: 0 }
-        ]
+        { name: 'Ferro', value: 10 },
+        { name: 'Bronze', value: 10 },
+        { name: 'Prata', value: 12.5 },
+        { name: 'Ouro', value: 15 },
+        { name: 'Platina', value: 22.5 },
+        { name: 'Esmeralda', value: 30 },
+        { name: 'Diamante', value: 45 },
+        { name: 'Mestre', value: 600 },
+        { name: 'Grão Mestre', value: 1200 },
+        { name: 'Desafiante', value: 0 }
       ],
 
       selectedElo: {
@@ -163,7 +273,10 @@ export default {
 
       computedEloArray: [],
       totalPrice: null,
-      totalLeagues: null
+      totalLeagues: null,
+
+      // Custo acrescentado por ser elojob: 50%
+      DuoJobPercent: 1.5
     }
   },
   methods: {
@@ -355,7 +468,7 @@ export default {
           multiplier: multiplier
         }
 
-        // Calcular quantidade de ligas, para calcular prazoo
+        // Calcular quantidade de ligas, para calcular prazo
         if (index <= 6) {
           this.totalLeagues += multiplier
         } else {
@@ -363,15 +476,35 @@ export default {
         }
 
         this.computedEloArray.push(computedElo)
-        this.totalPrice += computedElo.price * computedElo.multiplier
+        this.totalPrice += computedElo.price * computedElo.multiplier * this.DuoJobPercent
       }
+    },
+
+    sendPurchase(
+      totalPrice,
+      currentEloName,
+      currentEloImage,
+      targetEloName,
+      targetEloImage,
+      deadline
+    ) {
+      const purchaseStore = usePurchaseStore()
+      purchaseStore.keepPurchase(
+        totalPrice,
+        currentEloName,
+        currentEloImage,
+        targetEloName,
+        targetEloImage,
+        deadline
+      )
     }
   },
+
   computed: {
     getCurrentSelected() {
       const elo = this.selectedElo.current
       if (elo.index >= 7) {
-        return elo.name
+        return elo.name + ' - Flex'
       } else {
         return elo.name + ' ' + (elo.league + 1)
       }
@@ -380,7 +513,7 @@ export default {
     getTargetSelected() {
       const elo = this.selectedElo.target
       if (elo.index >= 7) {
-        return elo.name
+        return elo.name + ' - Flex'
       } else {
         return elo.name + ' ' + (elo.league + 1)
       }
@@ -388,116 +521,6 @@ export default {
   }
 }
 </script>
-<template>
-  <main id="main">
-    <div :class="{ contentSingle: !totalPrice, contentDual: totalPrice }">
-      <div class="rankBox">
-        <div class="rank-column">
-          <div class="rank-row">
-            <span class="row-title">Elo inicial</span>
-          </div>
-          <template v-for="(elo, index) in currentElo" :key="index">
-            <div class="rank-row">
-              <span
-                class="row-elo"
-                @click="selectElo(elo, index)"
-                v-if="elo.visible"
-                :class="{ 'row-elo-selected': elo.name == selectedElo.current.name }"
-              >
-                {{ elo.name }}
-                <img :src="elo.image" />
-              </span>
-              <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span class="league-item" @click="selectElo(elo, index, leagueIndex)">
-                    {{ league.name }}
-                  </span>
-                </template>
-              </div>
-            </div>
-          </template>
-        </div>
-
-        <div class="rank-column">
-          <div class="rank-row">
-            <span class="row-title">Elo final</span>
-          </div>
-          <template v-for="(elo, index) in targetElo" :key="index">
-            <div
-              class="rank-row"
-              v-if="
-                index >= selectedElo.current.index &&
-                !(index == selectedElo.current.index && selectedElo.current.league == 0)
-              "
-            >
-              <span
-                class="row-elo"
-                @click="selectElo(elo, index)"
-                v-if="elo.visible"
-                :class="{
-                  'row-elo-selected': elo.name == selectedElo.target.name,
-                  blockSelection:
-                    index < selectedElo.current.index ||
-                    (index >= 7 && index == selectedElo.current.index)
-                }"
-              >
-                {{ elo.name }}
-                <img :src="elo.image" />
-              </span>
-              <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span
-                    class="league-item"
-                    @click="selectElo(elo, index, leagueIndex)"
-                    :class="{
-                      blockSelection:
-                        index == selectedElo.current.index &&
-                        leagueIndex >= selectedElo.current.league
-                    }"
-                  >
-                    {{ league.name }}
-                  </span>
-                </template>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-      <div class="priceBox" v-if="totalPrice">
-        <div class="priceBox-block">
-          <div class="priceBox-elo">
-            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
-            <p class="priceBox-name">{{ getCurrentSelected }}</p>
-          </div>
-          <h2>ao</h2>
-          <div class="priceBox-elo">
-            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
-            <p class="priceBox-name">{{ getTargetSelected }}</p>
-          </div>
-        </div>
-        <div class="priceBox-block">
-          <RouterLink
-            class="priceBox-button"
-            :to="{
-              path: '/payment',
-              query: {
-                totalPrice: totalPrice,
-                currentEloName: getCurrentSelected,
-                currentEloImage: selectedElo.current.image,
-                targetEloName: getTargetSelected,
-                targetEloImage: selectedElo.target.image,
-                deadline: totalLeagues * 2
-              }
-            }"
-          >
-            Confirmar por:
-            <p style="color: rgb(47, 255, 95)">R${{ totalPrice }}</p>
-          </RouterLink>
-        </div>
-      </div>
-    </div>
-  </main>
-</template>
 
 <style scoped>
 #main {
@@ -506,19 +529,20 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  padding: 40px;
 }
 
 .contentSingle {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
+  margin: 20px 40px;
 }
 
 .contentDual {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
+  margin: 20px 40px;
 }
 
 .rankBox {
@@ -567,6 +591,7 @@ export default {
 
 .row-elo:hover {
   background-color: var(--selectHover);
+  border: 2px ridge rgb(0, 100, 100);
 }
 
 .row-elo-selected {
@@ -592,6 +617,7 @@ export default {
 
 .league-item:hover {
   background-color: var(--selectHover);
+  border: 2px ridge rgb(0, 100, 100);
 }
 
 .blockSelection:hover {
@@ -615,7 +641,7 @@ export default {
 
 .priceBox {
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 2fr 1fr;
   grid-template-columns: 1fr;
   align-self: center;
   height: fit-content;

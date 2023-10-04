@@ -1,51 +1,3 @@
-<script>
-import { useAuthStore } from '../stores/store.js'
-
-export default {
-  data() {
-    return {
-      formData: {
-        username: '',
-        password: ''
-      },
-
-      placeholder: {
-        login: 'Login',
-        password: 'Senha',
-        error: 0
-      }
-    }
-  },
-  methods: {
-    restrictSpecialCharacters(event) {
-      const input = event.target
-      input.value = input.value.replace(/[^\w.@]/gi, '')
-    },
-
-    login() {
-      const authStore = useAuthStore()
-      const username = this.formData.username
-      const password = this.formData.password
-
-      if (username.length < 3) {
-        this.placeholder.login = 'Insira um login'
-        this.placeholder.error = 1
-        return
-      }
-
-      if (!password) {
-        this.placeholder.login = 'Insira uma senha'
-        this.placeholder.error = 2
-        return
-      }
-
-      authStore.login(username.toLowerCase(), password)
-      this.$router.push('/')
-    }
-  }
-}
-</script>
-
 <template>
   <div id="main">
     <div class="login">
@@ -79,6 +31,66 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import { useAuthStore } from '../stores/store.js'
+
+export default {
+  data() {
+    return {
+      previousPath: null,
+
+      formData: {
+        username: '',
+        password: ''
+      },
+
+      placeholder: {
+        login: 'Login',
+        password: 'Senha',
+        error: 0
+      }
+    }
+  },
+
+  created() {
+    this.previousPath = this.$route.query.currentPath
+  },
+
+  methods: {
+    restrictSpecialCharacters(event) {
+      const input = event.target
+      input.value = input.value.replace(/[^\w.@]/gi, '')
+    },
+
+    login() {
+      const authStore = useAuthStore()
+      const username = this.formData.username
+      const password = this.formData.password
+
+      if (username.length < 3) {
+        this.placeholder.login = 'Insira um login'
+        this.placeholder.error = 1
+        return
+      }
+
+      if (!password) {
+        this.placeholder.login = 'Insira uma senha'
+        this.placeholder.error = 2
+        return
+      }
+
+      authStore.login(username.toLowerCase(), password)
+
+      if (this.previousPath != null) {
+        this.$router.push(this.previousPath)
+      } else {
+        this.$router.push('/')
+      }
+    }
+  }
+}
+</script>
 
 <style scoped>
 #main {

@@ -17,15 +17,15 @@
         </span>
       </div>
       <div class="content-block estimate-block">
-        <p>Prazo estimado de {{ deadline }} dias</p>
+        <p>Prazo de {{ previousPage }} estimado em {{ deadline }} dias</p>
         <p>
-          por apenas
+          pelo valor de
           <span style="color: rgb(200, 200, 60); font-weight: bold">R${{ totalPrice }}</span>
         </p>
       </div>
       <div class="content-block button-block">
         <button class="button" @click="handlePaymentConfirmation">Confirmar</button>
-        <button class="button">Cancelar</button>
+        <button class="button" @click="handlePaymentCancel">Cancelar</button>
       </div>
     </div>
   </div>
@@ -42,12 +42,16 @@ export default {
       currentEloImage: null,
       targetEloName: null,
       targetEloImage: null,
-      deadline: null
+      deadline: null,
+
+      previousPage: null,
+      service: null
     }
   },
 
   created() {
     const purchaseStore = usePurchaseStore()
+    this.previousPage = this.$route.query.service
 
     // Checa se os dados estão carregados, caso contrário volta para a home para evitar erros
     if (purchaseStore.purchase) {
@@ -58,7 +62,7 @@ export default {
       this.targetEloImage = purchaseStore.purchase.targetEloImage
       this.deadline = purchaseStore.purchase.deadline
     } else {
-      this.$router.push('/')
+      this.$router.push('/' + this.previousPage)
     }
   },
 
@@ -76,13 +80,12 @@ export default {
 
   methods: {
     handlePaymentConfirmation() {
-      // Verificar se o usuário está logado
-      if (!this.username) {
-        // Redirecionar para a página /account
-        this.$router.push('/account')
+      if (!this.isAuthenticated) {
+        this.$router.push({
+          path: '/account',
+          query: { currentPath: this.$route.fullPath }
+        })
       } else {
-        // Se o usuário estiver logado, envia os dados para o backend
-
         const deadlineDate = new Date()
         deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
 
@@ -104,6 +107,11 @@ export default {
         //   .catch((error) => {
         //   })
       }
+    },
+    handlePaymentCancel() {
+      const purchaseStore = usePurchaseStore()
+      purchaseStore.clearPurchase()
+      this.$router.push('/' + this.previousPage)
     }
   }
 }
@@ -154,6 +162,7 @@ export default {
 }
 .method-block > h1 {
   color: rgb(100, 192, 229);
+  text-decoration: underline;
 }
 .method-block > div {
   display: grid;
