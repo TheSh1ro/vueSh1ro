@@ -27,6 +27,7 @@
         <button class="button" @click="handlePaymentConfirmation">Confirmar</button>
         <button class="button" @click="handlePaymentCancel">Cancelar</button>
       </div>
+      <div class="content-block username-block">Não comprar como {{ username }}?</div>
     </div>
   </div>
 </template>
@@ -136,9 +137,9 @@ export default {
 .content {
   margin: 20px 40px;
   display: grid;
-  padding: 40px 60px;
+  padding: 40px 65px;
   margin: 20px;
-  gap: 10vh;
+  gap: 30px;
 
   width: fit-content;
   height: fit-content;
@@ -209,5 +210,12 @@ export default {
 }
 .button:hover {
   background-color: rgba(86, 158, 230, 0.641);
+}
+.username-block {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.username-block:hover {
+  color: rgb(231, 231, 178);
 }
 </style>
