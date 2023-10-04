@@ -15,7 +15,8 @@
 </template>
 <style scoped>
 #footer {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8); 
+  background-color: rgb(8, 58, 91, 0.5);
   color: white;
 
   display: grid;

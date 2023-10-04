@@ -1,3 +1,39 @@
+<template>
+  <div id="main">
+    <div class="content">
+      <div class="content-block method-block">
+        <h1>Método de pagamento</h1>
+        <div>
+          <span>Crédito</span>
+          <span>Débito</span>
+          <span>Pix</span>
+        </div>
+      </div>
+      <div class="content-block elo-block">
+        <span class="elo-block-item">
+          <img :src="currentEloImage" alt="" />
+          <p>{{ currentEloName }}</p>
+        </span>
+        <p>até o elo</p>
+        <span class="elo-block-item">
+          <img :src="targetEloImage" alt="" />
+          <p>{{ targetEloName }}</p>
+        </span>
+      </div>
+      <div class="content-block estimate-block">
+        <p>Prazo estimado de {{ deadline }} dias</p>
+        <p>
+          por apenas
+          <span style="color: rgb(200, 200, 60); font-weight: bold">R${{ totalPrice }}</span>
+        </p>
+      </div>
+      <div class="content-block confirm-block">
+        <button class="button" @click="handlePaymentConfirmation">Confirmar compra</button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
 import { useAuthStore } from '../stores/store.js'
 
@@ -32,6 +68,11 @@ export default {
     username() {
       const authStore = useAuthStore()
       return authStore.user ? authStore.user.username : ''
+    },
+
+    isAuthenticated() {
+      const authStore = useAuthStore()
+      return authStore.isAuthenticated
     }
   },
 
@@ -70,42 +111,6 @@ export default {
 }
 </script>
 
-<template>
-  <div id="main">
-    <div class="content">
-      <div class="content-block method-block">
-        <h1>Método de pagamento</h1>
-        <div>
-          <span>Crédito</span>
-          <span>Débito</span>
-          <span>Pix</span>
-        </div>
-      </div>
-      <div class="content-block elo-block">
-        <span class="elo-block-item">
-          <img :src="currentEloImage" alt="" />
-          <p>{{ currentEloName }}</p>
-        </span>
-        <span style="font-size: 1.5rem">Ao </span>
-        <span class="elo-block-item">
-          <img :src="targetEloImage" alt="" />
-          <p>{{ targetEloName }}</p>
-        </span>
-      </div>
-      <div class="content-block estimate-block">
-        <p>Prazo estimado de {{ deadline }} dias</p>
-        <p>
-          por apenas
-          <span style="color: rgb(200, 200, 60); font-weight: bold">R${{ totalPrice }}</span>
-        </p>
-      </div>
-      <div class="content-block confirm-block">
-        <button class="button" @click="handlePaymentConfirmation">Confirmar compra</button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped>
 * {
   transition:
@@ -120,10 +125,10 @@ export default {
   justify-items: center;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  padding: 40px;
 }
 
 .content {
+  margin: 20px 40px;
   display: grid;
   padding: 50px;
   gap: 10vh;

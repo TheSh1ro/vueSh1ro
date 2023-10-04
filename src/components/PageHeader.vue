@@ -1,10 +1,13 @@
 <template>
-  <header id="header">
-    <RouterLink to="/" class="item">sh1roJobs</RouterLink>
+  <header class="header" :class="{ headerWhileDropdown: showDropdown }">
+    <RouterLink to="/" class="item header-logo">
+      <img src="../assets/riven.png" />
+      <p>ShiroJobs</p>
+    </RouterLink>
     <div class="item">
       <div class="item-user" @click="redirectToAccount">
         <span>{{ username }}</span>
-        <img v-if="isUserLoggedIn" class="user-image" src="../assets/user.webp" alt="" />
+        <img v-if="isAuthenticated" class="user-image" src="../assets/user.webp" alt="" />
       </div>
     </div>
     <div v-if="showDropdown" class="dropdown">
@@ -15,7 +18,7 @@
         />
       </header>
       <body>
-        <span>Desconectar</span>
+        <span @click="logoutAccount()">Desconectar</span>
       </body>
     </div>
   </header>
@@ -37,26 +40,31 @@ export default {
       return authStore.user ? authStore.user.username : 'Entrar'
     },
 
-    isUserLoggedIn() {
+    isAuthenticated() {
       const authStore = useAuthStore()
-      return !!authStore.user // Verifica se o usuário está logado
+      return authStore.isAuthenticated
     }
   },
 
   methods: {
     redirectToAccount() {
-      if (this.isUserLoggedIn) {
+      if (this.isAuthenticated) {
         this.showDropdown = !this.showDropdown
       } else {
         this.$router.push('/account')
       }
+    },
+    logoutAccount() {
+      const authStore = useAuthStore()
+      authStore.logout()
     }
   }
 }
 </script>
 
 <style scoped>
-#header {
+.header {
+  background-color: rgb(8, 58, 91);
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-size: 1.2rem;
@@ -69,7 +77,11 @@ export default {
   position: relative;
 }
 
-#header:hover {
+.header:hover {
+  background-color: rgb(8, 58, 91);
+}
+
+.headerWhileDropdown {
   background-color: rgb(8, 58, 91);
 }
 
@@ -95,16 +107,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 70px;
   gap: 3px;
+}
+
+.header-logo > img {
+  height: 6vh;
 }
 
 .dropdown {
   position: absolute;
   right: 0px;
-  top: 150%;
-  width: 140px;
-  margin-right: 60px;
+  top: 120%;
+  width: 160px;
+  margin-right: 10px;
 
   display: grid;
   flex-direction: column;
@@ -113,7 +128,7 @@ export default {
   font-size: 1.1rem;
 }
 .dropdown > header > img {
-  width: 140px;
+  width: 160px;
   height: 40px;
   display: block;
   margin: 0 auto;

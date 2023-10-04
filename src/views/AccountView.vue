@@ -39,8 +39,8 @@ export default {
         return
       }
 
-      authStore.login(username.toLowerCase(), password) // Assume que o usuário está autenticado
-      this.$router.push('/elojob')
+      authStore.login(username.toLowerCase(), password)
+      this.$router.push('/')
     }
   }
 }

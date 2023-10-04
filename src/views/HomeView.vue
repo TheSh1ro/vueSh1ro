@@ -54,6 +54,8 @@
   justify-content: center;
   align-content: center;
   gap: 30px;
+
+  margin: 60px 40px;
 }
 
 .block {
