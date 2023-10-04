@@ -110,7 +110,6 @@
 </template>
 
 <script>
-import { useAuthStore } from '../stores/store.js'
 import { usePurchaseStore } from '../stores/store.js'
 
 export default {
