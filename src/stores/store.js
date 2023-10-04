@@ -39,7 +39,9 @@ export const usePurchaseStore = defineStore('purchase', {
         targetEloImage: targetEloImage,
         deadline: deadline
       }
-      console.log(this.purchase)
+    },
+    clearPurchase() {
+      this.purchase = null
     }
   }
 })

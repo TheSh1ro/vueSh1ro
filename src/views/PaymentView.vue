@@ -2,20 +2,16 @@
   <div id="main">
     <div class="content">
       <div class="content-block method-block">
-        <h1>Método de pagamento</h1>
-        <div>
-          <span>Crédito</span>
-          <span>Débito</span>
-          <span>Pix</span>
-        </div>
+        <h1>Confirmar compra</h1>
       </div>
       <div class="content-block elo-block">
         <span class="elo-block-item">
+          <p>Inicial</p>
           <img :src="currentEloImage" alt="" />
           <p>{{ currentEloName }}</p>
         </span>
-        <p>até o elo</p>
         <span class="elo-block-item">
+          <p>Final</p>
           <img :src="targetEloImage" alt="" />
           <p>{{ targetEloName }}</p>
         </span>
@@ -27,41 +23,43 @@
           <span style="color: rgb(200, 200, 60); font-weight: bold">R${{ totalPrice }}</span>
         </p>
       </div>
-      <div class="content-block confirm-block">
-        <button class="button" @click="handlePaymentConfirmation">Confirmar compra</button>
+      <div class="content-block button-block">
+        <button class="button" @click="handlePaymentConfirmation">Confirmar</button>
+        <button class="button">Cancelar</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { useAuthStore } from '../stores/store.js'
+import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
   data() {
     return {
       totalPrice: null,
-
       currentEloName: null,
       currentEloImage: null,
-
       targetEloName: null,
       targetEloImage: null,
-
       deadline: null
     }
   },
 
   created() {
-    this.totalPrice = this.$route.query.totalPrice
+    const purchaseStore = usePurchaseStore()
 
-    this.currentEloName = this.$route.query.currentEloName
-    this.currentEloImage = this.$route.query.currentEloImage
-
-    this.targetEloName = this.$route.query.targetEloName
-    this.targetEloImage = this.$route.query.targetEloImage
-
-    this.deadline = this.$route.query.deadline
+    // Checa se os dados estão carregados, caso contrário volta para a home para evitar erros
+    if (purchaseStore.purchase) {
+      this.totalPrice = purchaseStore.purchase.totalPrice
+      this.currentEloName = purchaseStore.purchase.currentEloName
+      this.currentEloImage = purchaseStore.purchase.currentEloImage
+      this.targetEloName = purchaseStore.purchase.targetEloName
+      this.targetEloImage = purchaseStore.purchase.targetEloImage
+      this.deadline = purchaseStore.purchase.deadline
+    } else {
+      this.$router.push('/')
+    }
   },
 
   computed: {
@@ -130,7 +128,8 @@ export default {
 .content {
   margin: 20px 40px;
   display: grid;
-  padding: 50px;
+  padding: 40px 60px;
+  margin: 20px;
   gap: 10vh;
 
   width: fit-content;
@@ -154,7 +153,7 @@ export default {
   flex-grow: 1;
 }
 .method-block > h1 {
-  color: rgb(60, 200, 60, 0.9);
+  color: rgb(100, 192, 229);
 }
 .method-block > div {
   display: grid;
@@ -180,7 +179,7 @@ export default {
   align-items: center;
 }
 .elo-block-item > img {
-  height: 2rem;
+  height: 4rem;
 }
 
 .estimate-block {
@@ -188,14 +187,18 @@ export default {
   flex-direction: column;
 }
 
+.button-block {
+  gap: 10px;
+}
 .button {
   color: black;
-  padding: 5px;
+  padding: 5px 10px;
   border: 5px double black;
   border-radius: 7px;
   cursor: pointer;
+  background-color: rgb(86, 158, 230);
 }
 .button:hover {
-  background-color: rgba(250, 250, 250, 0.5);
+  background-color: rgba(86, 158, 230, 0.641);
 }
 </style>
