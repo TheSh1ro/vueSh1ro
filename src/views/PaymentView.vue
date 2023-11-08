@@ -34,6 +34,7 @@
 
 <script>
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
+import axios from 'axios'
 
 export default {
   data() {
@@ -80,6 +81,34 @@ export default {
   },
 
   methods: {
+    // handlePaymentConfirmation() {
+    //   if (!this.isAuthenticated) {
+    //     this.$router.push({
+    //       path: '/account',
+    //       query: { currentPath: this.$route.fullPath }
+    //     })
+    //   } else {
+    //     const deadlineDate = new Date()
+    //     deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
+
+    //     const dataToBackend = {
+    //       date: new Date(),
+    //       deadline: this.deadline,
+    //       deadlineDate: deadlineDate,
+    //       currentEloName: this.currentEloName,
+    //       targetEloName: this.targetEloName,
+    //       totalPrice: this.totalPrice
+    //     }
+
+    //     console.log(dataToBackend)
+
+    //     axios
+    //       .post('http://0.0.0.0:19003/servico/', dataToBackend)
+    //       .then((response) => {})
+    //       .catch((error) => {})
+    //   }
+    // },
+
     handlePaymentConfirmation() {
       if (!this.isAuthenticated) {
         this.$router.push({
@@ -91,24 +120,26 @@ export default {
         deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
 
         const dataToBackend = {
-          date: new Date(),
-          deadline: this.deadline,
-          deadlineDate: deadlineDate,
-          currentEloName: this.currentEloName,
-          targetEloName: this.targetEloName,
-          totalPrice: this.totalPrice
+          user: 1, // Defina o ID do usuário apropriado
+          purchase_date: new Date().toISOString(),
+          deadline: deadlineDate.toISOString(),
+          completed: false,
+          price: parseFloat(this.totalPrice), // Certifique-se de que o preço seja um número
+          modalidade: 1, // Defina o ID da modalidade apropriada
+          fila: 1, // Defina o ID da fila apropriada
+          elo_inicial: 1, // Defina o ID do elo inicial apropriado
+          elo_final: 2 // Defina o ID do elo final apropriado
         }
 
         console.log(dataToBackend)
 
-        // axios
-        //   .post('/sua-rota-backend', dataToBackend)
-        //   .then((response) => {
-        //   })
-        //   .catch((error) => {
-        //   })
+        axios
+          .post('http://0.0.0.0:19003/servico/', dataToBackend)
+          .then((response) => {})
+          .catch((error) => {})
       }
     },
+
     handlePaymentCancel() {
       const purchaseStore = usePurchaseStore()
       purchaseStore.clearPurchase()
