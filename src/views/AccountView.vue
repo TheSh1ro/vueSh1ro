@@ -4,7 +4,7 @@
       <h2 class="title-block">Acesse sua conta</h2>
       <div class="input-block">
         <div class="input-user" :class="{ inputRed: placeholder.error == 1 }">
-          <img src="../assets/usuario.png" alt="" />
+          <img src="../assets/people.png" alt="" />
           <input
             :placeholder=placeholder.login
             type="text"
@@ -14,7 +14,7 @@
           />
         </div>
         <div class="input-password" :class="{ inputRed: placeholder.error == 2 }">
-          <img src="../assets/senha.png" alt="" />
+          <img src="../assets/padlock.png" alt="" />
           <input
             :placeholder="placeholder.senha"
             :type="showPassword ? 'text' : 'password'"
@@ -23,7 +23,7 @@
             @input="restrictSpecialCharacters"
           />
           <img
-            src="../assets/olho.png"
+            src="../assets/visual.png"
             style="cursor: pointer"
             @click="togglePasswordVisibility"
             alt=""
@@ -114,7 +114,6 @@ export default {
 }
 
 .container {
-  border: 10px double rgb(0, 160, 255);
   background-color: white;
   color: black;
 
@@ -123,13 +122,13 @@ export default {
   justify-content: center;
   align-items: center;
 
-  padding: 30px;
+  padding: 50px;
   gap: 30px;
 }
 
 h2 {
   color: rgb(0, 160, 255);
-  padding-block: 10px;
+  padding-block: 15px;
 }
 
 .input-block {
@@ -144,19 +143,22 @@ h2 {
   position: relative;
   display: flex;
   align-items: center;
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(205, 205, 205);
   flex-grow: 1;
   width: 100%;
   border: 1px solid transparent;
+  border-radius: 10px;
+
 }
 
 input {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(205, 205, 205);
   padding: 10px;
   border: none;
   width: 100%;
   border: none;
   min-width: 200px;
+  border-radius: 10px;
 }
 
 input:focus {

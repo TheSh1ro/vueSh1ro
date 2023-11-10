@@ -65,8 +65,7 @@ export default {
 
 <style scoped>
 .header {
-  background-color: rgb(8, 58, 91);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(8, 58, 91, 0.8);
   color: white;
   font-size: 1.2rem;
 

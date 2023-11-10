@@ -68,10 +68,11 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 10px;
 
-  height: 340px;
+  min-height: 340px;
   width: 220px;
-  padding: 20px;
+  padding: 35px;
 
   transition:
     background-color 0.5s,

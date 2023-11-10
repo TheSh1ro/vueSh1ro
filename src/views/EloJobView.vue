@@ -74,16 +74,18 @@
         </div>
       </div>
       <div class="priceBox" v-if="totalPrice">
+        <h2>Você selecionou</h2>
         <div class="priceBox-block">
-          <div class="priceBox-elo">
-            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
-            <p class="priceBox-name">{{ getCurrentSelected }}</p>
-          </div>
-          <div class="priceBox-elo">
-            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
-            <p class="priceBox-name">{{ getTargetSelected }}</p>
-          </div>
+            <div class="priceBox-elo">
+              <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
+              <p class="priceBox-name">{{ getCurrentSelected }}</p>
+            </div>
+            <div class="priceBox-elo">
+              <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
+              <p class="priceBox-name">{{ getTargetSelected }}</p>
+            </div>
         </div>
+        <p class="priceBox-price">R${{ totalPrice }}</p>
         <div class="priceBox-block">
           <RouterLink
             class="priceBox-button"
@@ -99,8 +101,7 @@
               )
             "
           >
-            Confirmar |
-            <p style="color: rgb(47, 255, 95)">R${{ totalPrice }}</p>
+            <p>Continuar</p>
           </RouterLink>
         </div>
       </div>
@@ -588,11 +589,11 @@ export default {
 
 .row-elo:hover {
   background-color: var(--selectHover);
-  border: 2px ridge rgb(0, 100, 100);
 }
 
 .row-elo-selected {
   background-color: var(--selectTrue);
+  border: 2px ridge rgb(0, 100, 100);
 }
 
 .row-elo-selected:hover {
@@ -619,6 +620,7 @@ export default {
 
 .blockSelection:hover {
   background-color: var(--blockSelection);
+  border-color: red;
 }
 .blockSelection:active {
   animation: shake 0.2s alternate;
@@ -637,39 +639,55 @@ export default {
 }
 
 .priceBox {
-  display: grid;
-  grid-template-rows: 2fr 1fr;
-  grid-template-columns: 1fr;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: fit-content;
+  width: fit-content;
+  padding: 70px;
+  gap: 50px;
+  align-self: center;
+  justify-self: center;
+  border: 20px double black;
+  background-color: rgb(0, 100, 100, 0.2);
+}
+
+h2 {
+  padding-block: 20px;
 }
 
 .priceBox-block {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  gap: 30px;
 }
-.priceBox-block > div {
+.priceBox-elo {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
+.priceBox-price {
+  font-size: 30px;
+  color: rgb(15, 173, 76);
+  font-weight: bolder;
+}
 
-.priceBox-block > div > img {
-  height: 12vw;
+.priceBox-elo > img {
+  height: 100px;
 }
 .priceBox-button {
-  background-color: black;
   border: 1px solid white;
+  background-color: rgb(0, 100, 100);
   border-radius: 5px;
 
   display: flex;
-  gap: 3px;
-  padding: 5px;
+  gap: 10px;
+  padding: 10px 20px;
 
   transition: background-color 0.1s;
 }
 .priceBox-button:hover {
-  background-color: rgba(0, 0, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 </style>

@@ -24,10 +24,12 @@
         </p>
       </div>
       <div class="content-block button-block">
-        <button class="button" @click="handlePaymentConfirmation">Confirmar</button>
         <button class="button" @click="handlePaymentCancel">Cancelar</button>
+        <button class="button" @click="handlePaymentConfirmation">Continuar</button>
       </div>
-      <div class="content-block username-block">Não comprar como {{ username }}?</div>
+    </div>
+    <div class="testcontainer">
+      <p v-for="item in dataToBackend" :key="item">{{ item }}</p>
     </div>
   </div>
 </template>
@@ -39,12 +41,14 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      totalPrice: null,
-      currentEloName: null,
-      currentEloImage: null,
-      targetEloName: null,
-      targetEloImage: null,
-      deadline: null,
+      dataToBackend: {
+        totalPrice: null,
+        currentEloName: null,
+        currentEloImage: null,
+        targetEloName: null,
+        targetEloImage: null,
+        deadline: null,
+      },
 
       previousPage: null,
       service: null
@@ -81,34 +85,7 @@ export default {
   },
 
   methods: {
-    // handlePaymentConfirmation() {
-    //   if (!this.isAuthenticated) {
-    //     this.$router.push({
-    //       path: '/account',
-    //       query: { currentPath: this.$route.fullPath }
-    //     })
-    //   } else {
-    //     const deadlineDate = new Date()
-    //     deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
-
-    //     const dataToBackend = {
-    //       date: new Date(),
-    //       deadline: this.deadline,
-    //       deadlineDate: deadlineDate,
-    //       currentEloName: this.currentEloName,
-    //       targetEloName: this.targetEloName,
-    //       totalPrice: this.totalPrice
-    //     }
-
-    //     console.log(dataToBackend)
-
-    //     axios
-    //       .post('http://0.0.0.0:19003/servico/', dataToBackend)
-    //       .then((response) => {})
-    //       .catch((error) => {})
-    //   }
-    // },
-
+    
     handlePaymentConfirmation() {
       if (!this.isAuthenticated) {
         this.$router.push({
@@ -152,7 +129,7 @@ export default {
 <style scoped>
 * {
   transition:
-    background-color 0.5s,
+    background-color 0.3s,
     color 0.5s;
 }
 
@@ -163,14 +140,15 @@ export default {
   justify-items: center;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  align-items: center;
 }
 
 .content {
   margin: 20px 40px;
   display: grid;
-  padding: 40px 65px;
+  padding: 60px 85px;
   margin: 20px;
-  gap: 30px;
+  gap: 80px;
 
   width: fit-content;
   height: fit-content;
@@ -194,7 +172,6 @@ export default {
 }
 .method-block > h1 {
   color: rgb(100, 192, 229);
-  text-decoration: underline;
 }
 .method-block > div {
   display: grid;
@@ -233,20 +210,16 @@ export default {
 }
 .button {
   color: black;
-  padding: 5px 10px;
-  border: 5px double black;
+  padding: 10px 20px;
+  border: 3px double black;
   border-radius: 7px;
   cursor: pointer;
   background-color: rgb(86, 158, 230);
 }
-.button:hover {
-  background-color: rgba(86, 158, 230, 0.641);
+.button:nth-child(even):hover {
+  background-color: rgb(86, 188, 150);
 }
-.username-block {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.username-block:hover {
-  color: rgb(231, 231, 178);
+.button:nth-child(odd):hover {
+  background-color: rgb(155, 128, 180);
 }
 </style>
