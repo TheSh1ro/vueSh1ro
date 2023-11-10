@@ -1,34 +1,40 @@
 <template>
   <div id="main">
-    <div class="login">
-      <h2>Entrar</h2>
-      <form @submit.prevent="login">
-        <div class="form-group">
-          <label for="username">Username / Email</label>
+    <form class="container" @submit.prevent="login">
+      <h2 class="title-block">Acesse sua conta</h2>
+      <div class="input-block">
+        <div class="input-user" :class="{ inputRed: placeholder.error == 1 }">
+          <img src="../assets/usuario.png" alt="" />
           <input
-            :placeholder="placeholder.login"
+            :placeholder=placeholder.login
             type="text"
             id="username"
             v-model="formData.username"
             @input="restrictSpecialCharacters"
-            :class="{ inputRed: placeholder.error == 1 }"
           />
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div class="input-password" :class="{ inputRed: placeholder.error == 2 }">
+          <img src="../assets/senha.png" alt="" />
           <input
-            :placeholder="placeholder.password"
-            type="password"
+            :placeholder="placeholder.senha"
+            :type="showPassword ? 'text' : 'password'"
             id="password"
             v-model="formData.password"
             @input="restrictSpecialCharacters"
-            :class="{ inputRed: placeholder.error == 2 }"
+          />
+          <img
+            src="../assets/olho.png"
+            style="cursor: pointer"
+            @click="togglePasswordVisibility"
+            alt=""
           />
         </div>
-        <button class="button-submit" type="submit">Done</button>
-      </form>
-      <button class="button-register">Criar conta</button>
-    </div>
+      </div>
+      <div class="button-block">
+        <button type="submit">Entrar</button>
+        <button>Registrar-se</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -39,6 +45,7 @@ export default {
   data() {
     return {
       previousPath: null,
+      showPassword: false,
 
       formData: {
         username: '',
@@ -46,8 +53,8 @@ export default {
       },
 
       placeholder: {
-        login: 'Login',
-        password: 'Senha',
+        login: 'Usuário ou e-mail',
+        senha: 'Senha',
         error: 0
       }
     }
@@ -58,6 +65,10 @@ export default {
   },
 
   methods: {
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword
+    },
+
     restrictSpecialCharacters(event) {
       const input = event.target
       input.value = input.value.replace(/[^\w.@]/gi, '')
@@ -75,7 +86,7 @@ export default {
       }
 
       if (!password) {
-        this.placeholder.login = 'Insira uma senha'
+        this.placeholder.senha = 'Insira uma senha'
         this.placeholder.error = 2
         return
       }
@@ -102,76 +113,90 @@ export default {
   align-items: center;
 }
 
-.login {
-  width: fit-content;
-  height: fit-content;
-  position: relative;
+.container {
+  border: 10px double rgb(0, 160, 255);
+  background-color: white;
+  color: black;
 
   display: flex;
   flex-direction: column;
-  gap: 5vh;
+  justify-content: center;
+  align-items: center;
 
-  border: 10px double white;
-  background-color: rgba(0, 170, 255, 0.2);
-  text-align: center;
-  border-radius: 15px;
-  padding: 100px 75px;
+  padding: 30px;
+  gap: 30px;
 }
 
-.form-group {
+h2 {
+  color: rgb(0, 160, 255);
+  padding-block: 10px;
+}
+
+.input-block {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-
-  text-align: center;
-  margin-bottom: 10px;
+  gap: 10px;
 }
 
-label {
-  display: block;
+.input-user,
+.input-password {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: rgb(235, 235, 235);
+  flex-grow: 1;
+  width: 100%;
+  border: 1px solid transparent;
 }
 
 input {
+  background-color: rgb(235, 235, 235);
+  padding: 10px;
+  border: none;
   width: 100%;
-  padding: 5px 6px;
-  border: 1px solid #ccc;
-  color: black;
-  text-align: center;
-  border-radius: 7px;
-  transition: background-color 0.2s;
+  border: none;
+  min-width: 200px;
 }
 
 input:focus {
-  padding: 5px 2px;
-  background-color: transparent;
-  color: white;
-  font-weight: bold;
+  outline: none;
 }
 
-.button-register {
+img {
+  height: 16px;
+  padding: 10px;
+}
+
+span {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-
-  background-color: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-.button-register:hover {
-  color: lightblue;
-  text-decoration: underline;
+  right: 5px;
 }
 
-.button-submit {
-  background-color: #007bff;
+.button-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
   color: white;
-  border: none;
-  border-radius: 3px;
-  padding: 10px 20px;
-  margin-top: 5px;
+  border-radius: 10px;
+  padding: 7px 25px;
   cursor: pointer;
+  transition: color 0.2s;
+  border: none;
+}
+
+button:nth-child(odd) {
+  background: linear-gradient(45deg, rgba(9, 98, 121, 1) 30%, rgba(0, 212, 255, 1) 100%);
+}
+button:nth-child(even) {
+  background: linear-gradient(45deg, rgba(150, 150, 150, 1) 0%, rgba(35, 35, 35, 1) 100%);
+}
+
+button:hover {
+  color: black;
 }
 
 .inputRed {

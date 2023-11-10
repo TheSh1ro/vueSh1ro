@@ -29,8 +29,6 @@ import PageFooter from './components/PageFooter.vue'
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 8vh minmax(92vh, 1fr) 14vh;
-
-  font-family: Calibri;
   color: white;
 
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_30.jpg);
