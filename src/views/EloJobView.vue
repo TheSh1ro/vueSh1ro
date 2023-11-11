@@ -76,14 +76,14 @@
       <div class="priceBox" v-if="totalPrice">
         <h2>Você selecionou</h2>
         <div class="priceBox-block">
-            <div class="priceBox-elo">
-              <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
-              <p class="priceBox-name">{{ getCurrentSelected }}</p>
-            </div>
-            <div class="priceBox-elo">
-              <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
-              <p class="priceBox-name">{{ getTargetSelected }}</p>
-            </div>
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
+            <p class="priceBox-name">{{ getCurrentNameSelected }}</p>
+          </div>
+          <div class="priceBox-elo">
+            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
+            <p class="priceBox-name">{{ getTargetNameSelected }}</p>
+          </div>
         </div>
         <p class="priceBox-price">R${{ totalPrice }}</p>
         <div class="priceBox-block">
@@ -93,9 +93,9 @@
             @click="
               sendPurchase(
                 totalPrice,
-                getCurrentSelected,
+                getCurrentNameSelected,
                 selectedElo.current.image,
-                getTargetSelected,
+                getTargetNameSelected,
                 selectedElo.target.image,
                 totalLeagues * 2
               )
@@ -103,6 +103,7 @@
           >
             <p>Continuar</p>
           </RouterLink>
+          <button class="priceBox-button" @click="purchaseDetail">Detalhes</button>
         </div>
       </div>
     </div>
@@ -121,63 +122,63 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/iron.webp'
+          image: 'assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/bronze.webp'
+          image: 'assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/silver.webp'
+          image: 'assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/gold.webp'
+          image: 'assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/platinum.webp'
+          image: 'assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/emerald.png'
+          image: 'assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'current',
-          image: '/src/assets/diamond.webp'
+          image: 'assets/diamond.png'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/master.webp'
+          image: 'assets/master.png'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'current',
-          image: '/src/assets/grandmaster.webp'
+          image: 'assets/grandmaster.png'
         }
       ],
 
@@ -187,70 +188,70 @@ export default {
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/iron.webp'
+          image: 'assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/bronze.webp'
+          image: 'assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/silver.webp'
+          image: 'assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/gold.webp'
+          image: 'assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/platinum.webp'
+          image: 'assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/emerald.png'
+          image: 'assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
           type: 'target',
-          image: '/src/assets/diamond.webp'
+          image: 'assets/diamond.png'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/master.webp'
+          image: 'assets/master.png'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/grandmaster.webp'
+          image: 'assets/grandmaster.png'
         },
         {
           name: 'Desafiante',
           leagues: null,
           visible: true,
           type: 'target',
-          image: '/src/assets/challenger.webp'
+          image: 'assets/challenger.png'
         }
       ],
 
@@ -466,7 +467,7 @@ export default {
           multiplier: multiplier
         }
 
-        // Calcular quantidade de ligas, para calcular prazoo
+        // Calcular quantidade de ligas, para calcular o prazo (totalLeagues = prazo)
         if (index <= 6) {
           this.totalLeagues += multiplier
         } else {
@@ -495,6 +496,10 @@ export default {
         targetEloImage,
         deadline
       )
+    },
+
+    purchaseDetail() {
+      window.alert()
     }
   },
 
@@ -508,12 +513,56 @@ export default {
       }
     },
 
+    getCurrentNameSelected() {
+      const elo = this.selectedElo.current
+      const league = elo.league + 1
+
+      if (elo.index >= 7) {
+        return elo.name
+      }
+
+      switch (league) {
+        case 1:
+          return elo.name + ' I'
+        case 2:
+          return elo.name + ' II'
+        case 3:
+          return elo.name + ' III'
+        case 4:
+          return elo.name + ' IV'
+        default:
+          return elo.name
+      }
+    },
+
     getTargetSelected() {
       const elo = this.selectedElo.target
       if (elo.index >= 7) {
         return elo.name
       } else {
         return elo.name + ' ' + (elo.league + 1)
+      }
+    },
+
+    getTargetNameSelected() {
+      const elo = this.selectedElo.target
+      const league = elo.league + 1
+
+      if (elo.index >= 7) {
+        return elo.name
+      }
+
+      switch (league) {
+        case 1:
+          return elo.name + ' I'
+        case 2:
+          return elo.name + ' II'
+        case 3:
+          return elo.name + ' III'
+        case 4:
+          return elo.name + ' IV'
+        default:
+          return elo.name
       }
     }
   }
@@ -644,12 +693,14 @@ export default {
   align-items: center;
   height: fit-content;
   width: fit-content;
-  padding: 70px;
-  gap: 50px;
+  padding: 30px;
+  gap: 30px;
   align-self: center;
   justify-self: center;
-  border: 20px double black;
-  background-color: rgb(0, 100, 100, 0.2);
+
+  background-color: rgba(8, 58, 91, 0.4);
+  border: 2px solid rgb(0, 100, 100, 1);
+  border-radius: 20px;
 }
 
 h2 {
@@ -686,6 +737,7 @@ h2 {
   padding: 10px 20px;
 
   transition: background-color 0.1s;
+  cursor: pointer;
 }
 .priceBox-button:hover {
   background-color: rgba(255, 255, 255, 0.2);

@@ -47,7 +47,7 @@ export default {
         currentEloImage: null,
         targetEloName: null,
         targetEloImage: null,
-        deadline: null,
+        deadline: null
       },
 
       previousPage: null,
@@ -85,7 +85,6 @@ export default {
   },
 
   methods: {
-    
     handlePaymentConfirmation() {
       if (!this.isAuthenticated) {
         this.$router.push({
@@ -146,9 +145,9 @@ export default {
 .content {
   margin: 20px 40px;
   display: grid;
-  padding: 60px 85px;
+  padding: 30px 55px;
   margin: 20px;
-  gap: 80px;
+  gap: 40px;
 
   width: fit-content;
   height: fit-content;
@@ -167,8 +166,7 @@ export default {
   justify-content: center;
   align-items: center;
 
-  gap: 10px;
-  flex-grow: 1;
+  padding-block: 20px;
 }
 .method-block > h1 {
   color: rgb(100, 192, 229);

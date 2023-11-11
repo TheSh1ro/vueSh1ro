@@ -5,7 +5,7 @@
       <RouterLink class="block" to="/elojob">
         <h1>EloJob</h1>
         <hr />
-        <img class="block-art" src="../assets/riven.png" alt="" />
+        <img class="block-art" src="assets/riven.png" alt="" />
         <p>
           Jogamos na sua conta, a forma mais rápida de chegar no elo que você deseja sem gastar sua
           energia ou se estressar
@@ -14,7 +14,7 @@
       <RouterLink class="block" to="/duojob">
         <h1>DuoJob</h1>
         <hr />
-        <img class="block-art" src="../assets/riven.png" alt="" />
+        <img class="block-art" src="assets/riven.png" alt="" />
         <p>
           Jogue Duo com um dos nossos boosters, uma oportunidade única para observar de perto como
           os melhores vencem
@@ -23,7 +23,7 @@
       <RouterLink class="block" to="/md5">
         <h1>MD5</h1>
         <hr />
-        <img class="block-art" src="../assets/riven.png" alt="" />
+        <img class="block-art" src="assets/riven.png" alt="" />
         <p>
           Para iniciar bem, tenha suas partidas de colocação jogadas por um dos nossos Boosters,
           garantindo um bom elo inicial
@@ -32,7 +32,7 @@
       <RouterLink class="block" to="/tips">
         <h1>Sh1ro Tips</h1>
         <hr />
-        <img class="block-art" src="../assets/riven.png" alt="" />
+        <img class="block-art" src="assets/riven.png" alt="" />
         <p>Acesso a um conteúdo exclusivo que guiará você a extrair o máximo de cada campeão</p>
       </RouterLink>
     </div>
@@ -72,7 +72,7 @@
 
   min-height: 340px;
   width: 220px;
-  padding: 35px;
+  padding: 25px;
 
   transition:
     background-color 0.5s,
