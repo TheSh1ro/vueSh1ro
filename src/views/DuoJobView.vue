@@ -73,25 +73,7 @@
           </div>
         </template>
       </section>
-
-      <section class="price-container" v-if="selectedElo.current || selectedElo.target">
-        <div>
-          <h2 v-if="selectedElo.current != null">Elo atual</h2>
-          <span v-for="(value, key) in selectedElo.current" :key="key">
-            <p :class="{ 'red-text': key === 'isHigh' && value }" v-if="key != 'image'">{{ key }} : {{ value }}</p>
-            <img v-if="key === 'image'" :src="value" alt="" />
-          </span>
-        </div>
-        <div>
-          <h2 v-if="selectedElo.target != null">Elo desejado</h2>
-          <span v-for="(value, key) in selectedElo.target" :key="key">
-            <p :class="{ 'red-text': key === 'isHigh' && value }" v-if="key != 'image'">{{ key }} : {{ value }}</p>
-            <img v-if="key === 'image'" :src="value" alt="" />
-          </span>
-          <span>{{ getLeagueList }}</span>
-          <span>{{ getServicePrice }}</span>
-        </div>
-      </section>
+      <PriceSection />
     </div>
   </main>
 </template>
@@ -235,24 +217,22 @@ export default {
         }
       },
       priceList: [
-        { name: 'Ferro', value: 10 },
-        { name: 'Bronze', value: 10 },
-        { name: 'Prata', value: 12.5 },
-        { name: 'Ouro', value: 15 },
-        { name: 'Platina', value: 22.5 },
-        { name: 'Esmeralda', value: 30 },
-        { name: 'Diamante', value: 45 },
-        { name: 'Mestre', value: 600 },
-        { name: 'Grão Mestre', value: 1200 }
+        { name: 'Ferro', value: 10, deadline: 2 },
+        { name: 'Bronze', value: 10, deadline: 2 },
+        { name: 'Prata', value: 12.5, deadline: 2 },
+        { name: 'Ouro', value: 15, deadline: 2 },
+        { name: 'Platina', value: 22.5, deadline: 2 },
+        { name: 'Esmeralda', value: 30, deadline: 2 },
+        { name: 'Diamante', value: 45, deadline: 2 },
+        { name: 'Mestre', value: 600, deadline: 14 },
+        { name: 'Grão Mestre', value: 1200, deadline: 14 }
       ]
     }
   },
   methods: {
     selectElo(elo, type, eloIndex, leagueIndex) {
-      // Evitar que o elo atual selecionado seja maior do que o elo desejado
       if (type == 'current' && this.selectedElo.target) {
-        // Caso elo atual > elo desejado - limpa o elo desejado
-        if (eloIndex > this.selectedElo.target.index) {
+        if (eloIndex > 6 && eloIndex > this.selectedElo.target.index) {
           this.selectedElo.target = null
         }
 
@@ -323,53 +303,68 @@ export default {
         league: this.selectedElo.target.leagueIndex
       }
 
-      const newLeagueList = []
+      const leagueList = []
 
+      // Cria um array com 10 arrays vazios que serão preenchidos ou não
+      for (let i = 0; i < 10; i++) {
+        leagueList.push([])
+      }
+
+      // leagueList.push conforme os elos selecionados
       for (let eloIndex = start.elo; eloIndex <= end.elo; eloIndex++) {
-        const eloName = this.targetEloList[eloIndex].name
-        const object = { [eloName]: {} }
-        const eloLeagues = []
-        object[eloName] = eloLeagues
-        newLeagueList.push(object)
-
         if (this.targetEloList[eloIndex].leagues != null) {
           if (eloIndex == start.elo && eloIndex != end.elo) {
+            // Itera as ligas do start.elo a menos que end.elo == start.elo
             for (let leagueIndex = start.league; leagueIndex >= 0; leagueIndex--) {
-              eloLeagues.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
           if (eloIndex != start.elo && eloIndex != end.elo) {
+            // Itera as ligas entre o start.elo e o end.elo
             for (let leagueIndex = 3; leagueIndex >= 0; leagueIndex--) {
-              eloLeagues.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
           if (eloIndex == end.elo) {
+            // Itera as ligas do end.elo
             for (let leagueIndex = 3; leagueIndex > end.league; leagueIndex--) {
-              eloLeagues.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
         } else {
+          // < end.elo : último elo selecionado não deve ser listado, ele é o fim.
           if (eloIndex < end.elo) {
-            eloLeagues.push(this.targetEloList[eloIndex].name)
+            leagueList[eloIndex].push(this.targetEloList[eloIndex].name)
           }
         }
       }
 
-      return newLeagueList
+      return leagueList
     },
 
     getServicePrice() {
       const leagueList = this.getLeagueList
-      let keyCount = 0
+      const priceList = this.priceList
+      let totalPrice = 0
 
-      for (const item of leagueList) {
-        // const eloIndex = Object.keys(item)[0];
-        // const eloLeagues = item[eloIndex];
-        // keyCount += eloLeagues.length;
-        keyCount = leagueList
+      // Adiciona ao preço comparando leagueList com priceList / Desafiante não conta < 9
+      for (let index = 0; index < 9; index++) {
+        totalPrice += leagueList[index].length * priceList[index].value
       }
 
-      return 2
+      return totalPrice
+    },
+
+    getServiceDeadline() {
+      const leagueList = this.getLeagueList
+      const priceList = this.priceList
+      let totalDays = 0
+
+      for (let index = 0; index < 9; index++) {
+        totalDays += leagueList[index].length * priceList[index].deadline
+      }
+
+      return totalDays
     }
   }
 }
@@ -472,25 +467,5 @@ img {
   100% {
     transform: translateX(5px);
   }
-}
-
-/* ÁREA DE TESTES */
-.price-container {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  justify-content: center;
-}
-.price-container > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  min-width: 25vw;
-}
-.price-container > div > span {
-  display: flex;
-}
-.red-text {
-  color: red;
 }
 </style>
