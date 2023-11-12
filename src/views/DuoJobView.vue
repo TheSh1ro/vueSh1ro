@@ -89,6 +89,7 @@
             <img v-if="key === 'image'" :src="value" alt="" />
           </span>
           <span>{{ getLeagueList }}</span>
+          <span>{{ getServicePrice }}</span>
         </div>
       </section>
     </div>
@@ -317,43 +318,58 @@ export default {
         elo: this.selectedElo.current.index,
         league: this.selectedElo.current.leagueIndex
       }
-
       const end = {
         elo: this.selectedElo.target.index,
         league: this.selectedElo.target.leagueIndex
       }
 
-      let leagueList = []
+      const newLeagueList = []
 
       for (let eloIndex = start.elo; eloIndex <= end.elo; eloIndex++) {
+        const eloName = this.targetEloList[eloIndex].name
+        const object = { [eloName]: {} }
+        const eloLeagues = []
+        object[eloName] = eloLeagues
+        newLeagueList.push(object)
+
         if (this.targetEloList[eloIndex].leagues != null) {
           if (eloIndex == start.elo && eloIndex != end.elo) {
             for (let leagueIndex = start.league; leagueIndex >= 0; leagueIndex--) {
-              leagueList.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              eloLeagues.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
           if (eloIndex != start.elo && eloIndex != end.elo) {
             for (let leagueIndex = 3; leagueIndex >= 0; leagueIndex--) {
-              leagueList.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              eloLeagues.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
           if (eloIndex == end.elo) {
             for (let leagueIndex = 3; leagueIndex > end.league; leagueIndex--) {
-              leagueList.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              eloLeagues.push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
         } else {
           if (eloIndex < end.elo) {
-            leagueList.push(this.targetEloList[eloIndex].name)
+            eloLeagues.push(this.targetEloList[eloIndex].name)
           }
         }
       }
 
-      return leagueList
+      return newLeagueList
     },
 
     getServicePrice() {
-      return null
+      const leagueList = this.getLeagueList
+      let keyCount = 0
+
+      for (const item of leagueList) {
+        // const eloIndex = Object.keys(item)[0];
+        // const eloLeagues = item[eloIndex];
+        // keyCount += eloLeagues.length;
+        keyCount = leagueList
+      }
+
+      return 2
     }
   }
 }
