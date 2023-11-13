@@ -39,9 +39,9 @@
           <div
             class="block"
             v-if="
-              !selectedElo.current ||
-              (eloIndex == selectedElo.current.index && selectedElo.current.leagueIndex >= 1) ||
-              eloIndex > selectedElo.current.index
+              selectedElo.current.index == null ||
+              eloIndex > selectedElo.current.index ||
+              (eloIndex == selectedElo.current.index && selectedElo.current.leagueIndex > 0)
             "
           >
             <div
@@ -63,7 +63,8 @@
                   :class="{
                     'league-item-impossible':
                       selectedElo.current && leagueIndex >= selectedElo.current.leagueIndex && eloIndex == selectedElo.current.index,
-                    'league-item-selected': selectedElo.target.index == eloIndex && selectedElo.target.leagueIndex == leagueIndex
+                    'league-item-selected':
+                      selectedElo.target && selectedElo.target.index == eloIndex && selectedElo.target.leagueIndex == leagueIndex
                   }"
                 >
                   {{ league.name }}
@@ -73,7 +74,14 @@
           </div>
         </template>
       </section>
-      <PriceSection />
+      <section>
+        <p v-if="selectedElo.current">{{ selectedElo.current.name }} {{ selectedElo.current.leagueIndex }}</p>
+        <p v-if="selectedElo.target">{{ selectedElo.target.name }} {{ selectedElo.target.leagueIndex }}</p>
+        <p>{{ getLeagueList }}</p>
+        <p>{{ getServicePrice }}</p>
+        <p>{{ getServiceDeadline }}</p>
+      </section>
+      <!-- <PriceSection /> -->
     </div>
   </main>
 </template>
@@ -201,20 +209,8 @@ export default {
         }
       ],
       selectedElo: {
-        current: {
-          name: 'Ferro',
-          index: 0,
-          leagueIndex: 3,
-          image: 'assets/iron.png',
-          isHigh: false
-        },
-        target: {
-          name: 'Desafiante',
-          index: 9,
-          leagueIndex: null,
-          image: 'assets/challenger.png',
-          isHigh: true
-        }
+        current: {},
+        target: {}
       },
       priceList: [
         { name: 'Ferro', value: 10, deadline: 2 },
@@ -231,64 +227,67 @@ export default {
   },
   methods: {
     selectElo(elo, type, eloIndex, leagueIndex) {
-      if (type == 'current' && this.selectedElo.target) {
-        if (eloIndex > 6 && eloIndex > this.selectedElo.target.index) {
-          this.selectedElo.target = null
-        }
-
-        // Caso elo atual seja o mesmo que o elo desejado, porém a liga seja igual ou menor - limpa o elo desejado
-        if (eloIndex == this.selectedElo.target.index && leagueIndex <= this.selectedElo.target.leagueIndex) {
-          this.selectedElo.target = null
-        }
-      }
-
-      if (
-        type == 'target' &&
-        this.selectedElo.current &&
-        this.selectedElo.current.index == eloIndex &&
-        this.selectedElo.current.leagueIndex <= leagueIndex
-      ) {
-        return
-      }
-
       if (elo.leagues != null) {
-        this.toggleLeagueVisibility(elo, type, eloIndex)
-      }
+        // CLICANDO EM LIGA
+        if (leagueIndex != null) {
+          if (type == 'current') {
+            if (eloIndex > this.selectedElo.target.index) {
+              this.selectedElo.target = {}
+            }
+            if (eloIndex == this.selectedElo.target.index && leagueIndex <= this.selectedElo.target.leagueIndex) {
+              this.selectedElo.target = {}
+            }
+          }
 
-      if (elo.leagues == null) {
-        this.selectedElo[type] = {
-          name: elo.name,
-          index: eloIndex,
-          leagueIndex: null,
-          image: elo.image,
-          isHigh: true
+          if (type == 'target' && eloIndex == this.selectedElo.current.index && leagueIndex >= this.selectedElo.current.leagueIndex) {
+            return
+          }
+
+          this.toggleLeagueVisibility(elo, type, eloIndex)
+
+          this.selectedElo[type] = {
+            name: elo.name,
+            index: eloIndex,
+            leagueIndex: leagueIndex,
+            image: elo.image
+          }
+        } else {
+          // Caso esteja clicando para visualizar as ligas de um elo
+          this.toggleLeagueVisibility(elo, type, eloIndex)
         }
-      }
+      } else {
+        this.toggleLeagueVisibility(elo, type, eloIndex)
+        if (type == 'current' && eloIndex >= this.selectedElo.target.index) {
+          this.selectedElo.target = {}
+        }
 
-      if (leagueIndex != null) {
         this.selectedElo[type] = {
           name: elo.name,
           index: eloIndex,
           leagueIndex: leagueIndex,
-          image: elo.image,
-          isHigh: false
+          image: elo.image
         }
       }
     },
 
-    toggleLeagueVisibility(elo, type, eloIndex) {
-      const eloList = this[type + 'EloList']
-      const status = eloList[eloIndex].visible
+    toggleLeagueVisibility(elo, column, index) {
+      const eloList = this[column + 'EloList']
+      const status = eloList[index].visible
 
+      // Oculta todas as ligas da primeira coluna
       this.currentEloList.forEach((e) => {
         e.visible = true
       })
 
+      // Oculta todas as ligas da segunda coluna
       this.targetEloList.forEach((e) => {
         e.visible = true
       })
 
-      eloList[eloIndex].visible = !status
+      // Caso possua ligas: torna visível ou oculta as ligas do elo clicado
+      if (elo.leagues) {
+        eloList[index].visible = !status
+      }
     }
   },
 
