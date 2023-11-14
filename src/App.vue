@@ -33,5 +33,6 @@ import PageFooter from './components/PageFooter.vue'
 
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_30.jpg);
   background-size: cover;
+  
 }
 </style>

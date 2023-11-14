@@ -1,7 +1,7 @@
 <template>
   <main id="main">
-    <section class="columns">
-      <div class="container">
+    <section class="selection">
+      <div class="selection-column">
         <h2 class="block">Elo atual</h2>
         <template v-for="(elo, eloIndex) in currentEloList" :key="eloIndex">
           <div class="block">
@@ -22,9 +22,7 @@
                   class="league-item"
                   @click="selectElo(elo, 'current', eloIndex, leagueIndex)"
                   :class="{
-                    'league-item-selected':
-                      selectedElo.current.index == eloIndex &&
-                      selectedElo.current.leagueIndex == leagueIndex
+                    'league-item-selected': selectedElo.current.index == eloIndex && selectedElo.current.leagueIndex == leagueIndex
                   }"
                 >
                   {{ league.name }}
@@ -35,7 +33,7 @@
         </template>
       </div>
 
-      <div class="container">
+      <div class="selection-column">
         <h2 class="block">Elo desejado</h2>
         <template v-for="(elo, eloIndex) in targetEloList" :key="eloIndex">
           <div
@@ -64,13 +62,9 @@
                   @click="selectElo(elo, 'target', eloIndex, leagueIndex)"
                   :class="{
                     'league-item-impossible':
-                      selectedElo.current &&
-                      leagueIndex >= selectedElo.current.leagueIndex &&
-                      eloIndex == selectedElo.current.index,
+                      selectedElo.current && leagueIndex >= selectedElo.current.leagueIndex && eloIndex == selectedElo.current.index,
                     'league-item-selected':
-                      selectedElo.target &&
-                      selectedElo.target.index == eloIndex &&
-                      selectedElo.target.leagueIndex == leagueIndex
+                      selectedElo.target && selectedElo.target.index == eloIndex && selectedElo.target.leagueIndex == leagueIndex
                   }"
                 >
                   {{ league.name }}
@@ -81,9 +75,10 @@
         </template>
       </div>
     </section>
-    <section class="prices">
+    <section class="visualization" v-if="selectedElo.current.name && selectedElo.target.name">
       <PriceSection
         class="priceSection"
+        :priceList="priceList"
         :selectedElo="selectedElo"
         :getLeagueList="getLeagueList"
         :getServiceDeadline="getServiceDeadline"
@@ -225,13 +220,13 @@ export default {
       selectedElo: {
         current: {
           name: 'Ferro',
-          index: '0',
+          index: 0,
           leagueIndex: 3,
           image: 'assets/iron.png'
         },
         target: {
           name: 'Desafiante',
-          index: '9',
+          index: 9,
           leagueIndex: null,
           image: 'assets/challenger.png'
         }
@@ -266,20 +261,13 @@ export default {
             if (eloIndex > this.selectedElo.target.index) {
               this.cleanTargetElo()
             }
-            if (
-              eloIndex == this.selectedElo.target.index &&
-              leagueIndex <= this.selectedElo.target.leagueIndex
-            ) {
+            if (eloIndex == this.selectedElo.target.index && leagueIndex <= this.selectedElo.target.leagueIndex) {
               window.alert(this.selectedElo.target.index)
               this.cleanTargetElo()
             }
           }
 
-          if (
-            type == 'target' &&
-            eloIndex == this.selectedElo.current.index &&
-            leagueIndex >= this.selectedElo.current.leagueIndex
-          ) {
+          if (type == 'target' && eloIndex == this.selectedElo.current.index && leagueIndex >= this.selectedElo.current.leagueIndex) {
             return
           }
 
@@ -355,31 +343,19 @@ export default {
           if (eloIndex == start.elo && eloIndex != end.elo) {
             // Itera as ligas do start.elo a menos que end.elo == start.elo
             for (let leagueIndex = start.league; leagueIndex >= 0; leagueIndex--) {
-              leagueList[eloIndex].push(
-                this.targetEloList[eloIndex].name +
-                  ' ' +
-                  this.targetEloList[eloIndex].leagues[leagueIndex].name
-              )
+              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
           if (eloIndex != start.elo && eloIndex != end.elo) {
             // Itera as ligas entre o start.elo e o end.elo
             for (let leagueIndex = 3; leagueIndex >= 0; leagueIndex--) {
-              leagueList[eloIndex].push(
-                this.targetEloList[eloIndex].name +
-                  ' ' +
-                  this.targetEloList[eloIndex].leagues[leagueIndex].name
-              )
+              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
           if (eloIndex == end.elo) {
             // Itera as ligas do end.elo
             for (let leagueIndex = 3; leagueIndex > end.league; leagueIndex--) {
-              leagueList[eloIndex].push(
-                this.targetEloList[eloIndex].name +
-                  ' ' +
-                  this.targetEloList[eloIndex].leagues[leagueIndex].name
-              )
+              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
             }
           }
         } else {
@@ -432,26 +408,33 @@ export default {
   gap: 30px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   #main {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
-  .columns {
+  .selection {
     min-height: 75vh;
   }
 }
 
-.columns {
+.selection {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  height: 100%;
 }
 
-.prices {
+.visualization {
   display: grid;
   grid-template-columns: 1fr;
+
+  justify-items: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
 }
 
-.container {
+.selection-column {
   display: grid;
   grid-template-rows: repeat(11, 1fr);
 }
@@ -482,11 +465,11 @@ img {
 }
 
 .elo-block:hover {
-  background-color: rgb(0, 100, 100, 0.5);
+  background-color: rgb(0, 100, 100, 0.3);
 }
 
 .elo-block-selected {
-  background-color: rgb(0, 100, 100, 0.5);
+  background-color: rgb(0, 100, 100, 0.3);
   border: 1px solid rgb(0, 100, 100);
 }
 
@@ -505,15 +488,15 @@ img {
 }
 
 .league-item:hover {
-  background-color: rgb(0, 100, 100, 0.5);
+  background-color: rgb(0, 100, 100, 0.3);
 }
 
 .league-item-impossible:hover {
-  background-color: rgb(100, 0, 0, 0.5);
+  background-color: rgb(100, 0, 0, 0.3);
 }
 
 .league-item-selected {
-  background-color: rgb(0, 100, 100, 0.5);
+  background-color: rgb(0, 100, 100, 0.3);
   border: 1px solid rgb(0, 100, 100);
 }
 
