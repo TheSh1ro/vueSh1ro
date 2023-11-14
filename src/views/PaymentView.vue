@@ -24,7 +24,7 @@
         </p>
       </div>
       <div class="content-block button-block">
-        <button class="button" @click="handlePaymentCancel">Cancelar</button>
+        <button class="button" @click="handlePaymentCancel">Voltar</button>
         <button class="button" @click="handlePaymentConfirmation">Continuar</button>
       </div>
     </div>
@@ -43,15 +43,14 @@ export default {
     return {
       dataToBackend: {
         totalPrice: null,
-        currentEloName: null,
-        currentEloImage: null,
-        targetEloName: null,
-        targetEloImage: null,
+        currentName: null,
+        currentImage: null,
+        targetName: null,
+        targetImage: null,
         deadline: null
       },
 
-      previousPage: null,
-      service: null
+      previousPage: null
     }
   },
 
@@ -145,7 +144,7 @@ export default {
 .content {
   margin: 20px 40px;
   display: grid;
-  padding: 30px 55px;
+  padding: 20px 35px;
   margin: 20px;
   gap: 40px;
 
@@ -204,20 +203,22 @@ export default {
 }
 
 .button-block {
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
 }
 .button {
-  color: black;
-  padding: 10px 20px;
+  text-align: center;
+  padding: 7px 25px;
+  border-radius: 10px;
   border: 3px double black;
-  border-radius: 7px;
+  background-color: rgb(29, 117, 151, 0.6);
   cursor: pointer;
-  background-color: rgb(86, 158, 230);
 }
 .button:nth-child(even):hover {
-  background-color: rgb(86, 188, 150);
+  background-color: rgb(29, 117, 151, 0.4);
 }
 .button:nth-child(odd):hover {
-  background-color: rgb(155, 128, 180);
+  background-color: rgb(29, 117, 151, 0.4);
 }
 </style>

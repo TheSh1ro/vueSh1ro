@@ -23,21 +23,14 @@ export const usePurchaseStore = defineStore('purchase', {
     purchase: null
   }),
   actions: {
-    keepPurchase(
-      totalPrice,
-      currentEloName,
-      currentEloImage,
-      targetEloName,
-      targetEloImage,
-      deadline
-    ) {
+    keepPurchase(servicePrice, currentElo, currentImage, targetElo, targetImage, serviceDeadline) {
       this.purchase = {
-        totalPrice: totalPrice,
-        currentEloName: currentEloName,
-        currentEloImage: currentEloImage,
-        targetEloName: targetEloName,
-        targetEloImage: targetEloImage,
-        deadline: deadline
+        totalPrice: servicePrice,
+        currentEloName: currentElo,
+        currentEloImage: currentImage,
+        targetEloName: targetElo,
+        targetEloImage: targetImage,
+        deadline: serviceDeadline
       }
     },
     clearPurchase() {

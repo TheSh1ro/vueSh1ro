@@ -1,6 +1,16 @@
 <script>
+import { usePurchaseStore } from '../stores/store.js'
+
 export default {
-  props: ['priceList', 'selectedElo', 'getLeagueList', 'getServicePrice', 'getServiceDeadline', 'cleanCurrentElo', 'cleanTargetElo'],
+  props: [
+    'priceList',
+    'selectedElo',
+    'getLeagueList',
+    'getServicePrice',
+    'getServiceDeadline',
+    'cleanCurrentElo',
+    'cleanTargetElo'
+  ],
   data() {
     return {
       detailView: false
@@ -29,6 +39,18 @@ export default {
   methods: {
     toggleDetailView() {
       this.detailView = !this.detailView
+    },
+
+    sendPurchase(servicePrice, currentElo, currentImage, targetElo, targetImage, serviceDeadline) {
+      const purchaseStore = usePurchaseStore()
+      purchaseStore.keepPurchase(
+        servicePrice,
+        currentElo,
+        currentImage,
+        targetElo,
+        targetImage,
+        serviceDeadline
+      )
     }
   }
 }
@@ -41,25 +63,66 @@ export default {
     </header>
     <body class="normal-body">
       <section class="elo-container">
-        <div class="elo-item" :class="{ 'elo-item-possible': getCurrentElo != null }" @click="cleanCurrentElo">
+        <div
+          class="elo-item"
+          :class="{ 'elo-item-possible': getCurrentElo != null }"
+          @click="cleanCurrentElo"
+        >
           <img src="/assets/delete.png" class="trash-image" alt="Imagem de lixeira" />
           <img :src="selectedElo.current.image" class="elo-image" alt="Imagem do elo" />
           <p class="elo-name">{{ getCurrentElo }}</p>
         </div>
-        <div class="elo-item" :class="{ 'elo-item-possible': getTargetElo != null }" @click="cleanTargetElo">
+        <div
+          class="elo-item"
+          :class="{ 'elo-item-possible': getTargetElo != null }"
+          @click="cleanTargetElo"
+        >
           <img src="/assets/delete.png" class="trash-image" alt="Imagem de lixeira" />
           <img :src="selectedElo.target.image" class="elo-image" alt="Imagem do elo" />
           <p class="elo-name">{{ getTargetElo }}</p>
         </div>
       </section>
       <section class="info-container">
-        <p class="deadline">O serviço será realizado dentro de um prazo de {{ getServiceDeadline }} dias</p>
-        <p class="fakePrice">R${{ (getServicePrice * 10) / 8 }},00</p>
-        <p class="truePrice">R${{ getServicePrice }},00</p>
+        <p class="deadline">
+          O serviço será realizado dentro de um prazo de {{ getServiceDeadline }} dias
+        </p>
+        <p class="fakePrice">
+          R${{
+            (getServicePrice * 1.2).toLocaleString('pt-BR', {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })
+          }}
+        </p>
+        <p class="truePrice">
+          R${{
+            getServicePrice.toLocaleString('pt-BR', {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })
+          }}
+        </p>
       </section>
       <section class="button-container">
         <button class="button-item" @click="toggleDetailView">Detalhes</button>
-        <button class="button-item">Continuar</button>
+        <RouterLink
+          class="button-item"
+          :to="{ path: '/payment', query: { service: this.$route.name } }"
+          @click="
+            sendPurchase(
+              getServicePrice,
+              getCurrentElo,
+              selectedElo.current.image,
+              getTargetElo,
+              selectedElo.target.image,
+              getServiceDeadline
+            )
+          "
+        >
+          Continuar
+        </RouterLink>
       </section>
     </body>
   </main>
@@ -82,7 +145,14 @@ export default {
             <tr :class="{ 'last-data': index == 8 }">
               <td>{{ item.name }}</td>
               <td>
-                {{ item.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+                {{
+                  item.value.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })
+                }}
               </td>
             </tr>
           </template>
@@ -195,7 +265,7 @@ export default {
 
 .button-item {
   width: fit-content;
-  padding: 12px 35px;
+  padding: 7px 25px;
   background-color: rgb(0, 100, 100);
   border: none;
   cursor: pointer;
@@ -233,7 +303,7 @@ export default {
 }
 .detail-button {
   width: fit-content;
-  padding: 15px 35px;
+  padding: 7px 25px;
   background-color: rgb(0, 100, 100);
   border: none;
   cursor: pointer;

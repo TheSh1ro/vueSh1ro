@@ -1,15 +1,25 @@
 <template>
   <div id="main">
-    <form class="container" @submit.prevent="login">
+    <div class="container">
       <h2 class="title-block">Acesse sua conta</h2>
       <div class="input-block">
         <div class="input-user" :class="{ inputRed: placeholder.error == 1 }">
           <img src="../assets/people.png" alt="" />
           <input
-            :placeholder=placeholder.login
+            :placeholder="placeholder.login"
             type="text"
             id="username"
             v-model="formData.username"
+            @input="restrictSpecialCharacters"
+          />
+        </div>
+        <div class="input-email" :class="{ inputRed: placeholder.error == 3 }" v-if="signMode">
+          <img src="../assets/people.png" alt="" />
+          <input
+            :placeholder="placeholder.email"
+            type="text"
+            id="email"
+            v-model="formData.email"
             @input="restrictSpecialCharacters"
           />
         </div>
@@ -31,10 +41,10 @@
         </div>
       </div>
       <div class="button-block">
-        <button type="submit">Entrar</button>
-        <button>Registrar-se</button>
+        <button @click="login">Entrar</button>
+        <button class="register-button" @click="toggleSignMode">Registrar-se</button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -46,15 +56,18 @@ export default {
     return {
       previousPath: null,
       showPassword: false,
+      signMode: false,
 
       formData: {
         username: '',
-        password: ''
+        password: '',
+        email: ''
       },
 
       placeholder: {
-        login: 'Usuário ou e-mail',
+        login: 'Usuário',
         senha: 'Senha',
+        email: 'E-mail',
         error: 0
       }
     }
@@ -65,6 +78,10 @@ export default {
   },
 
   methods: {
+    toggleSignMode() {
+      this.signMode = !this.signMode
+    },
+
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword
     },
@@ -139,7 +156,8 @@ h2 {
 }
 
 .input-user,
-.input-password {
+.input-password,
+.input-email {
   position: relative;
   display: flex;
   align-items: center;
@@ -148,7 +166,6 @@ h2 {
   width: 100%;
   border: 1px solid transparent;
   border-radius: 10px;
-
 }
 
 input {
@@ -198,7 +215,8 @@ button:nth-child(even) {
 }
 
 button:hover {
-  color: black;
+  background: none;
+  background-color: blue;
 }
 
 .inputRed {
