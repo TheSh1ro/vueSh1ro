@@ -83,7 +83,7 @@ export default {
         </div>
       </section>
       <section class="info-container">
-        <p class="deadline">
+        <p class="deadline" style="padding-inline: 30px;">
           O serviço será realizado dentro de um prazo de {{ getServiceDeadline }} dias
         </p>
         <p class="fakePrice">
@@ -303,7 +303,8 @@ export default {
 }
 .detail-button {
   width: fit-content;
-  padding: 7px 25px;
+  height: 100%;
+  width: 50%;
   background-color: rgb(0, 100, 100);
   border: none;
   cursor: pointer;

@@ -18,6 +18,8 @@
         />
       </header>
       <body>
+        <span>Conta</span>
+        <span>Minhas compras</span>
         <span @click="logoutAccount()">Desconectar</span>
       </body>
     </div>
@@ -118,7 +120,7 @@ export default {
   position: absolute;
   right: 0px;
   top: 120%;
-  width: 160px;
+  width: 220px;
   margin-right: 10px;
 
   display: grid;
@@ -126,9 +128,11 @@ export default {
 
   background-color: rgb(8, 58, 91);
   font-size: 1.1rem;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 .dropdown > header > img {
-  width: 160px;
+  width: 100%;
   height: 40px;
   display: block;
   margin: 0 auto;
@@ -143,11 +147,14 @@ export default {
 }
 
 .dropdown > body > span {
-  padding: 2px;
+  padding-block: 12px;
+}
+.dropdown > body > span:last-of-type {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 .dropdown > body > span:hover {
-  display: block;
-  background-color: rgb(8, 98, 121);
+  background-color: rgb(8, 78, 121);
 }
 
 .user-image {
