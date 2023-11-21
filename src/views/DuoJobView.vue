@@ -22,7 +22,9 @@
                   class="league-item"
                   @click="selectElo(elo, 'current', eloIndex, leagueIndex)"
                   :class="{
-                    'league-item-selected': selectedElo.current.index == eloIndex && selectedElo.current.leagueIndex == leagueIndex
+                    'league-item-selected':
+                      selectedElo.current.index == eloIndex &&
+                      selectedElo.current.leagueIndex == leagueIndex
                   }"
                 >
                   {{ league.name }}
@@ -62,9 +64,13 @@
                   @click="selectElo(elo, 'target', eloIndex, leagueIndex)"
                   :class="{
                     'league-item-impossible':
-                      selectedElo.current && leagueIndex >= selectedElo.current.leagueIndex && eloIndex == selectedElo.current.index,
+                      selectedElo.current &&
+                      leagueIndex >= selectedElo.current.leagueIndex &&
+                      eloIndex == selectedElo.current.index,
                     'league-item-selected':
-                      selectedElo.target && selectedElo.target.index == eloIndex && selectedElo.target.leagueIndex == leagueIndex
+                      selectedElo.target &&
+                      selectedElo.target.index == eloIndex &&
+                      selectedElo.target.leagueIndex == leagueIndex
                   }"
                 >
                   {{ league.name }}
@@ -77,7 +83,7 @@
     </section>
     <section class="visualization" v-if="selectedElo.current.name && selectedElo.target.name">
       <PriceSection
-        class="priceSection"
+        :serviceType="serviceType"
         :priceList="priceList"
         :selectedElo="selectedElo"
         :getLeagueList="getLeagueList"
@@ -98,7 +104,7 @@ export default {
 
   data() {
     return {
-      teste: 'oi',
+      serviceType: 'Duo',
       currentEloList: [
         {
           name: 'Ferro',
@@ -261,13 +267,20 @@ export default {
             if (eloIndex > this.selectedElo.target.index) {
               this.cleanTargetElo()
             }
-            if (eloIndex == this.selectedElo.target.index && leagueIndex <= this.selectedElo.target.leagueIndex) {
+            if (
+              eloIndex == this.selectedElo.target.index &&
+              leagueIndex <= this.selectedElo.target.leagueIndex
+            ) {
               window.alert(this.selectedElo.target.index)
               this.cleanTargetElo()
             }
           }
 
-          if (type == 'target' && eloIndex == this.selectedElo.current.index && leagueIndex >= this.selectedElo.current.leagueIndex) {
+          if (
+            type == 'target' &&
+            eloIndex == this.selectedElo.current.index &&
+            leagueIndex >= this.selectedElo.current.leagueIndex
+          ) {
             return
           }
 
@@ -343,19 +356,31 @@ export default {
           if (eloIndex == start.elo && eloIndex != end.elo) {
             // Itera as ligas do start.elo a menos que end.elo == start.elo
             for (let leagueIndex = start.league; leagueIndex >= 0; leagueIndex--) {
-              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              leagueList[eloIndex].push(
+                this.targetEloList[eloIndex].name +
+                  ' ' +
+                  this.targetEloList[eloIndex].leagues[leagueIndex].name
+              )
             }
           }
           if (eloIndex != start.elo && eloIndex != end.elo) {
             // Itera as ligas entre o start.elo e o end.elo
             for (let leagueIndex = 3; leagueIndex >= 0; leagueIndex--) {
-              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              leagueList[eloIndex].push(
+                this.targetEloList[eloIndex].name +
+                  ' ' +
+                  this.targetEloList[eloIndex].leagues[leagueIndex].name
+              )
             }
           }
           if (eloIndex == end.elo) {
             // Itera as ligas do end.elo
             for (let leagueIndex = 3; leagueIndex > end.league; leagueIndex--) {
-              leagueList[eloIndex].push(this.targetEloList[eloIndex].name + ' ' + this.targetEloList[eloIndex].leagues[leagueIndex].name)
+              leagueList[eloIndex].push(
+                this.targetEloList[eloIndex].name +
+                  ' ' +
+                  this.targetEloList[eloIndex].leagues[leagueIndex].name
+              )
             }
           }
         } else {
@@ -372,6 +397,7 @@ export default {
     getServicePrice() {
       const leagueList = this.getLeagueList
       const priceList = this.priceList
+
       let totalPrice = 0
 
       // Adiciona ao preço comparando leagueList com priceList / Desafiante não conta < 9
@@ -385,6 +411,7 @@ export default {
     getServiceDeadline() {
       const leagueList = this.getLeagueList
       const priceList = this.priceList
+
       let totalDays = 0
 
       for (let index = 0; index < 9; index++) {
@@ -401,7 +428,8 @@ export default {
 #main {
   background-color: rgba(0, 0, 0, 0.8);
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: space-evenly;
 
   padding: 40px;
@@ -424,11 +452,10 @@ export default {
 }
 
 .visualization {
-  display: grid;
-  grid-template-columns: 1fr;
-
-  justify-items: center;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  grid-template-columns: 1fr;
 
   height: 100%;
   width: 100%;

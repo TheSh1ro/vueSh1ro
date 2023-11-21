@@ -3,6 +3,7 @@ import { usePurchaseStore } from '../stores/store.js'
 
 export default {
   props: [
+    'serviceType',
     'priceList',
     'selectedElo',
     'getLeagueList',
@@ -41,9 +42,18 @@ export default {
       this.detailView = !this.detailView
     },
 
-    sendPurchase(servicePrice, currentElo, currentImage, targetElo, targetImage, serviceDeadline) {
+    sendPurchase(
+      serviceType,
+      servicePrice,
+      currentElo,
+      currentImage,
+      targetElo,
+      targetImage,
+      serviceDeadline
+    ) {
       const purchaseStore = usePurchaseStore()
       purchaseStore.keepPurchase(
+        serviceType,
         servicePrice,
         currentElo,
         currentImage,
@@ -57,9 +67,8 @@ export default {
 </script>
 <template>
   <main class="normal-main" v-if="!detailView">
-    <header class="header-main">
+    <header class="normal-header">
       <h1 class="title">SELEÇÃO DE ELO</h1>
-      <p>{{ getLeagueListArray }}</p>
     </header>
     <body class="normal-body">
       <section class="elo-container">
@@ -83,7 +92,7 @@ export default {
         </div>
       </section>
       <section class="info-container">
-        <p class="deadline" style="padding-inline: 30px;">
+        <p class="deadline" style="padding-inline: 30px">
           O serviço será realizado dentro de um prazo de {{ getServiceDeadline }} dias
         </p>
         <p class="fakePrice">
@@ -112,6 +121,7 @@ export default {
           :to="{ path: '/payment', query: { service: this.$route.name } }"
           @click="
             sendPurchase(
+              serviceType,
               getServicePrice,
               getCurrentElo,
               selectedElo.current.image,
@@ -172,9 +182,10 @@ export default {
   background-color: rgba(0, 100, 100, 0.3);
 
   width: 310px;
+  height: fit-content;
 }
 
-.header-main {
+.normal-header {
   padding-block: 20px;
   border-bottom: 2px solid rgb(0, 100, 100);
 
@@ -186,6 +197,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: center;
   flex-grow: 1;
   gap: 50px;
 
@@ -261,15 +273,19 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
+  gap: 20px;
+  padding-inline: 20px;
 }
 
 .button-item {
-  width: fit-content;
-  padding: 7px 25px;
+  text-align: center;
+  width: 100%;
+  padding: 8px 0px;
   background-color: rgb(0, 100, 100);
   border: none;
   cursor: pointer;
   border-radius: 10px;
+  font-size: 1rem;
 }
 
 .button-item:hover {

@@ -18,7 +18,9 @@
         />
       </header>
       <body>
-        <span>Conta</span>
+        <RouterLink to="conta">
+          Conta
+        </RouterLink>
         <span>Minhas compras</span>
         <span @click="logoutAccount()">Desconectar</span>
       </body>

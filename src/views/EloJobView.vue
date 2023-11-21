@@ -1,569 +1,424 @@
 <template>
   <main id="main">
-    <div :class="{ contentSingle: !totalPrice, contentDual: totalPrice }">
-      <div class="rankBox">
-        <div class="rank-column">
-          <div class="rank-row">
-            <span class="row-title">Elo inicial</span>
-          </div>
-          <template v-for="(elo, index) in currentElo" :key="index">
-            <div class="rank-row">
-              <span
-                class="row-elo"
-                @click="selectElo(elo, index)"
-                v-if="elo.visible"
-                :class="{ 'row-elo-selected': elo.name == selectedElo.current.name }"
-              >
-                {{ elo.name }}
-                <img :src="elo.image" />
-              </span>
-              <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span class="league-item" @click="selectElo(elo, index, leagueIndex)">
-                    {{ league.name }}
-                  </span>
-                </template>
-              </div>
-            </div>
-          </template>
-        </div>
-
-        <div class="rank-column">
-          <div class="rank-row">
-            <span class="row-title">Elo final</span>
-          </div>
-          <template v-for="(elo, index) in targetElo" :key="index">
+    <section class="selection">
+      <div class="selection-column">
+        <h2 class="block">Elo atual</h2>
+        <template v-for="(elo, eloIndex) in currentEloList" :key="eloIndex">
+          <div class="block">
             <div
-              class="rank-row"
-              v-if="
-                index >= selectedElo.current.index &&
-                !(index == selectedElo.current.index && selectedElo.current.league == 0)
-              "
+              class="elo-block"
+              :class="{
+                'elo-block-selected': selectedElo.current && selectedElo.current.name == elo.name
+              }"
+              v-if="elo.visible"
+              @click="selectElo(elo, 'current', eloIndex)"
             >
-              <span
-                class="row-elo"
-                @click="selectElo(elo, index)"
-                v-if="elo.visible"
-                :class="{
-                  'row-elo-selected': elo.name == selectedElo.target.name,
-                  blockSelection:
-                    index < selectedElo.current.index ||
-                    (index >= 7 && index == selectedElo.current.index)
-                }"
-              >
-                {{ elo.name }}
-                <img :src="elo.image" />
-              </span>
-              <div class="row-league" v-if="!elo.visible">
-                <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
-                  <span
-                    class="league-item"
-                    @click="selectElo(elo, index, leagueIndex)"
-                    :class="{
-                      blockSelection:
-                        index == selectedElo.current.index &&
-                        leagueIndex >= selectedElo.current.league
-                    }"
-                  >
-                    {{ league.name }}
-                  </span>
-                </template>
-              </div>
+              <p>{{ elo.name }}</p>
+              <img :src="elo.image" alt="" />
             </div>
-          </template>
-        </div>
+            <div class="league-block" v-if="!elo.visible">
+              <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
+                <span
+                  class="league-item"
+                  @click="selectElo(elo, 'current', eloIndex, leagueIndex)"
+                  :class="{
+                    'league-item-selected':
+                      selectedElo.current.index == eloIndex &&
+                      selectedElo.current.leagueIndex == leagueIndex
+                  }"
+                >
+                  {{ league.name }}
+                </span>
+              </template>
+            </div>
+          </div>
+        </template>
       </div>
-      <div class="priceBox" v-if="totalPrice">
-        <h2>Você selecionou</h2>
-        <div class="priceBox-block">
-          <div class="priceBox-elo">
-            <img class="priceBox-image" :src="selectedElo.current.image" alt="" />
-            <p class="priceBox-name">{{ getCurrentNameSelected }}</p>
-          </div>
-          <div class="priceBox-elo">
-            <img class="priceBox-image" :src="selectedElo.target.image" alt="" />
-            <p class="priceBox-name">{{ getTargetNameSelected }}</p>
-          </div>
-        </div>
-        <p class="priceBox-price">R${{ totalPrice }}</p>
-        <div class="priceBox-block">
-          <RouterLink
-            class="priceBox-button"
-            :to="{ path: '/payment', query: { service: this.$route.name } }"
-            @click="
-              sendPurchase(
-                totalPrice,
-                getCurrentNameSelected,
-                selectedElo.current.image,
-                getTargetNameSelected,
-                selectedElo.target.image,
-                totalLeagues * 2
-              )
+
+      <div class="selection-column">
+        <h2 class="block">Elo desejado</h2>
+        <template v-for="(elo, eloIndex) in targetEloList" :key="eloIndex">
+          <div
+            class="block"
+            v-if="
+              selectedElo.current.index == null ||
+              eloIndex > selectedElo.current.index ||
+              (eloIndex == selectedElo.current.index && selectedElo.current.leagueIndex > 0)
             "
           >
-            <p>Continuar</p>
-          </RouterLink>
-          <button class="priceBox-button" @click="purchaseDetail">Detalhes</button>
-        </div>
+            <div
+              class="elo-block"
+              :class="{
+                'elo-block-selected': selectedElo.target && selectedElo.target.name == elo.name
+              }"
+              v-if="elo.visible"
+              @click="selectElo(elo, 'target', eloIndex)"
+            >
+              <p>{{ elo.name }}</p>
+              <img :src="elo.image" alt="" />
+            </div>
+            <div class="league-block" v-if="!elo.visible">
+              <template v-for="(league, leagueIndex) in elo.leagues" :key="leagueIndex">
+                <span
+                  class="league-item"
+                  @click="selectElo(elo, 'target', eloIndex, leagueIndex)"
+                  :class="{
+                    'league-item-impossible':
+                      selectedElo.current &&
+                      leagueIndex >= selectedElo.current.leagueIndex &&
+                      eloIndex == selectedElo.current.index,
+                    'league-item-selected':
+                      selectedElo.target &&
+                      selectedElo.target.index == eloIndex &&
+                      selectedElo.target.leagueIndex == leagueIndex
+                  }"
+                >
+                  {{ league.name }}
+                </span>
+              </template>
+            </div>
+          </div>
+        </template>
       </div>
-    </div>
+    </section>
+    <section class="visualization" v-if="selectedElo.current.name && selectedElo.target.name">
+      <PriceSection
+        :serviceType="serviceType"
+        :priceList="priceList"
+        :selectedElo="selectedElo"
+        :getLeagueList="getLeagueList"
+        :getServiceDeadline="getServiceDeadline"
+        :getServicePrice="getServicePrice"
+        :cleanCurrentElo="cleanCurrentElo"
+        :cleanTargetElo="cleanTargetElo"
+      />
+    </section>
   </main>
 </template>
 
 <script>
-import { usePurchaseStore } from '../stores/store.js'
+import PriceSection from '../components/PriceSection.vue'
 
 export default {
+  components: { PriceSection },
+
   data() {
     return {
-      currentElo: [
+      serviceType: 'Solo',
+      currentEloList: [
         {
           name: 'Ferro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'current',
           image: 'assets/diamond.png'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
-          type: 'current',
           image: 'assets/master.png'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
-          type: 'current',
           image: 'assets/grandmaster.png'
         }
       ],
-
-      targetElo: [
+      targetEloList: [
         {
           name: 'Ferro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/iron.png'
         },
         {
           name: 'Bronze',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/bronze.png'
         },
         {
           name: 'Prata',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/silver.png'
         },
         {
           name: 'Ouro',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/gold.png'
         },
         {
           name: 'Platina',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/platinum.png'
         },
         {
           name: 'Esmeralda',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/emerald.png'
         },
         {
           name: 'Diamante',
           leagues: [{ name: 'I' }, { name: 'II' }, { name: 'III' }, { name: 'IV' }],
           visible: true,
-          type: 'target',
           image: 'assets/diamond.png'
         },
         {
           name: 'Mestre',
           leagues: null,
           visible: true,
-          type: 'target',
           image: 'assets/master.png'
         },
         {
           name: 'Grão Mestre',
           leagues: null,
           visible: true,
-          type: 'target',
           image: 'assets/grandmaster.png'
         },
         {
           name: 'Desafiante',
           leagues: null,
           visible: true,
-          type: 'target',
           image: 'assets/challenger.png'
         }
       ],
-
-      priceList: [
-        { name: 'Ferro', value: 10 },
-        { name: 'Bronze', value: 10 },
-        { name: 'Prata', value: 12.5 },
-        { name: 'Ouro', value: 15 },
-        { name: 'Platina', value: 22.5 },
-        { name: 'Esmeralda', value: 30 },
-        { name: 'Diamante', value: 45 },
-        { name: 'Mestre', value: 600 },
-        { name: 'Grão Mestre', value: 1200 },
-        { name: 'Desafiante', value: 0 }
-      ],
-
       selectedElo: {
-        current: { name: null, league: null, index: null, image: null },
-        target: { name: null, league: null, index: null, image: null }
+        current: {
+          name: 'Ferro',
+          index: 0,
+          leagueIndex: 3,
+          image: 'assets/iron.png'
+        },
+        target: {
+          name: 'Desafiante',
+          index: 9,
+          leagueIndex: null,
+          image: 'assets/challenger.png'
+        }
       },
-
-      computedEloArray: [],
-      totalPrice: null,
-      totalLeagues: null
+      priceList: [
+        { name: 'Ferro', value: 10, deadline: 2 },
+        { name: 'Bronze', value: 10, deadline: 2 },
+        { name: 'Prata', value: 12.5, deadline: 2 },
+        { name: 'Ouro', value: 15, deadline: 2 },
+        { name: 'Platina', value: 22.5, deadline: 2 },
+        { name: 'Esmeralda', value: 30, deadline: 2 },
+        { name: 'Diamante', value: 45, deadline: 2 },
+        { name: 'Mestre', value: 600, deadline: 14 },
+        { name: 'Grão Mestre', value: 1200, deadline: 14 }
+      ]
     }
   },
   methods: {
-    toggleSelectorCurrent(elo, index) {
-      // Calcular preço do elojob
-      if (this.selectedElo.current.name != null && this.selectedElo.target.name != null) {
-        this.getComputedElo()
-      }
-
-      // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
-      if (index <= 6) {
-        this.currentElo.forEach((elo, i) => {
-          if (i === index) {
-            elo.visible = !elo.visible
-          } else {
-            elo.visible = true
-          }
-        })
-      } else {
-        this.currentElo.forEach((elo) => {
-          elo.visible = true
-        })
-      }
-
-      // Fechar seletor de divisão da coluna oposta (estética)
-      this.targetElo.forEach((elo) => {
-        elo.visible = true
-      })
+    cleanCurrentElo() {
+      this.selectedElo.current = {}
     },
 
-    toggleSelectorTarget(elo, index) {
-      // Calcular preço do elojob
-      if (this.selectedElo.current.name != null && this.selectedElo.target.name != null) {
-        this.getComputedElo()
-      }
-
-      // Ao selecionar diamante-, mostrar seletor de divisão ao clicar
-      if (index <= 6) {
-        this.targetElo.forEach((elo, i) => {
-          if (i === index) {
-            elo.visible = !elo.visible
-          } else {
-            elo.visible = true
-          }
-        })
-      } else {
-        this.targetElo.forEach((elo) => {
-          elo.visible = true
-        })
-      }
-
-      // Fechar seletor de divisão da coluna oposta (estética)
-      this.currentElo.forEach((elo) => {
-        elo.visible = true
-      })
+    cleanTargetElo() {
+      this.selectedElo.target = {}
     },
 
-    selectElo(elo, index, leagueIndex) {
-      if (elo.type == 'current') {
-        // Entre ferro e diamante, (executado apenas ao clicar na divisão, não no elo)
-        if (index <= 6 && leagueIndex != null) {
-          // Reseta selectedElo caso seja inferior elo atual
-          if (
-            index > this.selectedElo.target.index ||
-            (index == this.selectedElo.target.index &&
-              leagueIndex <= this.selectedElo.target.league)
-          ) {
-            this.resetSelection()
-          }
-
-          this.selectedElo.current.name = elo.name
-          this.selectedElo.current.image = elo.image
-          this.selectedElo.current.league = leagueIndex
-          this.selectedElo.current.index = index
-        }
-
-        // Entre mestre e desafiante
-        if (index >= 7) {
-          if (index >= this.selectedElo.target.index) {
-            this.resetSelection()
-          }
-
-          this.selectedElo.current.name = elo.name
-          this.selectedElo.current.image = elo.image
-          this.selectedElo.current.league = 0
-          this.selectedElo.current.index = index
-        }
-
-        this.toggleSelectorCurrent(elo, index)
-      }
-
-      if (elo.type == 'target') {
-        // Bloquear seleção caso o elo seja: inferior ao elo atual EX: (Platina ao Ouro) ou mesmo elo porém com divisão inferior EX: (Platina 2 ao Platina 4)
-        if (
-          index < this.selectedElo.current.index ||
-          (index == this.selectedElo.current.index &&
-            leagueIndex >= this.selectedElo.current.league)
-        ) {
-          return
-        }
-
-        // Entre ferro e diamante, (executado apenas ao clicar na divisão, não no elo)
-        if (index <= 6 && leagueIndex != null) {
-          this.selectedElo.target.name = elo.name
-          this.selectedElo.target.image = elo.image
-          this.selectedElo.target.league = leagueIndex
-          this.selectedElo.target.index = index
-        }
-
-        // Entre mestre e desafiante
-        if (index >= 7) {
-          // Bloquear seleção caso o elo seja igual ao elo atual (Ex: Mestre - Mestre)
-          if (index == this.selectedElo.current.index) {
-            return
-          }
-
-          this.selectedElo.target.name = elo.name
-          this.selectedElo.target.image = elo.image
-          this.selectedElo.target.league = 0
-          this.selectedElo.target.index = index
-        }
-        this.toggleSelectorTarget(elo, index)
-      }
-    },
-
-    resetSelection() {
-      this.selectedElo.target.name = null
-      this.selectedElo.target.league = null
-      this.selectedElo.target.index = null
-      this.computedEloArray = []
-      this.totalPrice = 0
-      this.totalLeagues = 0
-    },
-
-    getComputedElo() {
-      const currentIndex = this.selectedElo.current.index
-      const targetIndex = this.selectedElo.target.index
-
-      this.computedEloArray = [] // Limpa o array antes de calcular novamente
-      this.totalPrice = 0
-      this.totalLeagues = 0
-
-      for (let index = currentIndex; index <= targetIndex; index++) {
-        const currentElo = { ...this.currentElo[index] }
-        const price = this.priceList[index]
-        let multiplier = 4
-
-        // Elos acima do mestre recebem multiplier = 1
-        if (index >= 7) {
-          multiplier = 1
-        }
-
-        // O elo inicial selecionado recebe o multiplicador conforme a liga selecionada / First run
-        if (index == currentIndex && index <= 6) {
-          multiplier = this.selectedElo.current.league + 1
-        }
-
-        // O elo final selecionado recebe o multiplicador inverso a liga selecionada / Last run
-        if (index == targetIndex) {
-          if (index <= 6) {
-            switch (this.selectedElo.target.league) {
-              case 3:
-                multiplier = 0
-                return
-              case 2:
-                multiplier = 1
-                break
-              case 1:
-                multiplier = 2
-                break
-              case 0:
-                multiplier = 3
-                break
+    selectElo(elo, type, eloIndex, leagueIndex) {
+      if (elo.leagues != null) {
+        // CLICANDO EM LIGA
+        if (leagueIndex != null) {
+          if (type == 'current') {
+            if (eloIndex > this.selectedElo.target.index) {
+              this.cleanTargetElo()
             }
-          } else {
+            if (
+              eloIndex == this.selectedElo.target.index &&
+              leagueIndex <= this.selectedElo.target.leagueIndex
+            ) {
+              window.alert(this.selectedElo.target.index)
+              this.cleanTargetElo()
+            }
+          }
+
+          if (
+            type == 'target' &&
+            eloIndex == this.selectedElo.current.index &&
+            leagueIndex >= this.selectedElo.current.leagueIndex
+          ) {
             return
           }
-        }
 
-        // Caso o elo final seja igual ao elo inicial, calcular preço por divisão:
-        if (currentIndex == targetIndex) {
-          multiplier = this.selectedElo.current.league - this.selectedElo.target.league
-        }
+          this.toggleLeagueVisibility(elo, type, eloIndex)
 
-        const computedElo = {
-          name: currentElo.name,
-          price: price.value,
-          index: index,
-          multiplier: multiplier
-        }
-
-        // Calcular quantidade de ligas, para calcular o prazo (totalLeagues = prazo)
-        if (index <= 6) {
-          this.totalLeagues += multiplier
+          this.selectedElo[type] = {
+            name: elo.name,
+            index: eloIndex,
+            leagueIndex: leagueIndex,
+            image: elo.image
+          }
         } else {
-          this.totalLeagues += 7
+          // Caso esteja clicando para visualizar as ligas de um elo
+          this.toggleLeagueVisibility(elo, type, eloIndex)
+        }
+      } else {
+        this.toggleLeagueVisibility(elo, type, eloIndex)
+        if (type == 'current' && eloIndex >= this.selectedElo.target.index) {
+          this.selectedElo.target = {}
         }
 
-        this.computedEloArray.push(computedElo)
-        this.totalPrice += computedElo.price * computedElo.multiplier
+        this.selectedElo[type] = {
+          name: elo.name,
+          index: eloIndex,
+          leagueIndex: leagueIndex,
+          image: elo.image
+        }
       }
     },
 
-    sendPurchase(
-      totalPrice,
-      currentEloName,
-      currentEloImage,
-      targetEloName,
-      targetEloImage,
-      deadline
-    ) {
-      const purchaseStore = usePurchaseStore()
-      purchaseStore.keepPurchase(
-        totalPrice,
-        currentEloName,
-        currentEloImage,
-        targetEloName,
-        targetEloImage,
-        deadline
-      )
-    },
+    toggleLeagueVisibility(elo, column, index) {
+      const eloList = this[column + 'EloList']
+      const status = eloList[index].visible
 
-    purchaseDetail() {
-      window.alert()
+      // Oculta todas as ligas da primeira coluna
+      this.currentEloList.forEach((e) => {
+        e.visible = true
+      })
+
+      // Oculta todas as ligas da segunda coluna
+      this.targetEloList.forEach((e) => {
+        e.visible = true
+      })
+
+      // Caso possua ligas: torna visível ou oculta as ligas do elo clicado
+      if (elo.leagues) {
+        eloList[index].visible = !status
+      }
     }
   },
 
   computed: {
-    getCurrentSelected() {
-      const elo = this.selectedElo.current
-      if (elo.index >= 7) {
-        return elo.name
-      } else {
-        return elo.name + ' ' + (elo.league + 1)
+    getLeagueList() {
+      const start = {
+        elo: this.selectedElo.current.index,
+        league: this.selectedElo.current.leagueIndex
       }
+      const end = {
+        elo: this.selectedElo.target.index,
+        league: this.selectedElo.target.leagueIndex
+      }
+
+      const leagueList = []
+
+      // Cria um array com 10 arrays vazios que serão preenchidos ou não
+      for (let i = 0; i < 10; i++) {
+        leagueList.push([])
+      }
+
+      // leagueList.push conforme os elos selecionados
+      for (let eloIndex = start.elo; eloIndex <= end.elo; eloIndex++) {
+        if (this.targetEloList[eloIndex].leagues != null) {
+          if (eloIndex == start.elo && eloIndex != end.elo) {
+            // Itera as ligas do start.elo a menos que end.elo == start.elo
+            for (let leagueIndex = start.league; leagueIndex >= 0; leagueIndex--) {
+              leagueList[eloIndex].push(
+                this.targetEloList[eloIndex].name +
+                  ' ' +
+                  this.targetEloList[eloIndex].leagues[leagueIndex].name
+              )
+            }
+          }
+          if (eloIndex != start.elo && eloIndex != end.elo) {
+            // Itera as ligas entre o start.elo e o end.elo
+            for (let leagueIndex = 3; leagueIndex >= 0; leagueIndex--) {
+              leagueList[eloIndex].push(
+                this.targetEloList[eloIndex].name +
+                  ' ' +
+                  this.targetEloList[eloIndex].leagues[leagueIndex].name
+              )
+            }
+          }
+          if (eloIndex == end.elo) {
+            // Itera as ligas do end.elo
+            for (let leagueIndex = 3; leagueIndex > end.league; leagueIndex--) {
+              leagueList[eloIndex].push(
+                this.targetEloList[eloIndex].name +
+                  ' ' +
+                  this.targetEloList[eloIndex].leagues[leagueIndex].name
+              )
+            }
+          }
+        } else {
+          // < end.elo : último elo selecionado não deve ser listado, ele é o fim.
+          if (eloIndex < end.elo) {
+            leagueList[eloIndex].push(this.targetEloList[eloIndex].name)
+          }
+        }
+      }
+
+      return leagueList
     },
 
-    getCurrentNameSelected() {
-      const elo = this.selectedElo.current
-      const league = elo.league + 1
+    getServicePrice() {
+      const leagueList = this.getLeagueList
+      const priceList = this.priceList
 
-      if (elo.index >= 7) {
-        return elo.name
+      let totalPrice = 0
+
+      // Adiciona ao preço comparando leagueList com priceList / Desafiante não conta < 9
+      for (let index = 0; index < 9; index++) {
+        totalPrice += leagueList[index].length * priceList[index].value
       }
 
-      switch (league) {
-        case 1:
-          return elo.name + ' I'
-        case 2:
-          return elo.name + ' II'
-        case 3:
-          return elo.name + ' III'
-        case 4:
-          return elo.name + ' IV'
-        default:
-          return elo.name
-      }
+      return totalPrice
     },
 
-    getTargetSelected() {
-      const elo = this.selectedElo.target
-      if (elo.index >= 7) {
-        return elo.name
-      } else {
-        return elo.name + ' ' + (elo.league + 1)
-      }
-    },
+    getServiceDeadline() {
+      const leagueList = this.getLeagueList
+      const priceList = this.priceList
 
-    getTargetNameSelected() {
-      const elo = this.selectedElo.target
-      const league = elo.league + 1
+      let totalDays = 0
 
-      if (elo.index >= 7) {
-        return elo.name
+      for (let index = 0; index < 9; index++) {
+        totalDays += leagueList[index].length * priceList[index].deadline
       }
 
-      switch (league) {
-        case 1:
-          return elo.name + ' I'
-        case 2:
-          return elo.name + ' II'
-        case 3:
-          return elo.name + ' III'
-        case 4:
-          return elo.name + ' IV'
-        default:
-          return elo.name
-      }
+      return totalDays
     }
   }
 }
@@ -574,104 +429,105 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
 
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-evenly;
+
+  padding: 40px;
+  gap: 30px;
 }
 
-.contentSingle {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  margin: 20px 40px;
+@media (max-width: 1000px) {
+  #main {
+    flex-direction: column;
+  }
+  .selection {
+    min-height: 75vh;
+  }
 }
 
-.contentDual {
+.selection {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin: 20px 40px;
+  height: 100%;
 }
 
-.rankBox {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  row-gap: 20px;
-  width: 40vw;
-  gap: 5px;
+.visualization {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr;
+
+  height: 100%;
+  width: 100%;
 }
 
-.rank-column {
+.selection-column {
   display: grid;
   grid-template-rows: repeat(11, 1fr);
 }
 
-.rank-row {
+.block {
   display: flex;
+  justify-content: center;
+
+  flex-grow: 1;
+  border: 1px solid transparent;
   cursor: pointer;
 }
 
-.row-title {
-  flex-grow: 1;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-weight: bold;
-  font-size: 1.5rem;
-  text-align: center;
-  padding-inline: 5px;
-}
-
-.row-elo {
-  flex-grow: 1;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 5px;
-}
-.row-elo > img {
+img {
   height: 2rem;
 }
 
-.row-elo:hover {
-  background-color: var(--selectHover);
+.elo-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-grow: 1;
+  gap: 5px;
+  width: 20vw;
+
+  border: 1px solid transparent;
 }
 
-.row-elo-selected {
-  background-color: var(--selectTrue);
-  border: 2px ridge rgb(0, 100, 100);
+.elo-block:hover {
+  background-color: rgb(0, 100, 100, 0.3);
 }
 
-.row-elo-selected:hover {
-  background-color: var(--selectTrue);
+.elo-block-selected {
+  background-color: rgb(0, 100, 100, 0.3);
+  border: 1px solid rgb(0, 100, 100);
 }
 
-.row-league {
-  flex: 1;
-
+.league-block {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  flex-grow: 1;
 }
 
 .league-item {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  border: 1px solid transparent;
 }
 
 .league-item:hover {
-  background-color: var(--selectHover);
-  border: 2px ridge rgb(0, 100, 100);
+  background-color: rgb(0, 100, 100, 0.3);
 }
 
-.blockSelection:hover {
-  background-color: var(--blockSelection);
-  border-color: red;
+.league-item-impossible:hover {
+  background-color: rgb(100, 0, 0, 0.3);
 }
-.blockSelection:active {
+
+.league-item-selected {
+  background-color: rgb(0, 100, 100, 0.3);
+  border: 1px solid rgb(0, 100, 100);
+}
+
+.league-item-impossible:active {
   animation: shake 0.2s alternate;
 }
 
@@ -685,61 +541,5 @@ export default {
   100% {
     transform: translateX(5px);
   }
-}
-
-.priceBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: fit-content;
-  width: fit-content;
-  padding: 30px;
-  gap: 30px;
-  align-self: center;
-  justify-self: center;
-
-  background-color: rgba(8, 58, 91, 0.4);
-  border: 2px solid rgb(0, 100, 100, 1);
-  border-radius: 20px;
-}
-
-h2 {
-  padding-block: 20px;
-}
-
-.priceBox-block {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 30px;
-}
-.priceBox-elo {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-.priceBox-price {
-  font-size: 30px;
-  color: rgb(15, 173, 76);
-  font-weight: bolder;
-}
-
-.priceBox-elo > img {
-  height: 100px;
-}
-.priceBox-button {
-  border: 1px solid white;
-  background-color: rgb(0, 100, 100);
-  border-radius: 5px;
-
-  display: flex;
-  gap: 10px;
-  padding: 10px 20px;
-
-  transition: background-color 0.1s;
-  cursor: pointer;
-}
-.priceBox-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
 }
 </style>

@@ -1,37 +1,30 @@
 <template>
-  <div id="main">
+  <main>
     <div class="content">
-      <div class="content-block method-block">
-        <h1>Confirmar compra</h1>
-      </div>
-      <div class="content-block elo-block">
-        <span class="elo-block-item">
-          <p>Inicial</p>
+      <div class="container">
+        <div class="card">
+          <h1>{{ serviceType }}</h1>
+          <p @click="toggleServiceType">
+            {{
+              serviceType == 'Solo'
+                ? 'Um dos nossos boosters irá jogar na sua conta de acordo com os dias que combinaremos após a compra. O progresso do serviço poderá ser acompanhado via discord ou outros meios de contato'
+                : 'Tchau'
+            }}
+          </p>
+        </div>
+        <div class="card">
+          <h1>Elo inicial</h1>
           <img :src="currentEloImage" alt="" />
-          <p>{{ currentEloName }}</p>
-        </span>
-        <span class="elo-block-item">
-          <p>Final</p>
+          <h2>{{ currentEloName }}</h2>
+        </div>
+        <div class="card">
+          <h1>Elo final</h1>
           <img :src="targetEloImage" alt="" />
-          <p>{{ targetEloName }}</p>
-        </span>
-      </div>
-      <div class="content-block estimate-block">
-        <p>Prazo de {{ previousPage }} estimado em {{ deadline }} dias</p>
-        <p>
-          pelo valor de
-          <span style="color: rgb(200, 200, 60); font-weight: bold">R${{ totalPrice }}</span>
-        </p>
-      </div>
-      <div class="content-block button-block">
-        <button class="button" @click="handlePaymentCancel">Voltar</button>
-        <button class="button" @click="handlePaymentConfirmation">Continuar</button>
+          <h2>{{ targetEloName }}</h2>
+        </div>
       </div>
     </div>
-    <div class="testcontainer">
-      <p v-for="item in dataToBackend" :key="item">{{ item }}</p>
-    </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -42,6 +35,7 @@ export default {
   data() {
     return {
       dataToBackend: {
+        serviceType: null,
         totalPrice: null,
         currentName: null,
         currentImage: null,
@@ -60,6 +54,7 @@ export default {
 
     // Checa se os dados estão carregados, caso contrário volta para a home para evitar erros
     if (purchaseStore.purchase) {
+      this.serviceType = purchaseStore.purchase.serviceType
       this.totalPrice = purchaseStore.purchase.totalPrice
       this.currentEloName = purchaseStore.purchase.currentEloName
       this.currentEloImage = purchaseStore.purchase.currentEloImage
@@ -70,7 +65,6 @@ export default {
       this.$router.push('/' + this.previousPage)
     }
   },
-
   computed: {
     username() {
       const authStore = useAuthStore()
@@ -82,43 +76,10 @@ export default {
       return authStore.isAuthenticated
     }
   },
-
   methods: {
-    handlePaymentConfirmation() {
-      if (!this.isAuthenticated) {
-        this.$router.push({
-          path: '/account',
-          query: { currentPath: this.$route.fullPath }
-        })
-      } else {
-        const deadlineDate = new Date()
-        deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
-
-        const dataToBackend = {
-          user: 1, // Defina o ID do usuário apropriado
-          purchase_date: new Date().toISOString(),
-          deadline: deadlineDate.toISOString(),
-          completed: false,
-          price: parseFloat(this.totalPrice), // Certifique-se de que o preço seja um número
-          modalidade: 1, // Defina o ID da modalidade apropriada
-          fila: 1, // Defina o ID da fila apropriada
-          elo_inicial: 1, // Defina o ID do elo inicial apropriado
-          elo_final: 2 // Defina o ID do elo final apropriado
-        }
-
-        console.log(dataToBackend)
-
-        axios
-          .post('http://0.0.0.0:19003/servico/', dataToBackend)
-          .then((response) => {})
-          .catch((error) => {})
-      }
-    },
-
-    handlePaymentCancel() {
-      const purchaseStore = usePurchaseStore()
-      purchaseStore.clearPurchase()
-      this.$router.push('/' + this.previousPage)
+    toggleServiceType() {
+      console.log('oi');
+      this.serviceType = this.serviceType === 'Duo' ? 'Solo' : 'Duo'
     }
   }
 }
@@ -131,7 +92,7 @@ export default {
     color 0.5s;
 }
 
-#main {
+main {
   background-color: rgba(0, 0, 0, 0.8);
 
   display: grid;
@@ -139,86 +100,64 @@ export default {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   align-items: center;
+  padding: 40px;
 }
 
 .content {
-  margin: 20px 40px;
-  display: grid;
-  padding: 20px 35px;
-  margin: 20px;
-  gap: 40px;
-
-  width: fit-content;
-  height: fit-content;
-  border: 10px double black;
-  border-radius: 40px;
-  background-color: rgb(29, 117, 151, 0.3);
-}
-.content-block {
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.method-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  padding-block: 20px;
+  height: 100%;
+  width: 100%;
 }
-.method-block > h1 {
-  color: rgb(100, 192, 229);
-}
-.method-block > div {
+
+.container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
-  gap: 5px;
-}
-.method-block > div > span {
-  cursor: pointer;
-  padding: 5px;
-}
-
-.method-block > div > span:hover {
-  color: cyan;
-}
-
-.elo-block {
   justify-content: space-evenly;
+  grid-template-columns: repeat(auto-fit, 350px);
+  grid-template-rows: repeat(auto-fit, 350px);
+
+  height: 100%;
+  width: 100%;
 }
-.elo-block-item {
+
+.card {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.elo-block-item > img {
-  height: 4rem;
-}
+  justify-content: space-between;
 
-.estimate-block {
-  display: flex;
-  flex-direction: column;
-}
-
-.button-block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-}
-.button {
-  text-align: center;
-  padding: 7px 25px;
-  border-radius: 10px;
-  border: 3px double black;
-  background-color: rgb(29, 117, 151, 0.6);
+  border: 3px solid rgb(0, 100, 100);
+  border-radius: 15px;
+  color: white;
+  background-color: rgba(0, 100, 100, 0.5);
   cursor: pointer;
 }
-.button:nth-child(even):hover {
-  background-color: rgb(29, 117, 151, 0.4);
+
+.card:hover {
+  background-color: rgba(0, 100, 100, 0.2);
 }
-.button:nth-child(odd):hover {
-  background-color: rgb(29, 117, 151, 0.4);
+
+.card h1 {
+  text-align: center;
+  padding-block: 10px;
+  border-bottom: 3px solid rgb(0, 100, 100);
+  width: 100%;
+  font-size: 2rem;
+}
+
+.card h2 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card p {
+  text-align: center;
+  margin: auto 20px;
+  font-size: 1.2rem;
+}
+
+img {
+  height: 150px;
 }
 </style>
