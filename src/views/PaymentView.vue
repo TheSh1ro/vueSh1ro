@@ -3,12 +3,12 @@
     <div class="content">
       <div class="container">
         <div class="card">
-          <h1>{{ serviceType }}</h1>
-          <p @click="toggleServiceType">
+          <h1 @click="toggleServiceType">{{ serviceType }}</h1>
+          <p>
             {{
               serviceType == 'Solo'
                 ? 'Um dos nossos boosters irá jogar na sua conta de acordo com os dias que combinaremos após a compra. O progresso do serviço poderá ser acompanhado via discord ou outros meios de contato'
-                : 'Tchau'
+                : 'Entraremos em contato para combinar os dias e horários, e o serviço será realizado jogando em duo. O progresso do serviço poderá ser acompanhado via discord ou outros meios de contato'
             }}
           </p>
         </div>
@@ -34,15 +34,13 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      dataToBackend: {
-        serviceType: null,
-        totalPrice: null,
-        currentName: null,
-        currentImage: null,
-        targetName: null,
-        targetImage: null,
-        deadline: null
-      },
+      serviceType: null,
+      totalPrice: null,
+      currentName: null,
+      currentImage: null,
+      targetName: null,
+      targetImage: null,
+      deadline: null,
 
       previousPage: null
     }
@@ -78,8 +76,11 @@ export default {
   },
   methods: {
     toggleServiceType() {
-      console.log('oi');
-      this.serviceType = this.serviceType === 'Duo' ? 'Solo' : 'Duo'
+      if (this.serviceType == 'Duo') {
+        this.serviceType = 'Solo'
+      } else {
+        this.serviceType = 'Duo'
+      }
     }
   }
 }
