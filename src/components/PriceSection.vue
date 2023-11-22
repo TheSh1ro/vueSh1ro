@@ -77,7 +77,6 @@ export default {
           :class="{ 'elo-item-possible': getCurrentElo != null }"
           @click="cleanCurrentElo"
         >
-          <img src="/assets/delete.png" class="trash-image" alt="Imagem de lixeira" />
           <img :src="selectedElo.current.image" class="elo-image" alt="Imagem do elo" />
           <p class="elo-name">{{ getCurrentElo }}</p>
         </div>
@@ -86,7 +85,6 @@ export default {
           :class="{ 'elo-item-possible': getTargetElo != null }"
           @click="cleanTargetElo"
         >
-          <img src="/assets/delete.png" class="trash-image" alt="Imagem de lixeira" />
           <img :src="selectedElo.target.image" class="elo-image" alt="Imagem do elo" />
           <p class="elo-name">{{ getTargetElo }}</p>
         </div>
@@ -144,12 +142,6 @@ export default {
     </header>
     <body class="detail-body">
       <table>
-        <thead>
-          <tr>
-            <th>Elo</th>
-            <th>Preço</th>
-          </tr>
-        </thead>
         <tbody>
           <template v-for="(item, index) in priceList" :key="index">
             <tr :class="{ 'last-data': index == 8 }">
@@ -178,11 +170,9 @@ export default {
   flex-direction: column;
 
   border: 2px solid rgb(0, 100, 100);
-  border-radius: 20px;
   background-color: rgba(0, 100, 100, 0.3);
 
-  width: 310px;
-  height: fit-content;
+  width: 360px;
 }
 
 .normal-header {
@@ -226,6 +216,10 @@ export default {
   position: relative;
 }
 
+.elo-item:hover > .elo-name {
+  color: rgb(255, 50, 50);
+}
+
 .elo-image {
   height: 6rem;
 }
@@ -234,18 +228,6 @@ export default {
   font-size: 1.2rem;
   font-weight: bolder;
   color: rgba(220, 220, 220);
-}
-
-.trash-image {
-  position: absolute;
-  height: 20px;
-  margin: 0 auto;
-  top: 5px;
-  visibility: hidden;
-}
-
-.elo-item-possible:hover > .trash-image {
-  visibility: visible;
 }
 
 .info-container {
@@ -261,7 +243,7 @@ export default {
 }
 .fakePrice {
   text-decoration: line-through;
-  color: darkred;
+  color: rgb(200, 5, 5);
 }
 .truePrice {
   font-size: 1.5rem;
@@ -271,21 +253,23 @@ export default {
 
 .button-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   justify-items: center;
-  gap: 20px;
+  gap: 15px;
   padding-inline: 20px;
 }
 
 .button-item {
   text-align: center;
   width: 100%;
-  padding: 8px 0px;
-  background-color: rgb(0, 100, 100);
+  padding-block: 12px;
+  background-color: transparent;
   border: none;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 1rem;
+  background-color: rgb(0, 100, 100, 0.3);
+  border: 2px solid rgb(0, 100, 100);
 }
 
 .button-item:hover {
@@ -311,23 +295,25 @@ export default {
   justify-items: center;
   align-items: center;
 
-  padding-block: 10px;
   border-bottom: 2px solid rgb(0, 100, 100);
 
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
 }
+.detail-header .title {
+  padding-block: 10px;
+}
 .detail-button {
   width: fit-content;
   height: 100%;
-  width: 50%;
-  background-color: rgb(0, 100, 100);
+  width: 100%;
+  background-color: rgb(150, 0, 0);
   border: none;
   cursor: pointer;
-  border-radius: 15px;
+  border-top-right-radius: 20px;
 }
 .detail-button:hover {
-  background-color: rgba(0, 100, 100, 0.8);
+  background-color: rgba(150, 0, 0, 0.75);
 }
 .detail-body {
   display: flex;
@@ -342,15 +328,6 @@ table {
   width: 100%;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-}
-
-th {
-  padding: 10px;
-  background-color: rgb(0, 100, 100);
-}
-
-tr:hover > td {
-  background-color: rgba(0, 100, 100, 0.8);
 }
 
 td {

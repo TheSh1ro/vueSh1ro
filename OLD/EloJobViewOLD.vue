@@ -2,9 +2,9 @@
   <main id="main">
     <section class="selection">
       <div class="selection-column">
-        <h2 class="selection-row">Elo atual</h2>
+        <h2 class="block">Elo atual</h2>
         <template v-for="(elo, eloIndex) in currentEloList" :key="eloIndex">
-          <div class="selection-row">
+          <div class="block">
             <div
               class="elo-block"
               :class="{
@@ -36,10 +36,10 @@
       </div>
 
       <div class="selection-column">
-        <h2 class="selection-row">Elo desejado</h2>
+        <h2 class="block">Elo desejado</h2>
         <template v-for="(elo, eloIndex) in targetEloList" :key="eloIndex">
           <div
-            class="selection-row"
+            class="block"
             v-if="
               selectedElo.current.index == null ||
               eloIndex > selectedElo.current.index ||
@@ -405,7 +405,7 @@ export default {
         totalPrice += leagueList[index].length * priceList[index].value
       }
 
-      return Math.floor(totalPrice)
+      return totalPrice
     },
 
     getServiceDeadline() {
@@ -466,11 +466,7 @@ export default {
   grid-template-rows: repeat(11, 1fr);
 }
 
-.selection-column > .selection-row:first-child {
-  align-items: center;
-}
-
-.selection-row {
+.block {
   display: flex;
   justify-content: center;
 
