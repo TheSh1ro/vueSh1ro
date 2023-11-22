@@ -51,6 +51,13 @@
             })
           "
         />
+        <div class="checkbox">
+          <input type="checkbox" id="checkbox" />
+          <label for="checkbox"
+            >Estou ciente de que jogar na conta na fila contratada (Solo/Duo ou Flexível) durante o
+            andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
+          >
+        </div>
         <h2 class="others-title">Opcional</h2>
         <input type="text" placeholder="Cupom promocional" />
         <div class="refer">
@@ -211,9 +218,8 @@ main {
 
   padding: 30px;
   border-radius: 15px;
-  min-height: 80%;
+  width: 400px;
 
-  text-align: center;
   margin: auto;
 }
 
@@ -227,10 +233,17 @@ main {
 
 .methods-title {
   grid-column: 1 / 4;
+  text-align: center;
+}
+
+.inputs-title {
+  margin-top: 10px;
+  text-align: center;
 }
 
 .others-title {
   margin-top: 10px;
+  text-align: center;
 }
 
 .methods button {
@@ -327,5 +340,17 @@ input {
 
 .formButtons button {
   padding: 8px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+  margin-inline: 5px;
+}
+
+.checkbox label {
+  font-weight: bold;
 }
 </style>
