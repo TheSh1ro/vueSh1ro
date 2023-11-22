@@ -10,7 +10,7 @@
               :class="{
                 'elo-block-selected': selectedElo.current && selectedElo.current.name == elo.name
               }"
-              v-if="elo.visible"
+              v-if="elo.visible && eloIndex < 7"
               @click="selectElo(elo, 'current', eloIndex)"
             >
               <p>{{ elo.name }}</p>
@@ -42,7 +42,7 @@
             class="selection-row"
             v-if="
               selectedElo.current.index == null ||
-              eloIndex > selectedElo.current.index ||
+              (eloIndex > selectedElo.current.index && eloIndex < 8) ||
               (eloIndex == selectedElo.current.index && selectedElo.current.leagueIndex > 0)
             "
           >
