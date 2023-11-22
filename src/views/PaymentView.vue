@@ -1,26 +1,65 @@
 <template>
   <main>
     <div class="content">
-      <div class="container">
-        <div class="card">
-          <h1 @click="toggleServiceType">{{ serviceType }}</h1>
-          <p>
-            {{
-              serviceType == 'Solo'
-                ? 'Um dos nossos boosters irá jogar na sua conta de acordo com os dias que combinaremos após a compra. O progresso do serviço poderá ser acompanhado via discord ou outros meios de contato'
-                : 'Entraremos em contato para combinar os dias e horários, e o serviço será realizado jogando em duo. O progresso do serviço poderá ser acompanhado via discord ou outros meios de contato'
-            }}
-          </p>
+      <div class="methods">
+        <h2 class="methods-title">Forma de pagamento</h2>
+        <button
+          :class="{ selectedMethod: method.name == selectedMethod }"
+          v-for="method in paymentMethods"
+          :key="method"
+          @click="selectedMethod = method.name"
+        >
+          <img :src="method.image" alt="" />
+          <p>{{ method.name }}</p>
+        </button>
+      </div>
+      <div class="inputs">
+        <h2 class="inputs-title">Informações do serviço</h2>
+        <input readonly class="readonly" type="text" :value="user.name" />
+
+        <div class="riot">
+          <input
+            type="text"
+            placeholder="Digite aqui seu RIOT ID"
+            v-model="riotid"
+            @input="upperCase"
+          />
+          <input type="text" v-model="riottag" @input="preventHashRemoval" />
         </div>
-        <div class="card">
-          <h1>Elo inicial</h1>
+        <div class="service">
+          <input
+            readonly
+            class="readonly"
+            type="text"
+            :value="currentEloName + ' ao ' + targetEloName"
+          />
           <img :src="currentEloImage" alt="" />
-          <h2>{{ currentEloName }}</h2>
-        </div>
-        <div class="card">
-          <h1>Elo final</h1>
           <img :src="targetEloImage" alt="" />
-          <h2>{{ targetEloName }}</h2>
+        </div>
+        <input readonly class="readonly" type="text" :value="'Fila ' + getQueue" />
+        <input readonly class="readonly" type="text" :value="serviceType" />
+        <input
+          readonly
+          class="readonly"
+          type="text"
+          :value="
+            totalPrice.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })
+          "
+        />
+        <h2 class="others-title">Opcional</h2>
+        <input type="text" placeholder="Cupom promocional" />
+        <div class="refer">
+          <input type="text" placeholder="ID de indicação" />
+          <button title="Insira aqui o ID de algum amigo que te indicou o nosso site">?</button>
+        </div>
+        <div class="formButtons">
+          <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
+          <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
         </div>
       </div>
     </div>
@@ -34,6 +73,17 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      riotid: null,
+      riottag: '#BR1',
+      paymentMethods: [
+        { name: 'Pix', image: '/assets/pix.png' },
+        { name: 'Crédito', image: '/assets/credit.png' },
+        { name: 'Débito', image: '/assets/debit.png' }
+      ],
+      selectedMethod: null,
+      user: { name: 'Gabriel Monteiro de Albuquerque' },
+
+      serviceQueue: 0,
       serviceType: null,
       totalPrice: null,
       currentName: null,
@@ -47,6 +97,8 @@ export default {
   },
 
   created() {
+    this.selectedMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].name : null
+
     const purchaseStore = usePurchaseStore()
     this.previousPage = this.$route.query.service
 
@@ -64,6 +116,10 @@ export default {
     }
   },
   computed: {
+    getQueue() {
+      return this.serviceQueue ? 'ranqueada solo/duo' : 'ranqueada flexível'
+    },
+
     username() {
       const authStore = useAuthStore()
       return authStore.user ? authStore.user.username : ''
@@ -75,12 +131,54 @@ export default {
     }
   },
   methods: {
-    toggleServiceType() {
-      if (this.serviceType == 'Duo') {
-        this.serviceType = 'Solo'
-      } else {
-        this.serviceType = 'Duo'
+    upperCase() {
+      this.riotid = this.riotid.toUpperCase()
+      this.riottag = this.riottag.toUpperCase()
+    },
+
+    preventHashRemoval(event) {
+      this.upperCase(event)
+
+      if (!this.riottag.includes('#')) {
+        this.riottag = '#'
       }
+    },
+
+    handlePaymentConfirmation() {
+      if (!this.isAuthenticated) {
+        this.$router.push({
+          path: '/account',
+          query: { currentPath: this.$route.fullPath }
+        })
+      } else {
+        const deadlineDate = new Date()
+        deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
+
+        const dataToBackend = {
+          user: 1, // Defina o ID do usuário apropriado
+          purchase_date: new Date().toISOString(),
+          deadline: deadlineDate.toISOString(),
+          completed: false,
+          price: parseFloat(this.totalPrice), // Certifique-se de que o preço seja um número
+          modalidade: 1, // Defina o ID da modalidade apropriada
+          fila: 1, // Defina o ID da fila apropriada
+          elo_inicial: 1, // Defina o ID do elo inicial apropriado
+          elo_final: 2 // Defina o ID do elo final apropriado
+        }
+
+        console.log(dataToBackend)
+
+        axios
+          .post('http://0.0.0.0:19003/servico/', dataToBackend)
+          .then((response) => {})
+          .catch((error) => {})
+      }
+    },
+
+    handlePaymentCancel() {
+      const purchaseStore = usePurchaseStore()
+      purchaseStore.clearPurchase()
+      this.$router.push('/' + this.previousPage)
     }
   }
 }
@@ -89,8 +187,8 @@ export default {
 <style scoped>
 * {
   transition:
-    background-color 0.3s,
-    color 0.5s;
+    background-color 0.2s,
+    color 0s;
 }
 
 main {
@@ -106,59 +204,128 @@ main {
 
 .content {
   display: flex;
-
-  height: 100%;
-  width: 100%;
-}
-
-.container {
-  display: grid;
-  justify-content: space-evenly;
-  grid-template-columns: repeat(auto-fit, 350px);
-  grid-template-rows: repeat(auto-fit, 350px);
-
-  height: 100%;
-  width: 100%;
-}
-
-.card {
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
 
-  border: 3px solid rgb(0, 100, 100);
+  background-color: white;
+  color: black;
+
+  padding: 30px;
   border-radius: 15px;
-  color: white;
-  background-color: rgba(0, 100, 100, 0.5);
-  cursor: pointer;
-}
+  min-height: 80%;
 
-.card:hover {
-  background-color: rgba(0, 100, 100, 0.2);
-}
-
-.card h1 {
   text-align: center;
-  padding-block: 10px;
-  border-bottom: 3px solid rgb(0, 100, 100);
-  width: 100%;
-  font-size: 2rem;
+  margin: auto;
 }
 
-.card h2 {
-  width: 100%;
-  text-align: center;
+.methods {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
   margin-bottom: 20px;
 }
 
-.card p {
-  text-align: center;
-  margin: auto 20px;
-  font-size: 1.2rem;
+.methods-title {
+  grid-column: 1 / 4;
 }
 
-img {
-  height: 150px;
+.others-title {
+  margin-top: 10px;
+}
+
+.methods button {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 3px;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.selectedMethod {
+  background-color: black;
+  color: white;
+}
+
+.methods img {
+  height: 25px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 8px;
+}
+
+.inputs > button {
+  padding-block: 10px;
+}
+
+.paymentButton {
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+}
+
+.readonly {
+  background-color: rgb(220, 220, 220);
+  cursor: default;
+}
+
+.riot {
+  display: flex;
+  gap: 5px;
+}
+
+.riot input:first-child {
+  flex-grow: 1;
+}
+
+.riot input:last-child {
+  width: 3rem;
+}
+
+.service {
+  display: flex;
+  gap: 5px;
+}
+
+.service input {
+  flex-grow: 1;
+}
+
+.service img {
+  width: 2rem;
+}
+
+.refer {
+  display: flex;
+  gap: 5px;
+}
+
+.refer input {
+  flex-grow: 1;
+}
+
+.refer button {
+  width: 2rem;
+}
+
+.formButtons {
+  border-radius: 10px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.formButtons button {
+  padding: 8px;
 }
 </style>
