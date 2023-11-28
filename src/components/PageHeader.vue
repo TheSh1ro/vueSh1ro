@@ -18,11 +18,9 @@
         />
       </header>
       <body>
-        <RouterLink to="conta">
-          Conta
-        </RouterLink>
-        <span>Minhas compras</span>
-        <span @click="logoutAccount()">Desconectar</span>
+        <RouterLink class="drop-item" to="conta"> Conta </RouterLink>
+        <span class="drop-item">Minhas compras</span>
+        <span class="drop-item" @click="logoutAccount()">Desconectar</span>
       </body>
     </div>
   </header>
@@ -55,7 +53,7 @@ export default {
       if (this.isAuthenticated) {
         this.showDropdown = !this.showDropdown
       } else {
-        this.$router.push('/account')
+        this.$router.push('/login')
       }
     },
     logoutAccount() {
@@ -148,14 +146,14 @@ export default {
   cursor: pointer;
 }
 
-.dropdown > body > span {
+.drop-item {
   padding-block: 12px;
 }
-.dropdown > body > span:last-of-type {
+.drop-item:last-child {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
-.dropdown > body > span:hover {
+.drop-item:hover {
   background-color: rgb(8, 78, 121);
 }
 

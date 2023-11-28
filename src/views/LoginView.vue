@@ -13,16 +13,6 @@
             @input="restrictSpecialCharacters"
           />
         </div>
-        <div class="input-email" :class="{ inputRed: placeholder.error == 3 }" v-if="signMode">
-          <img src="../assets/people.png" alt="" />
-          <input
-            :placeholder="placeholder.email"
-            type="text"
-            id="email"
-            v-model="formData.email"
-            @input="restrictSpecialCharacters"
-          />
-        </div>
         <div class="input-password" :class="{ inputRed: placeholder.error == 2 }">
           <img src="../assets/padlock.png" alt="" />
           <input
@@ -40,10 +30,8 @@
           />
         </div>
       </div>
-      <div class="button-block">
-        <button @click="login">Entrar</button>
-        <button class="register-button" @click="toggleSignMode">Registrar-se</button>
-      </div>
+      <RouterLink class="alternate" to="register">Registrar-se</RouterLink>
+      <button class="button" @click="handleSubmit">Entrar</button>
     </div>
   </div>
 </template>
@@ -56,18 +44,15 @@ export default {
     return {
       previousPath: null,
       showPassword: false,
-      signMode: false,
 
       formData: {
         username: '',
-        password: '',
-        email: ''
+        password: ''
       },
 
       placeholder: {
         login: 'Usuário',
         senha: 'Senha',
-        email: 'E-mail',
         error: 0
       }
     }
@@ -78,10 +63,6 @@ export default {
   },
 
   methods: {
-    toggleSignMode() {
-      this.signMode = !this.signMode
-    },
-
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword
     },
@@ -91,7 +72,7 @@ export default {
       input.value = input.value.replace(/[^\w.@]/gi, '')
     },
 
-    login() {
+    handleSubmit() {
       const authStore = useAuthStore()
       const username = this.formData.username
       const password = this.formData.password
@@ -156,8 +137,7 @@ h2 {
 }
 
 .input-user,
-.input-password,
-.input-email {
+.input-password {
   position: relative;
   display: flex;
   align-items: center;
@@ -187,36 +167,22 @@ img {
   padding: 10px;
 }
 
-span {
-  position: absolute;
-  right: 5px;
+.alternate {
+  text-decoration: underline;
 }
 
-.button-block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-button {
+.button {
+  background-color: rgb(0, 160, 215);
   color: white;
-  border-radius: 10px;
-  padding: 7px 25px;
-  cursor: pointer;
-  transition: color 0.2s;
+  padding: 12px 20px;
+  width: 100%;
   border: none;
+  cursor: pointer;
 }
 
-button:nth-child(odd) {
-  background: linear-gradient(45deg, rgba(9, 98, 121, 1) 30%, rgba(0, 212, 255, 1) 100%);
-}
-button:nth-child(even) {
-  background: linear-gradient(45deg, rgba(150, 150, 150, 1) 0%, rgba(35, 35, 35, 1) 100%);
-}
-
-button:hover {
+.button:hover {
   background: none;
-  background-color: blue;
+  background-color: rgb(0, 120, 175);
 }
 
 .inputRed {
