@@ -11,6 +11,7 @@
             id="username"
             v-model="formData.username"
             @input="restrictSpecialCharacters"
+            @keyup.enter="handleSubmit"
           />
         </div>
         <div class="input-password" :class="{ inputRed: placeholder.error == 2 }">
@@ -21,6 +22,7 @@
             id="password"
             v-model="formData.password"
             @input="restrictSpecialCharacters"
+            @keyup.enter="handleSubmit"
           />
           <img
             src="../assets/visual.png"
