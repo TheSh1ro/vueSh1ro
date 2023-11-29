@@ -408,6 +408,7 @@ button {
   width: 100%;
   padding-block: 10px;
   align-self: end;
+  cursor: default;
 }
 
 textarea {
