@@ -93,26 +93,21 @@ main {
 }
 
 .content {
-  display: flex;
+  display: grid;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: fit-content;
-  height: fit-content;
-  gap: 20px;
-  margin: auto;
-  background-color: white;
-  color: black;
-  padding: 30px;
 }
 
 input {
   border: none;
   color: white;
   width: 250px;
+  font-size: 1.1rem;
   padding: 10px;
-  background-color: black;
   text-align: center;
+  background-color: transparent;
+  color: yellow;
 }
 
 input::placeholder {
