@@ -16,7 +16,6 @@
       <div class="inputs">
         <h2 class="inputs-title">Informações da compra</h2>
         <input readonly class="readonly" type="text" v-model="user.username" />
-
         <div class="service">
           <input
             readonly
@@ -44,17 +43,24 @@
             })
           "
         />
-        <div class="checkbox">
-          <input type="checkbox" id="checkbox" v-model="checkbox" />
-          <label for="checkbox"
-            >Estou ciente de que jogar na conta na fila contratada (Solo/Duo ou Flexível) durante o
-            andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
-          >
-        </div>
+        <input readonly class="readonly" type="text" :value="'Prazo de ' + deadline + ' dias'" />
       </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="checkbox" v-model="checkbox" />
+        <label for="checkbox" :class="{ redText: error.includes(1) }"
+          >Estou ciente de que jogar na conta na fila contratada (Solo/Duo ou Flexível) durante o
+          andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
+        >
+      </div>
+      <div class="formButtons">
+        <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
+        <button class="paymentButton" @click="handlePaymentConfirmation">Continuar</button>
+      </div>
+      <div class="promotion">Sem código de indicação</div>
     </div>
 
-    <div class="content" :class="{ redBorder: error == 2 }">
+    <div class="content">
       <h2 class="others-title">Insira os dados</h2>
       <div class="refer">
         <input v-model="refer_code" type="text" placeholder="Código de indicação (opcional)" />
@@ -66,21 +72,39 @@
           placeholder="Digite aqui seu RIOT ID"
           v-model="riotid"
           @input="upperCase"
+          :class="{ redText: error.includes(2) }"
         />
-        <input type="text" v-model="riottag" @input="upperCase" />
+        <input
+          type="text"
+          v-model="riottag"
+          @input="upperCase"
+          :class="{ redText: error.includes(21) }"
+        />
       </div>
 
-      <input v-model="riot_login" type="text" placeholder="Riot Login" />
-      <input v-model="riot_password" type="text" placeholder="Riot Password" />
+      <input
+        v-model="riot_login"
+        type="text"
+        placeholder="Riot Login"
+        :class="{ redText: error.includes(3) }"
+      />
+      <input
+        v-model="riot_password"
+        type="text"
+        placeholder="Riot Password"
+        :class="{ redText: error.includes(4) }"
+      />
       <textarea
         v-model="description"
         type="text"
-        placeholder="Preferências de campeão ou de rota, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
+        placeholder="Preferências de campeão, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
       />
-      <div class="formButtons">
-        <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
-        <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
-      </div>
+      <textarea
+        v-model="description"
+        type="text"
+        placeholder="Preferências de rota, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
+      />
+      <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
     </div>
   </main>
 </template>
@@ -93,7 +117,7 @@ export default {
   data() {
     return {
       riotid: null,
-      riottag: '#BR1',
+      riottag: '#',
       paymentMethods: [
         { name: 'Pix', image: '/assets/pix.png' },
         { name: 'Crédito', image: '/assets/credit.png' },
@@ -119,7 +143,7 @@ export default {
       description: null,
 
       previousPage: null,
-      error: 0
+      error: []
     }
   },
 
@@ -160,23 +184,41 @@ export default {
   },
   methods: {
     upperCase() {
-      this.riotid = this.riotid.toUpperCase()
-      this.riottag = this.riottag.toUpperCase()
+      this.riottag ? (this.riottag = this.riottag.toUpperCase()) : undefined
+      this.riotid ? (this.riotid = this.riotid.toUpperCase()) : undefined
 
-      if (!this.riottag.includes('#')) {
+      if (this.riottag[0] != '#') {
         this.riottag = '#'
       }
     },
 
+    handlePaymentCancel() {
+      const purchaseStore = usePurchaseStore()
+      purchaseStore.clearPurchase()
+      this.$router.push('/' + this.previousPage)
+    },
+
     handlePaymentConfirmation() {
+      this.error = []
+
       if (!this.checkbox) {
-        this.error = 1
+        this.error.push(1)
       }
 
-      if (this.getRiotFullname && this.riot_login && this.riot_password) {
-        console.log('oi')
-      } else {
-        this.error = 2
+      if (!this.riotid) {
+        this.error.push(2)
+      }
+
+      if (this.riottag == '#') {
+        this.error.push(21)
+      }
+
+      if (!this.riot_login) {
+        this.error.push(3)
+      }
+
+      if (!this.riot_password) {
+        this.error.push(4)
       }
 
       // const dataToBackend = {}
@@ -185,12 +227,6 @@ export default {
       //   .then((response) => {})
       //   .catch((error) => {})
     }
-  },
-
-  handlePaymentCancel() {
-    const purchaseStore = usePurchaseStore()
-    purchaseStore.clearPurchase()
-    this.$router.push('/' + this.previousPage)
   }
 }
 </script>
@@ -204,12 +240,10 @@ export default {
 
 main {
   background-color: rgba(0, 0, 0, 0.8);
-
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  grid-template-rows: 1fr;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-items: center;
+  gap: 10vw;
   padding: 40px;
   row-gap: 40px;
 }
@@ -217,13 +251,13 @@ main {
 .content {
   display: flex;
   flex-direction: column;
-
   background-color: white;
   color: black;
-
   padding: 30px;
-  border-radius: 15px;
   width: 350px;
+  height: fit-content;
+  justify-content: space-between;
+  gap: 25px;
 }
 
 .content:last-child {
@@ -235,7 +269,6 @@ main {
   grid-template-rows: 1fr 1fr;
   grid-template-columns: repeat(3, 1fr);
   gap: 5px;
-  margin-bottom: 20px;
 }
 
 .methods-title {
@@ -243,13 +276,8 @@ main {
   text-align: center;
 }
 
-.inputs-title {
-  margin-top: 10px;
-  text-align: center;
-}
-
+.inputs-title,
 .others-title {
-  margin-top: 10px;
   text-align: center;
 }
 
@@ -284,7 +312,7 @@ input {
   padding: 8px;
 }
 
-.inputs > button {
+button {
   padding-block: 10px;
 }
 
@@ -292,7 +320,6 @@ input {
   background-color: black;
   color: white;
   font-size: 1rem;
-  padding: 8px;
   cursor: pointer;
 }
 
@@ -355,7 +382,6 @@ input {
 
 .formButtons {
   border-radius: 10px;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -365,20 +391,36 @@ input {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-top: 10px;
-  margin-inline: 5px;
 }
 
 .checkbox label {
   font-weight: bold;
 }
 
+.promotion {
+  text-align: center;
+  background-color: red;
+  color: white;
+  width: 100%;
+  padding-block: 10px;
+  align-self: end;
+}
+
 textarea {
   padding: 5px;
-  height: 4rem;
+  min-height: 4rem;
+  height: 100%;
 }
 
 .redBorder {
   border: 3px solid red;
+}
+
+.redText {
+  color: red;
+}
+
+.redText::placeholder {
+  color: red;
 }
 </style>
