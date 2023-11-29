@@ -38,6 +38,23 @@ export default {
     }
   },
   methods: {
+    handleContinue() {
+      this.sendPurchase(
+        this.serviceType,
+        this.getServicePrice,
+        this.getCurrentElo,
+        this.selectedElo.current.image,
+        this.getTargetElo,
+        this.selectedElo.target.image,
+        this.getServiceDeadline
+      )
+
+      this.$router.push({
+        path: '/payment',
+        query: { service: this.$route.name }
+      })
+    },
+
     toggleDetailView() {
       this.detailView = !this.detailView
     },
@@ -114,23 +131,7 @@ export default {
       </section>
       <section class="button-container">
         <button class="button-item" @click="toggleDetailView">Detalhes</button>
-        <RouterLink
-          class="button-item"
-          :to="{ path: '/payment', query: { service: this.$route.name } }"
-          @click="
-            sendPurchase(
-              serviceType,
-              getServicePrice,
-              getCurrentElo,
-              selectedElo.current.image,
-              getTargetElo,
-              selectedElo.target.image,
-              getServiceDeadline
-            )
-          "
-        >
-          Continuar
-        </RouterLink>
+        <button class="button-item" @click="handleContinue">Continuar</button>
       </section>
     </body>
   </main>

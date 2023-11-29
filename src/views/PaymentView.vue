@@ -103,7 +103,7 @@ export default {
 
       user: { name: 'Gabriel Monteiro de Albuquerque' },
 
-      serviceQueue: 0,
+      serviceQueue: 1,
       serviceType: null,
       totalPrice: null,
       currentName: null,
