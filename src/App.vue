@@ -41,7 +41,7 @@ input:-webkit-autofill:focus {
 #app {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 8vh minmax(92vh, 1fr) 14vh;
+  grid-template-rows: 8vh minmax(92vh, 1fr) 8vh;
   color: white;
 
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_30.jpg);

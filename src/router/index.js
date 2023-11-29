@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import EloJobView from '../views/EloJobView.vue'
 import DuoJobView from '../views/DuoJobView.vue'
 import PaymentView from '../views/PaymentView.vue'
+import AccountView from '../views/AccountView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import TipsView from '../views/TipsView.vue'
@@ -15,6 +16,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: AccountView
     },
     {
       path: '/login',

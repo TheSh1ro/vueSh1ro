@@ -24,7 +24,7 @@
             v-model="riotid"
             @input="upperCase"
           />
-          <input type="text" v-model="riottag" @input="preventHashRemoval" />
+          <input type="text" v-model="riottag" @input="upperCase" />
         </div>
         <div class="service">
           <input
@@ -36,8 +36,10 @@
           <img :src="currentEloImage" alt="" />
           <img :src="targetEloImage" alt="" />
         </div>
-        <input readonly class="readonly" type="text" :value="'Fila ' + getQueue" />
-        <input readonly class="readonly" type="text" :value="serviceType" />
+        <div class="group-info">
+          <input readonly class="readonly" type="text" :value="'Fila ' + getQueue" />
+          <input readonly class="readonly" type="text" :value="serviceType" />
+        </div>
         <input
           readonly
           class="readonly"
@@ -58,16 +60,22 @@
             andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
           >
         </div>
-        <h2 class="others-title">Opcional</h2>
-        <input type="text" placeholder="Cupom promocional" />
-        <div class="refer">
-          <input type="text" placeholder="ID de indicação" />
-          <button title="Insira aqui o ID de algum amigo que te indicou o nosso site">?</button>
-        </div>
-        <div class="formButtons">
-          <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
-          <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
-        </div>
+        <button class="paymentButton" @click="handlePaymentConfirmation">Continuar</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2 class="others-title">Serviço</h2>
+      <div class="refer">
+        <input type="text" placeholder="Código de indicação (opcional)" />
+        <button title="Insira aqui o ID de algum amigo que te indicou o nosso site">?</button>
+      </div>
+      <input type="text" placeholder="Riot Login" />
+      <input type="text" placeholder="Riot Password" />
+      <textarea type="text" placeholder="Preferências de campeão ou de rota, escreva aqui" />
+      <div class="formButtons">
+        <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
+        <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
       </div>
     </div>
   </main>
@@ -141,10 +149,6 @@ export default {
     upperCase() {
       this.riotid = this.riotid.toUpperCase()
       this.riottag = this.riottag.toUpperCase()
-    },
-
-    preventHashRemoval(event) {
-      this.upperCase(event)
 
       if (!this.riottag.includes('#')) {
         this.riottag = '#'
@@ -154,7 +158,7 @@ export default {
     handlePaymentConfirmation() {
       if (!this.isAuthenticated) {
         this.$router.push({
-          path: '/account',
+          path: '/login',
           query: { currentPath: this.$route.fullPath }
         })
       } else {
@@ -202,11 +206,12 @@ main {
   background-color: rgba(0, 0, 0, 0.8);
 
   display: grid;
-  justify-items: center;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   grid-template-rows: 1fr;
   align-items: center;
+  justify-items: center;
   padding: 40px;
+  row-gap: 40px;
 }
 
 .content {
@@ -218,9 +223,11 @@ main {
 
   padding: 30px;
   border-radius: 15px;
-  width: 400px;
+  width: 350px;
+}
 
-  margin: auto;
+.content:last-child {
+  gap: 10px;
 }
 
 .methods {
@@ -255,6 +262,7 @@ main {
   cursor: pointer;
   border-radius: 5px;
   border: 1px solid black;
+  font-weight: bold;
 }
 
 .selectedMethod {
@@ -284,6 +292,12 @@ input {
   background-color: black;
   color: white;
   font-size: 1rem;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.paymentButton:hover {
+  background-color: rgb(30, 30, 30);
 }
 
 .readonly {
@@ -317,6 +331,15 @@ input {
   width: 2rem;
 }
 
+.group-info {
+  display: flex;
+  gap: 5px;
+}
+
+.group-info input {
+  width: 100%;
+}
+
 .refer {
   display: flex;
   gap: 5px;
@@ -338,10 +361,6 @@ input {
   gap: 10px;
 }
 
-.formButtons button {
-  padding: 8px;
-}
-
 .checkbox {
   display: flex;
   align-items: center;
@@ -352,5 +371,10 @@ input {
 
 .checkbox label {
   font-weight: bold;
+}
+
+textarea {
+  padding: 5px;
+  height: 4rem;
 }
 </style>
