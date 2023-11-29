@@ -14,18 +14,9 @@
         </button>
       </div>
       <div class="inputs">
-        <h2 class="inputs-title">Informações do serviço</h2>
+        <h2 class="inputs-title">Informações da compra</h2>
         <input readonly class="readonly" type="text" :value="user.name" />
 
-        <div class="riot">
-          <input
-            type="text"
-            placeholder="Digite aqui seu RIOT ID"
-            v-model="riotid"
-            @input="upperCase"
-          />
-          <input type="text" v-model="riottag" @input="upperCase" />
-        </div>
         <div class="service">
           <input
             readonly
@@ -60,16 +51,25 @@
             andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
           >
         </div>
-        <button class="paymentButton" @click="handlePaymentConfirmation">Continuar</button>
       </div>
     </div>
 
     <div class="content">
-      <h2 class="others-title">Serviço</h2>
+      <h2 class="others-title">Insira os dados</h2>
       <div class="refer">
         <input type="text" placeholder="Código de indicação (opcional)" />
         <button title="Insira aqui o ID de algum amigo que te indicou o nosso site">?</button>
       </div>
+      <div class="riot">
+        <input
+          type="text"
+          placeholder="Digite aqui seu RIOT ID"
+          v-model="riotid"
+          @input="upperCase"
+        />
+        <input type="text" v-model="riottag" @input="upperCase" />
+      </div>
+
       <input type="text" placeholder="Riot Login" />
       <input type="text" placeholder="Riot Password" />
       <textarea type="text" placeholder="Preferências de campeão ou de rota, escreva aqui" />
@@ -350,7 +350,7 @@ input {
 }
 
 .refer button {
-  width: 2rem;
+  width: 4rem;
 }
 
 .formButtons {

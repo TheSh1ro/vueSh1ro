@@ -30,7 +30,7 @@
         </p>
       </RouterLink>
       <RouterLink class="block" to="/tips">
-        <h1>Sh1ro Tips</h1>
+        <h1>Shiro Tips</h1>
         <hr />
         <img class="block-art" src="/assets/riven.png" alt="" />
         <p>Acesso a um conteúdo exclusivo que guiará você a extrair o máximo de cada campeão</p>
