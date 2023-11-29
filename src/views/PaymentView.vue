@@ -15,7 +15,7 @@
       </div>
       <div class="inputs">
         <h2 class="inputs-title">Informações da compra</h2>
-        <input readonly class="readonly" type="text" :value="user.name" />
+        <input readonly class="readonly" type="text" v-model="user.name" />
 
         <div class="service">
           <input
@@ -45,7 +45,7 @@
           "
         />
         <div class="checkbox">
-          <input type="checkbox" id="checkbox" />
+          <input type="checkbox" id="checkbox" v-model="checkbox" />
           <label for="checkbox"
             >Estou ciente de que jogar na conta na fila contratada (Solo/Duo ou Flexível) durante o
             andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
@@ -57,7 +57,7 @@
     <div class="content">
       <h2 class="others-title">Insira os dados</h2>
       <div class="refer">
-        <input type="text" placeholder="Código de indicação (opcional)" />
+        <input v-model="refer_code" type="text" placeholder="Código de indicação (opcional)" />
         <button title="Insira aqui o ID de algum amigo que te indicou o nosso site">?</button>
       </div>
       <div class="riot">
@@ -70,9 +70,13 @@
         <input type="text" v-model="riottag" @input="upperCase" />
       </div>
 
-      <input type="text" placeholder="Riot Login" />
-      <input type="text" placeholder="Riot Password" />
-      <textarea type="text" placeholder="Preferências de campeão ou de rota, escreva aqui" />
+      <input v-model="riot_login" type="text" placeholder="Riot Login" />
+      <input v-model="riot_password" type="text" placeholder="Riot Password" />
+      <textarea
+        v-model="description"
+        type="text"
+        placeholder="Preferências de campeão ou de rota, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
+      />
       <div class="formButtons">
         <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
         <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
@@ -96,6 +100,7 @@ export default {
         { name: 'Débito', image: '/assets/debit.png' }
       ],
       selectedMethod: null,
+
       user: { name: 'Gabriel Monteiro de Albuquerque' },
 
       serviceQueue: 0,
@@ -106,6 +111,13 @@ export default {
       targetName: null,
       targetImage: null,
       deadline: null,
+
+      checkbox: false,
+      refer_code: null,
+      riot_id: null,
+      riot_login: null,
+      riot_password: null,
+      description: null,
 
       previousPage: null
     }
@@ -162,22 +174,7 @@ export default {
           query: { currentPath: this.$route.fullPath }
         })
       } else {
-        const deadlineDate = new Date()
-        deadlineDate.setDate(deadlineDate.getDate() + parseInt(this.deadline))
-
-        const dataToBackend = {
-          user: 1, // Defina o ID do usuário apropriado
-          purchase_date: new Date().toISOString(),
-          deadline: deadlineDate.toISOString(),
-          completed: false,
-          price: parseFloat(this.totalPrice), // Certifique-se de que o preço seja um número
-          modalidade: 1, // Defina o ID da modalidade apropriada
-          fila: 1, // Defina o ID da fila apropriada
-          elo_inicial: 1, // Defina o ID do elo inicial apropriado
-          elo_final: 2 // Defina o ID do elo final apropriado
-        }
-
-        console.log(dataToBackend)
+        const dataToBackend = {}
 
         axios
           .post('http://0.0.0.0:19003/servico/', dataToBackend)

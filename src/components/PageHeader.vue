@@ -11,15 +11,10 @@
       </div>
     </div>
     <div v-if="showDropdown" class="dropdown">
-      <header>
-        <img
-          src="https://t.ctcdn.com.br/JlHwiRHyv0mTD7GfRkIlgO6eQX8=/640x360/smart/i257652.jpeg"
-          alt=""
-        />
-      </header>
+      <header></header>
       <body>
-        <RouterLink class="drop-item" to="account"> Conta </RouterLink>
-        <span class="drop-item">Minhas compras</span>
+        <RouterLink class="drop-item" to="account">Conta</RouterLink>
+        <RouterLink class="drop-item" to="account">Dashboard</RouterLink>
         <span class="drop-item" @click="logoutAccount()">Desconectar</span>
       </body>
     </div>
@@ -131,12 +126,9 @@ export default {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
-.dropdown > header > img {
-  width: 100%;
-  height: 40px;
-  display: block;
-  margin: 0 auto;
-  object-fit: cover;
+.dropdown > header {
+  height: 25px;
+  background-color: pink;
 }
 .dropdown > body {
   display: flex;
@@ -144,6 +136,9 @@ export default {
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  border: 1px solid pink;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .drop-item {
