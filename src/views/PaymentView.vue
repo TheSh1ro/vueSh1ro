@@ -57,10 +57,10 @@
         <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
         <button class="paymentButton" @click="handlePaymentConfirmation">Continuar</button>
       </div>
-      <div class="promotion">Sem código de indicação</div>
+      <div class="promotion" v-if="showAll">Sem código de indicação</div>
     </div>
 
-    <div class="content">
+    <div class="content" v-if="showAll">
       <h2 class="others-title">Insira os dados</h2>
       <div class="refer">
         <input v-model="refer_code" type="text" placeholder="Código de indicação (opcional)" />
@@ -95,12 +95,12 @@
         :class="{ redText: error.includes(4) }"
       />
       <textarea
-        v-model="description"
+        v-model="description_champion"
         type="text"
         placeholder="Preferências de campeão, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
       />
       <textarea
-        v-model="description"
+        v-model="description_lane"
         type="text"
         placeholder="Preferências de rota, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
       />
@@ -140,10 +140,12 @@ export default {
       refer_code: null,
       riot_login: null,
       riot_password: null,
-      description: null,
+      description_lane: null,
+      description_champion: null,
 
       previousPage: null,
-      error: []
+      error: [],
+      showAll: false
     }
   },
 
@@ -203,6 +205,8 @@ export default {
 
       if (!this.checkbox) {
         this.error.push(1)
+      } else {
+        this.showAll = true
       }
 
       if (!this.riotid) {
