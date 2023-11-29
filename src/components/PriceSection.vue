@@ -1,5 +1,5 @@
 <script>
-import { usePurchaseStore } from '../stores/store.js'
+import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
   props: [
@@ -18,6 +18,9 @@ export default {
     }
   },
   computed: {
+    isAuthenticated() {
+      return useAuthStore().isAuthenticated
+    },
     getCurrentElo() {
       const name = this.selectedElo.current.name
       if (this.selectedElo.current.leagueIndex == null) {
@@ -49,10 +52,17 @@ export default {
         this.getServiceDeadline
       )
 
-      this.$router.push({
-        path: '/payment',
-        query: { service: this.$route.name }
-      })
+      if (!this.isAuthenticated) {
+        this.$router.push({
+          path: '/login',
+          query: { currentPath: this.$route.fullPath }
+        })
+      } else {
+        this.$router.push({
+          path: '/payment',
+          query: { service: this.$route.name }
+        })
+      }
     },
 
     toggleDetailView() {

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="content">
+    <div class="content" :class="{ redBorder: error == 1 }">
       <div class="methods">
         <h2 class="methods-title">Forma de pagamento</h2>
         <button
@@ -15,7 +15,7 @@
       </div>
       <div class="inputs">
         <h2 class="inputs-title">Informações da compra</h2>
-        <input readonly class="readonly" type="text" v-model="user.name" />
+        <input readonly class="readonly" type="text" v-model="user.username" />
 
         <div class="service">
           <input
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="content">
+    <div class="content" :class="{ redBorder: error == 2 }">
       <h2 class="others-title">Insira os dados</h2>
       <div class="refer">
         <input v-model="refer_code" type="text" placeholder="Código de indicação (opcional)" />
@@ -101,7 +101,7 @@ export default {
       ],
       selectedMethod: null,
 
-      user: { name: 'Gabriel Monteiro de Albuquerque' },
+      user: null,
 
       serviceQueue: 1,
       serviceType: null,
@@ -114,12 +114,12 @@ export default {
 
       checkbox: false,
       refer_code: null,
-      riot_id: null,
       riot_login: null,
       riot_password: null,
       description: null,
 
-      previousPage: null
+      previousPage: null,
+      error: 0
     }
   },
 
@@ -127,10 +127,13 @@ export default {
     this.selectedMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].name : null
 
     const purchaseStore = usePurchaseStore()
+    const authStore = useAuthStore()
+
     this.previousPage = this.$route.query.service
 
     // Checa se os dados estão carregados, caso contrário volta para a home para evitar erros
-    if (purchaseStore.purchase) {
+    if (purchaseStore.purchase && authStore.user) {
+      this.user = authStore.user
       this.serviceType = purchaseStore.purchase.serviceType
       this.totalPrice = purchaseStore.purchase.totalPrice
       this.currentEloName = purchaseStore.purchase.currentEloName
@@ -143,6 +146,9 @@ export default {
     }
   },
   computed: {
+    getRiotFullname() {
+      return this.riotid ? this.riotid + this.riottag : null
+    },
     getQueue() {
       return this.serviceQueue ? 'ranqueada solo/duo' : 'ranqueada flexível'
     },
@@ -150,11 +156,6 @@ export default {
     username() {
       const authStore = useAuthStore()
       return authStore.user ? authStore.user.username : ''
-    },
-
-    isAuthenticated() {
-      const authStore = useAuthStore()
-      return authStore.isAuthenticated
     }
   },
   methods: {
@@ -168,26 +169,28 @@ export default {
     },
 
     handlePaymentConfirmation() {
-      if (!this.isAuthenticated) {
-        this.$router.push({
-          path: '/login',
-          query: { currentPath: this.$route.fullPath }
-        })
-      } else {
-        const dataToBackend = {}
-
-        axios
-          .post('http://0.0.0.0:19003/servico/', dataToBackend)
-          .then((response) => {})
-          .catch((error) => {})
+      if (!this.checkbox) {
+        this.error = 1
       }
-    },
 
-    handlePaymentCancel() {
-      const purchaseStore = usePurchaseStore()
-      purchaseStore.clearPurchase()
-      this.$router.push('/' + this.previousPage)
+      if (this.getRiotFullname && this.riot_login && this.riot_password) {
+        console.log('oi')
+      } else {
+        this.error = 2
+      }
+
+      // const dataToBackend = {}
+      // axios
+      //   .post('http://0.0.0.0:19003/servico/', dataToBackend)
+      //   .then((response) => {})
+      //   .catch((error) => {})
     }
+  },
+
+  handlePaymentCancel() {
+    const purchaseStore = usePurchaseStore()
+    purchaseStore.clearPurchase()
+    this.$router.push('/' + this.previousPage)
   }
 }
 </script>
@@ -347,7 +350,7 @@ input {
 }
 
 .refer button {
-  width: 4rem;
+  width: 2.5rem;
 }
 
 .formButtons {
@@ -373,5 +376,9 @@ input {
 textarea {
   padding: 5px;
   height: 4rem;
+}
+
+.redBorder {
+  border: 3px solid red;
 }
 </style>
