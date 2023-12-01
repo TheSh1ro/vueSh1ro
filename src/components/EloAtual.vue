@@ -3,14 +3,15 @@
     <h2>Qual seu elo atual?</h2>
     <div class="container">
       <template v-for="(elo, eloIndex) in eloAtual" :key="elo">
-        <div class="elo-item" v-if="eloIndex < 9">
+        <div class="block" v-if="eloIndex">
           <div class="elo" v-if="!elo.visibleLeagues" @click="showLeagues(elo, eloIndex)">
             <img :src="elo.image" alt="" />
             <h2>{{ elo.name }}</h2>
           </div>
           <div class="leagues" v-if="elo.visibleLeagues">
-            <div v-for="(league, index) in 4" :key="league">
-              {{ index + 1 }}
+            <div class="league" v-for="(league, index) in 4" :key="league">
+              <img :src="elo.image" alt="" />
+              <h2>{{ elo.name }} {{ index + 1 }}</h2>
             </div>
           </div>
         </div>
@@ -27,9 +28,7 @@ export default {
       eloAtual: this.eloList
     }
   },
-  created() {
-    this.eloAtual[0].visibleLeagues = true
-  },
+  created() {},
   computed: {},
   methods: {
     showLeagues(elo, eloIndex) {
@@ -44,8 +43,8 @@ export default {
 <style scoped>
 main {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   padding: 40px 20px;
   gap: 25px;
 }
@@ -57,8 +56,11 @@ main {
   gap: 10px;
 }
 
-.elo-item {
-  display: block;
+.block {
+  display: grid;
+  grid-template-rows: 4, 1fr;
+  width: 140px;
+  min-height: 140px;
 }
 
 .elo {
@@ -66,11 +68,31 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+
+  height: 140px;
+  width: 100%;
 }
 .elo:hover {
   background-color: rgba(0, 100, 100, 0.3);
 }
+
 .leagues {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.league {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  height: 140px;
+}
+.league:hover {
+  background-color: rgba(0, 100, 100, 0.3);
 }
 
 img {

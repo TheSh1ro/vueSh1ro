@@ -94,6 +94,5 @@ export default {
   display: grid;
   grid-template-columns: auto-fit;
   justify-content: center;
-  align-items: center;
 }
 </style>
