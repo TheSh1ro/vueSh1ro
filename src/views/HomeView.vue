@@ -12,7 +12,7 @@
       </div>
     </section>
     <section id="services">
-      <div class="service">
+      <RouterLink to="elojob" class="service">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Suba de elo</h4>
@@ -22,17 +22,17 @@
           </p>
         </div>
         <button>Escolher</button>
-      </div>
-      <div class="service">
+      </RouterLink>
+      <RouterLink to="duojob" class="service">
         <img src="/assets/star.png" alt="" />
         <div>
-          <h4>Melhore jogando</h4>
+          <h4>Aprenda jogando</h4>
           <h2>DuoJob</h2>
           <p>Você sobe de elo enquanto joga e aprende com um dos nossos boosters de alto nível</p>
         </div>
         <button>Escolher</button>
-      </div>
-      <div class="service">
+      </RouterLink>
+      <RouterLink to="md5" class="service">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
@@ -40,7 +40,7 @@
           <p>Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória</p>
         </div>
         <button>Escolher</button>
-      </div>
+      </RouterLink>
     </section>
   </main>
 </template>
@@ -113,9 +113,10 @@ main {
 }
 
 #services {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
 
   gap: 30px;
   margin-bottom: 20vh;
@@ -124,13 +125,23 @@ main {
 .service {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 30px;
 
   width: 200px;
-  border: 2px solid cyan;
   background-color: rgb(30, 30, 45);
   border-radius: 20px;
-  padding: 55px 35px;
+  padding: 35px 35px;
+
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.service:hover {
+  box-shadow: 0px 0px 20px 0px cyan;
+  background-color: transparent;
 }
 
 .service div {
@@ -138,6 +149,12 @@ main {
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.service img {
+  width: 7rem;
+  height: 7rem;
+  filter: hue-rotate(200deg);
 }
 
 .service h4 {
@@ -149,11 +166,18 @@ main {
 }
 
 .service p {
+  margin-top: 10px;
   color: rgb(185, 255, 255);
 }
 
-.service img {
-  width: 7rem;
-  height: 7rem;
+.service button {
+  background-color: orange;
+  color: black;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
