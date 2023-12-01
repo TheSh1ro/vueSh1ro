@@ -116,10 +116,11 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 
   gap: 30px;
-  margin-bottom: 20vh;
+  padding-block: 10vh;
 }
 
 .service {
@@ -131,7 +132,8 @@ main {
   width: 200px;
   background-color: rgb(30, 30, 45);
   border-radius: 20px;
-  padding: 35px 35px;
+  padding: 40px 35px;
+  height: fit-content;
 
   transition:
     background-color 0.3s,
