@@ -8,11 +8,11 @@
           Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que
           estragam as suas partidas para trás.
         </p>
-        <a href="#services">Nossos serviços</a>
+        <a href="#services" @click="animateServices">Nossos serviços</a>
       </div>
     </section>
     <section id="services">
-      <RouterLink to="elojob" class="service">
+      <RouterLink to="elojob" class="service" v-if="showService.includes(1)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Suba de elo</h4>
@@ -23,7 +23,8 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink to="duojob" class="service">
+
+      <RouterLink to="duojob" class="service" v-if="showService.includes(2)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Aprenda jogando</h4>
@@ -32,12 +33,21 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink to="md5" class="service">
+      <RouterLink to="md5" class="service" v-if="showService.includes(3)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
           <h2>MD5</h2>
           <p>Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória</p>
+        </div>
+        <button>Escolher</button>
+      </RouterLink>
+      <RouterLink to="tips" class="service" v-if="showService.includes(4)">
+        <img src="/assets/star.png" alt="" />
+        <div>
+          <h4>Estude o jogo</h4>
+          <h2>Shiro Tips</h2>
+          <p>Tenha acesso ao nosso guia de altissima qualidade sobre a fase de rotas</p>
         </div>
         <button>Escolher</button>
       </RouterLink>
@@ -48,11 +58,39 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      showService: [1, 2, 3, 4]
+    }
   },
   created() {},
   computed: {},
-  methods: {}
+  methods: {
+    
+    async animateServices() {
+      if (this.showService.includes('stop')) {
+        return
+      }
+
+      this.showService = []
+      const showService = this.showService
+
+      async function pushWithDelay(value, delay) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            showService.push(value)
+            resolve()
+          }, delay)
+        })
+      }
+
+      await pushWithDelay(1, 500)
+      await pushWithDelay(2, 100)
+      await pushWithDelay(3, 100)
+      await pushWithDelay(4, 100)
+      await pushWithDelay('stop', 100)
+      this.$refs.service1[0].style.width = '500px'
+    }
+  }
 }
 </script>
 
@@ -103,7 +141,6 @@ main {
   cursor: pointer;
   text-align: center;
 }
-
 #apresentation a:hover {
   border: 2px solid cyan;
   box-shadow: 0px 0px 25px 0px cyan;
@@ -121,7 +158,8 @@ main {
   flex-wrap: wrap;
 
   gap: 30px;
-  padding-block: 10vh;
+  min-height: 100vh;
+  margin-bottom: 20vh;
 }
 
 .service {
@@ -131,14 +169,15 @@ main {
   gap: 30px;
 
   width: 200px;
+  height: 340px;
   background-color: rgb(30, 30, 45);
   border-radius: 20px;
   padding: 40px 35px;
-  height: fit-content;
 
   transition:
     background-color 0.3s,
-    box-shadow 0.3s;
+    box-shadow 0.3s,
+    opacity 1s ease;
   cursor: pointer;
 }
 
@@ -182,5 +221,6 @@ main {
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: auto;
 }
 </style>

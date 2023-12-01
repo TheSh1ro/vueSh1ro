@@ -38,10 +38,14 @@ input:-webkit-autofill:focus {
   border: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #app {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto minmax(92vh, 1fr) auto;
+  grid-template-rows: 60px minmax(calc(100vh - 60px), 1fr) auto;
   color: white;
 
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_30.jpg);
