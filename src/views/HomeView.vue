@@ -95,12 +95,13 @@ main {
 #apresentation a {
   background-color: transparent;
   width: fit-content;
-  padding: 20px 35px;
+  padding: 20px 30px;
   border-radius: 25px;
   border: 2px solid cyan;
   transition: box-shadow 0.2s;
   color: whitesmoke;
   cursor: pointer;
+  text-align: center;
 }
 
 #apresentation a:hover {
