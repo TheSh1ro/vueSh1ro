@@ -19,10 +19,10 @@ import PageFooter from './components/PageFooter.vue'
 
 ::-webkit-scrollbar {
   width: 5px;
-  background-color: white;
+  background-color: black;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(8, 58, 91);
+  background-color: cyan;
 }
 
 /* Remova o destaque de preenchimento automático */
@@ -41,7 +41,7 @@ input:-webkit-autofill:focus {
 #app {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 8vh minmax(92vh, 1fr) 8vh;
+  grid-template-rows: 8vh minmax(92vh, 1fr) auto;
   color: white;
 
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_30.jpg);

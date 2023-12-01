@@ -1,40 +1,99 @@
-<script></script>
 <template>
-  <footer id="footer">
-    <ul block>
-      <li>Central de Ajuda</li>
-      <li>Trabalhe conosco</li>
-      <li>Contato</li>
+  <main>
+    <ul>
+      <div class="title">
+        <img src="/assets/riven.png" alt="" />
+        <h2>ShiroJobs</h2>
+      </div>
+      <p>
+        League of Legends and Valorant are registered trademarks of Riot Games, Inc. We are in no
+        way affiliated with, associated with or endorsed by Riot Games, Inc.
+      </p>
     </ul>
-    <ul block>
-      <li>Discord</li>
-      <li>Twitter</li>
-      <li>Instagram</li>
+    <ul class="hidden">
+      <h2 class="title">Jogos</h2>
+      <li>League of Legends</li>
+      <li>Valorant</li>
     </ul>
-  </footer>
+    <ul class="hidden">
+      <h2 class="title">Páginas</h2>
+      <li>EloJob</li>
+      <li>DuoJob</li>
+      <li>MD5</li>
+    </ul>
+    <ul>
+      <h2 class="title">Contato</h2>
+      <li>Wathsapp</li>
+      <li>E-mail</li>
+      <li>Chat</li>
+    </ul>
+  </main>
 </template>
+
+<script>
+export default {
+  data() {
+    return {}
+  }
+}
+</script>
+
 <style scoped>
-#footer {
-  background-color: rgba(0, 0, 0, 0.8); 
-  background-color: rgb(8, 58, 91, 0.5);
-  color: white;
+* {
+  transition: color 0.1s;
+}
+
+*::selection {
+  color: rgb(68, 189, 229);
+}
+
+main {
+  background-color: rgb(20, 20, 30);
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   justify-items: center;
-  align-items: center;
 
-  transition: background-color 0.2s;
+  padding: 40px 120px;
+  gap: 50px;
 }
-#footer:hover {
-  background-color: rgb(8, 58, 91);
+
+div {
+  display: flex;
+  align-items: center;
+}
+
+img {
+  height: 28px;
+}
+
+.title {
+  color: whitesmoke;
+  margin-bottom: 12px;
+}
+
+p {
+  color: rgb(160, 160, 220);
 }
 
 li {
+  color: rgb(160, 160, 220);
   cursor: pointer;
+  margin-bottom: 5px;
 }
+
 li:hover {
-  color: bisque;
-  text-decoration: underline;
+  color: white;
+}
+
+@media (max-width: 1000px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+    padding: 40px;
+  }
+
+  .hidden {
+    display: none;
+  }
 }
 </style>

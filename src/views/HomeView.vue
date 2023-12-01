@@ -1,161 +1,159 @@
-<script></script>
 <template>
-  <main id="main">
-    <div id="content">
-      <RouterLink class="block" to="/elojob">
-        <h1>EloJob</h1>
-        <hr />
-        <img class="block-art" src="/assets/riven.png" alt="" />
+  <main>
+    <section id="apresentation">
+      <img src="/assets/giphy.gif" alt="" />
+      <div>
+        <h1>SUBA DE ELO E FAÇA PARTE DOS 0.1% MELHORES JOGADORES</h1>
         <p>
-          Jogamos na sua conta, a forma mais rápida de chegar no elo que você deseja sem gastar sua
-          energia ou se estressar
+          Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que
+          estragam as suas partidas para trás.
         </p>
-      </RouterLink>
-      <RouterLink class="block" to="/duojob">
-        <h1>DuoJob</h1>
-        <hr />
-        <img class="block-art" src="/assets/riven.png" alt="" />
-        <p>
-          Jogue Duo com um dos nossos boosters, uma oportunidade única para observar de perto como
-          os melhores vencem
-        </p>
-      </RouterLink>
-      <RouterLink class="block" to="/md5">
-        <h1>MD5</h1>
-        <hr />
-        <img class="block-art" src="/assets/riven.png" alt="" />
-        <p>
-          Para iniciar bem, tenha suas partidas de colocação jogadas por um dos nossos Boosters,
-          garantindo um bom elo inicial
-        </p>
-      </RouterLink>
-      <RouterLink class="block" to="/tips">
-        <h1>Shiro Tips</h1>
-        <hr />
-        <img class="block-art" src="/assets/riven.png" alt="" />
-        <p>Acesso a um conteúdo exclusivo que guiará você a extrair o máximo de cada campeão</p>
-      </RouterLink>
-    </div>
+        <a href="#services">Nossos serviços</a>
+      </div>
+    </section>
+    <section id="services">
+      <div class="service">
+        <img src="/assets/star.png" alt="" />
+        <div>
+          <h4>Suba de elo</h4>
+          <h2>EloJob</h2>
+          <p>
+            Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra
+          </p>
+        </div>
+        <button>Escolher</button>
+      </div>
+      <div class="service">
+        <img src="/assets/star.png" alt="" />
+        <div>
+          <h4>Melhore jogando</h4>
+          <h2>DuoJob</h2>
+          <p>Você sobe de elo enquanto joga e aprende com um dos nossos boosters de alto nível</p>
+        </div>
+        <button>Escolher</button>
+      </div>
+      <div class="service">
+        <img src="/assets/star.png" alt="" />
+        <div>
+          <h4>Comece bem</h4>
+          <h2>MD5</h2>
+          <p>Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória</p>
+        </div>
+        <button>Escolher</button>
+      </div>
+    </section>
   </main>
 </template>
+
+<script>
+export default {
+  data() {
+    return {}
+  },
+  created() {},
+  computed: {},
+  methods: {}
+}
+</script>
+
 <style scoped>
-#main {
+main {
   background-color: rgba(0, 0, 0, 0.8);
+  color: white;
 
   display: grid;
+  justify-items: center;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  min-height: 92vh;
+  grid-template-rows: 92vh 1fr;
 }
 
-#content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  gap: 30px;
-
-  margin: 60px 40px;
-}
-
-.block {
-  background-color: rgba(0, 0, 0, 0.75);
-  border: 4px double white;
-  font-size: 1.1rem;
-  text-align: center;
-
+#apresentation {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: auto;
+
+  gap: 20px;
+  width: 50%;
+  height: fit-content;
+}
+
+#apresentation div {
+  display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  min-height: 340px;
-  width: 220px;
-  padding: 25px;
-
-  transition:
-    background-color 0.5s,
-    box-shadow 1.5s ease;
-}
-.block:nth-of-type(1) {
-  border-color: palevioletred;
-}
-.block:nth-of-type(2) {
-  border-color: orange;
-}
-.block:nth-of-type(3) {
-  border-color: green;
-}
-.block:nth-of-type(4) {
-  border-color: blue;
+  gap: 15px;
+  width: 20rem;
+  color: cyan;
+  font-weight: bold;
 }
 
-.block:nth-child(odd) {
-  border-top-left-radius: 50px;
-  border-bottom-right-radius: 50px;
-}
-.block:nth-child(even) {
-  border-top-right-radius: 50px;
-  border-bottom-left-radius: 50px;
+#apresentation img {
+  height: 30vw;
+  filter: hue-rotate(180deg) contrast(2);
 }
 
-.block > hr {
-  margin-block: 5px;
-  width: 70%;
-  height: 2px;
-}
-.block:nth-of-type(1) > hr {
-  border-color: palevioletred;
-}
-.block:nth-of-type(2) > hr {
-  border-color: orange;
-}
-.block:nth-of-type(3) > hr {
-  border-color: green;
-}
-.block:nth-of-type(4) > hr {
-  border-color: blue;
-}
-
-.block > img {
-  height: 10rem;
-  width: 10rem;
-}
-.block:nth-of-type(1) > img {
-  filter: hue-rotate(45deg);
-}
-.block:nth-of-type(2) > img {
-  filter: hue-rotate(100deg);
-}
-.block:nth-of-type(3) > img {
-  filter: hue-rotate(180deg);
-}
-.block:nth-of-type(4) > img {
-  filter: hue-rotate(300deg);
-}
-
-.block:hover {
+#apresentation a {
+  background-color: transparent;
+  width: fit-content;
+  padding: 20px 35px;
+  border-radius: 25px;
+  border: 2px solid cyan;
+  transition: box-shadow 0.2s;
+  color: whitesmoke;
   cursor: pointer;
 }
-.block:nth-of-type(1):hover {
-  border-style: solid;
-  background-color: rgb(255, 0, 85, 0.05);
-  box-shadow: 0px 0px 30px 0px rgb(255, 0, 85, 1);
+
+#apresentation a:hover {
+  border: 2px solid cyan;
+  box-shadow: 0px 0px 25px 0px cyan;
 }
-.block:nth-of-type(2):hover {
-  border-style: solid;
-  background-color: rgb(255, 217, 0, 0.05);
-  box-shadow: 0px 0px 30px 0px rgb(255, 217, 0, 1);
+
+#apresentation h1 {
+  color: white;
 }
-.block:nth-of-type(3):hover {
-  border-style: solid;
-  background-color: rgb(153, 255, 0, 0.05);
-  box-shadow: 0px 0px 30px 0px rgb(153, 255, 0, 1);
+
+#services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+
+  gap: 30px;
+  margin-bottom: 20vh;
 }
-.block:nth-of-type(4):hover {
-  border-style: solid;
-  background-color: rgb(0, 191, 255, 0.05);
-  box-shadow: 0px 0px 30px 0px rgb(0, 191, 255, 1);
+
+.service {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 200px;
+  border: 2px solid cyan;
+  background-color: rgb(30, 30, 45);
+  border-radius: 20px;
+  padding: 55px 35px;
+}
+
+.service div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.service h4 {
+  color: orange;
+}
+
+.service h2 {
+  color: whitesmoke;
+}
+
+.service p {
+  color: rgb(185, 255, 255);
+}
+
+.service img {
+  width: 7rem;
+  height: 7rem;
 }
 </style>

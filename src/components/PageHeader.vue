@@ -62,7 +62,7 @@ export default {
 
 <style scoped>
 .header {
-  background-color: rgb(8, 58, 91, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-size: 1.2rem;
 
@@ -72,10 +72,6 @@ export default {
 
   transition: background-color 0.2s;
   position: relative;
-}
-
-.header:hover {
-  background-color: rgb(8, 58, 91);
 }
 
 .headerWhileDropdown {
