@@ -74,7 +74,7 @@ main {
   margin: auto;
 
   gap: 20px;
-  width: 50%;
+  width: 70%;
   height: fit-content;
 }
 
@@ -95,7 +95,7 @@ main {
 #apresentation a {
   background-color: transparent;
   width: fit-content;
-  padding: 20px 30px;
+  padding: 12px 20px;
   border-radius: 25px;
   border: 2px solid cyan;
   transition: box-shadow 0.2s;
