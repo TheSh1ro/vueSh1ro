@@ -1,17 +1,32 @@
 <template>
   <main>
-    <h2>Qual seu elo atual?</h2>
-    <div class="container">
-      <template v-for="(elo, eloIndex) in eloAtual" :key="elo">
-        <div class="block" v-if="eloIndex">
-          <div class="elo" v-if="!elo.visibleLeagues" @click="showLeagues(elo, eloIndex)">
+    <div class="column">
+      <h2 class="row">Elo atual</h2>
+      <template v-for="(elo, eloIndex) in eloList" :key="elo">
+        <div class="row">
+          <div
+            :class="{ selected: elo.name == currentElo.name }"
+            class="elo"
+            v-if="!elo.visibleLeagues"
+            @click="showLeagues(elo, eloIndex)"
+          >
             <img :src="elo.image" alt="" />
-            <h2>{{ elo.name }}</h2>
+            <p>
+              {{
+                currentElo.name == elo.name && !currentElo.isHigh
+                  ? elo.name + ' ' + (currentElo.leagueIndex + 1)
+                  : elo.name
+              }}
+            </p>
           </div>
           <div class="leagues" v-if="elo.visibleLeagues">
-            <div class="league" v-for="(league, index) in 4" :key="league">
-              <img :src="elo.image" alt="" />
-              <h2>{{ elo.name }} {{ index + 1 }}</h2>
+            <div
+              class="league"
+              v-for="(league, leagueIndex) in ['I', 'II', 'III', 'IV']"
+              :key="league"
+              @click="showLeagues(elo, eloIndex, leagueIndex)"
+            >
+              <p>{{ league }}</p>
             </div>
           </div>
         </div>
@@ -22,19 +37,131 @@
 
 <script>
 export default {
-  props: ['eloList'],
+  props: ['selectElo', 'currentElo', 'targetElo'],
   data() {
     return {
-      eloAtual: this.eloList
+      eloList: [
+        {
+          name: 'Ferro',
+          isHigh: false,
+          image: 'assets/iron.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Bronze',
+          isHigh: false,
+          image: 'assets/bronze.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Prata',
+          isHigh: false,
+          image: 'assets/silver.png',
+          visibleLeagues: false
+        },
+        { name: 'Ouro', isHigh: false, image: 'assets/gold.png', visibleLeagues: false },
+        {
+          name: 'Platina',
+          isHigh: false,
+          image: 'assets/platinum.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Esmeralda',
+          isHigh: false,
+          image: 'assets/emerald.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Diamante',
+          isHigh: false,
+          image: 'assets/diamond.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Mestre',
+          isHigh: true,
+          image: 'assets/master.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Grão Mestre',
+          isHigh: true,
+          image: 'assets/grandmaster.png',
+          visibleLeagues: false
+        },
+        {
+          name: 'Desafiante',
+          isHigh: true,
+          image: 'assets/challenger.png',
+          visibleLeagues: false
+        }
+      ]
     }
   },
   created() {},
   computed: {},
   methods: {
-    showLeagues(elo, eloIndex) {
-      if (!elo.isHigh) {
-        elo.visibleLeagues = !elo.visibleLeagues
+    showLeagues(elo, eloIndex, leagueIndex) {
+      // Salva o estado do seletor clicado
+      const eloState = elo.visibleLeagues
+
+      // Retorna todos os seletores para o estado natural
+      // Futuramente apenas o clicado será mostrado ou não conforme (eloState)
+
+      // Selecionado elo (que não possui ligas)
+      if (elo.isHigh) {
+        this.sendHideLeagues()
+        this.handleSelectElo(elo, eloIndex)
       }
+
+      // Selecionado elo (que possui ligas)
+      if (leagueIndex != null) {
+        // Prosseguir
+        this.sendHideLeagues()
+        this.handleSelectElo(elo, eloIndex, leagueIndex)
+      }
+
+      // Seleção de duas etapas, a próxima se encaixará em um dos ifs acima
+      if (!elo.isHigh && leagueIndex == null) {
+        this.sendHideLeagues()
+        elo.visibleLeagues = !eloState
+      }
+    },
+
+    // Função chamada pelo componente pai
+    hideLeagues() {
+      this.eloList.forEach((element) => {
+        element.visibleLeagues = false
+      })
+    },
+
+    // Requisitar componente pai
+    sendHideLeagues() {
+      this.$emit('eloClicked')
+    },
+
+    handleSelectElo(elo, eloIndex, leagueIndex) {
+      let newSelectedElo
+
+      if (elo.isHigh) {
+        newSelectedElo = {
+          name: elo.name,
+          image: elo.image,
+          isHigh: elo.isHigh,
+          eloIndex: eloIndex
+        }
+      } else {
+        newSelectedElo = {
+          name: elo.name,
+          image: elo.image,
+          isHigh: elo.isHigh,
+          eloIndex: eloIndex,
+          leagueIndex: leagueIndex
+        }
+      }
+
+      this.selectElo('current', newSelectedElo)
     }
   }
 }
@@ -45,57 +172,64 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 40px 20px;
-  gap: 25px;
+  padding: 20px;
+  height: calc(100% - 40px);
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.block {
+.column {
   display: grid;
-  grid-template-rows: 4, 1fr;
-  width: 140px;
-  min-height: 140px;
+  grid-template-rows: repeat(11, 1fr);
+  height: 100%;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-grow: 1;
+  margin: 0 auto;
+  width: 200px;
+  height: 100%;
 }
 
 .elo {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-
-  height: 140px;
-  width: 100%;
-}
-.elo:hover {
-  background-color: rgba(0, 100, 100, 0.3);
+  flex-grow: 1;
+  gap: 5px;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .leagues {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex-grow: 1;
 }
 
 .league {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
-  height: 140px;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
+
+.elo:hover {
+  background-color: rgba(0, 100, 100, 0.5);
+}
+
 .league:hover {
-  background-color: rgba(0, 100, 100, 0.3);
+  background-color: rgba(0, 100, 100, 0.5);
 }
 
 img {
-  height: 80px;
+  height: 2rem;
+  margin-left: 5px;
+}
+
+.selected,
+.selected:hover {
+  background-color: rgba(0, 100, 100, 0.5);
+  border: 1px solid rgba(0, 100, 100, 1);
 }
 </style>
