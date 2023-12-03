@@ -2,7 +2,7 @@
   <main id="main">
     <EloAtual ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
     <EloDesejado ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
-    <FilaDesejada ref="FilaDesejada" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name"/>
+    <FilaDesejada ref="FilaDesejada" :handleConfirm="handleConfirm" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name" />
   </main>
 </template>
 
@@ -111,6 +111,10 @@ export default {
 
     handleSelectQueue(queue) {
       this.selectedQueue = queue
+    },
+
+    handleConfirm() {
+      console.log('Confirmado')
     }
   }
 }

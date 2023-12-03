@@ -10,7 +10,7 @@
       </div>
       <h2 class="row" style="grid-row: 5" v-if="selectedQueue">Continuar</h2>
       <div class="confirm-row" style="grid-row: 6">
-        <button class="confirm-row-button" v-if="selectedQueue">Confirmar seleção</button>
+        <button class="confirm-row-button" v-if="selectedQueue" @click="handleConfirm">Confirmar seleção</button>
       </div>
     </div>
   </main>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ['selectQueue', 'currentElo', 'targetElo', 'selectedQueue'],
+  props: ['handleConfirm', 'selectQueue', 'currentElo', 'targetElo', 'selectedQueue'],
   data() {
     return {}
   },
