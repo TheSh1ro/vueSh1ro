@@ -3,14 +3,7 @@
     <div class="column">
       <h2 class="row">Elo desejado</h2>
       <template v-for="(elo, eloIndex) in eloList" :key="elo">
-        <div
-          class="row"
-          v-if="
-            !currentElo.name ||
-            (eloIndex == currentElo.eloIndex && currentElo.leagueIndex > 0) ||
-            eloIndex > currentElo.eloIndex
-          "
-        >
+        <div class="row" v-if="!currentElo.name || (eloIndex == currentElo.eloIndex && currentElo.leagueIndex > 0) || eloIndex > currentElo.eloIndex">
           <div
             :class="{
               selected: elo.name == targetElo.name,
@@ -22,20 +15,13 @@
           >
             <img :src="elo.image" alt="" />
             <p>
-              {{
-                targetElo.name == elo.name && !targetElo.isHigh
-                  ? elo.name + ' ' + (targetElo.leagueIndex + 1)
-                  : elo.name
-              }}
+              {{ targetElo.name == elo.name && !targetElo.isHigh ? elo.name + ' ' + (targetElo.leagueIndex + 1) : elo.name }}
             </p>
           </div>
           <div class="leagues" v-if="elo.visibleLeagues">
             <div
               :class="{
-                blockedItem:
-                  (eloIndex == this.currentElo.eloIndex &&
-                    leagueIndex >= this.currentElo.leagueIndex) ||
-                  eloIndex < currentElo.eloIndex
+                blockedItem: (eloIndex == this.currentElo.eloIndex && leagueIndex >= this.currentElo.leagueIndex) || eloIndex < currentElo.eloIndex
               }"
               class="league"
               v-for="(league, leagueIndex) in ['I', 'II', 'III', 'IV']"
@@ -194,8 +180,7 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
-  height: calc(100% - 40px);
+  height: 100%;
 }
 
 .column {
@@ -209,7 +194,7 @@ main {
   display: flex;
   flex-grow: 1;
   margin: 0 auto;
-  width: 200px;
+  width: 180px;
   height: 100%;
 }
 
@@ -249,14 +234,19 @@ img {
   margin-left: 5px;
 }
 
+h2 {
+  padding-left: 25px;
+}
+
 .selected,
 .selected:hover {
   background-color: rgba(0, 100, 100, 0.5);
-  border: 1px solid rgba(0, 100, 100, 1);
+  border-color: rgba(0, 100, 100, 1);
 }
 
 .blockedItem:hover {
   background-color: rgba(100, 0, 0, 0.5);
+  border-color: rgb (100, 0, 0);
 }
 .blockedItem:active {
   animation: shake 0.3s alternate;

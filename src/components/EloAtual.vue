@@ -3,7 +3,7 @@
     <div class="column">
       <h2 class="row">Elo atual</h2>
       <template v-for="(elo, eloIndex) in eloList" :key="elo">
-        <div class="row">
+        <div class="row" v-if="eloIndex < 9">
           <div
             :class="{ selected: elo.name == currentElo.name }"
             class="elo"
@@ -172,8 +172,7 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
-  height: calc(100% - 40px);
+  height: 100%;
 }
 
 .column {
@@ -187,7 +186,7 @@ main {
   display: flex;
   flex-grow: 1;
   margin: 0 auto;
-  width: 200px;
+  width: 180px;
   height: 100%;
 }
 
@@ -225,6 +224,10 @@ main {
 img {
   height: 2rem;
   margin-left: 5px;
+}
+
+h2 {
+  padding-left: 25px;
 }
 
 .selected,

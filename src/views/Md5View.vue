@@ -1,20 +1,13 @@
 <template>
   <main id="main">
-    <div class="content">
-      <button @click="show = !show">Toggle</button>
-      <Transition>
-        <h1 v-if="show">hello</h1>
-      </Transition>
-    </div>
+    <div class="content">Em construção</div>
   </main>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      show: false
-    }
+    return {}
   }
 }
 </script>
@@ -30,24 +23,7 @@ export default {
   padding: 40px;
 }
 
-button {
-  color: black;
-  padding: 10px;
-}
-
-/* nós explicaremos o que são estas classes fazem a seguir! */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-  color: red;
-}
-
 .content {
-  color: white;
+  font-size: 3rem;
 }
 </style>

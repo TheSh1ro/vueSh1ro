@@ -33,7 +33,7 @@ const router = createRouter({
       component: RegisterView
     },
     {
-      path: '/eloJob',
+      path: '/elojob',
       name: 'EloJob',
       component: EloJobView
     },

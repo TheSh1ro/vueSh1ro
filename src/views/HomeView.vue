@@ -12,7 +12,12 @@
       </div>
     </section>
     <section id="services">
-      <RouterLink to="elojob" class="service" v-if="showService.includes(1)">
+      <RouterLink
+        to="elojob"
+        class="service"
+        v-if="showService.includes(1)"
+        @click="this.$scrollToTop()"
+      >
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Suba de elo</h4>
@@ -24,7 +29,12 @@
         <button>Escolher</button>
       </RouterLink>
 
-      <RouterLink to="duojob" class="service" v-if="showService.includes(2)">
+      <RouterLink
+        to="duojob"
+        class="service"
+        v-if="showService.includes(2)"
+        @click="this.$scrollToTop()"
+      >
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Aprenda jogando</h4>
@@ -33,7 +43,12 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink to="md5" class="service" v-if="showService.includes(3)">
+      <RouterLink
+        to="md5"
+        class="service"
+        v-if="showService.includes(3)"
+        @click="this.$scrollToTop()"
+      >
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
@@ -42,7 +57,12 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink to="tips" class="service" v-if="showService.includes(4)">
+      <RouterLink
+        to="tips"
+        class="service"
+        v-if="showService.includes(4)"
+        @click="this.$scrollToTop()"
+      >
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Estude o jogo</h4>
@@ -62,10 +82,8 @@ export default {
       showService: [1, 2, 3, 4]
     }
   },
-  created() {},
   computed: {},
   methods: {
-    
     async animateServices() {
       if (this.showService.includes('stop')) {
         return
@@ -122,7 +140,6 @@ main {
   gap: 15px;
   width: 20rem;
   color: cyan;
-  font-weight: bold;
 }
 
 #apresentation img {
