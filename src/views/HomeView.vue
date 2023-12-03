@@ -4,37 +4,22 @@
       <img src="/assets/giphy.gif" alt="" />
       <div>
         <h1>SUBA DE ELO E FAÇA PARTE DOS 0.1% MELHORES JOGADORES</h1>
-        <p>
-          Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que
-          estragam as suas partidas para trás.
-        </p>
+        <p>Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que estragam as suas partidas para trás.</p>
         <a href="#services" @click="animateServices">Nossos serviços</a>
       </div>
     </section>
     <section id="services">
-      <RouterLink
-        to="elojob"
-        class="service"
-        v-if="showService.includes(1)"
-        @click="this.$scrollToTop()"
-      >
+      <RouterLink to="elojob" class="service" v-if="showService.includes(1)" @click="this.$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Suba de elo</h4>
           <h2>EloJob</h2>
-          <p>
-            Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra
-          </p>
+          <p>Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra</p>
         </div>
         <button>Escolher</button>
       </RouterLink>
 
-      <RouterLink
-        to="duojob"
-        class="service"
-        v-if="showService.includes(2)"
-        @click="this.$scrollToTop()"
-      >
+      <RouterLink to="duojob" class="service" v-if="showService.includes(2)" @click="this.$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Aprenda jogando</h4>
@@ -43,12 +28,7 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink
-        to="md5"
-        class="service"
-        v-if="showService.includes(3)"
-        @click="this.$scrollToTop()"
-      >
+      <RouterLink to="md5" class="service" v-if="showService.includes(3)" @click="this.$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
@@ -57,12 +37,7 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink
-        to="tips"
-        class="service"
-        v-if="showService.includes(4)"
-        @click="this.$scrollToTop()"
-      >
+      <RouterLink to="tips" class="service" v-if="showService.includes(4)" @click="this.$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Estude o jogo</h4>
@@ -105,8 +80,6 @@ export default {
       await pushWithDelay(2, 100)
       await pushWithDelay(3, 100)
       await pushWithDelay(4, 100)
-      await pushWithDelay('stop', 100)
-      this.$refs.service1[0].style.width = '500px'
     }
   }
 }
