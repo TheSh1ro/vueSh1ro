@@ -20,30 +20,25 @@ export const useAuthStore = defineStore('auth', {
 
 export const usePurchaseStore = defineStore('purchase', {
   state: () => ({
-    purchase: null
+    purchase: null,
+    isStored: false
   }),
   actions: {
-    keepPurchase(
-      serviceType,
-      servicePrice,
-      currentElo,
-      currentImage,
-      targetElo,
-      targetImage,
-      serviceDeadline
-    ) {
+    keepPurchase(service, queue, currentElo, targetElo, price, days) {
+      this.isStored = true
+
       this.purchase = {
-        serviceType: serviceType,
-        totalPrice: servicePrice,
-        currentEloName: currentElo,
-        currentEloImage: currentImage,
-        targetEloName: targetElo,
-        targetEloImage: targetImage,
-        deadline: serviceDeadline
+        service: service,
+        queue: queue,
+        currentElo: currentElo,
+        targetElo: targetElo,
+        price: price,
+        time: days
       }
     },
     clearPurchase() {
       this.purchase = null
+      this.isStored = false
     }
   }
 })

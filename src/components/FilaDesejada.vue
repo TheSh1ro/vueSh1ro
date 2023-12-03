@@ -10,19 +10,25 @@
       </div>
       <h2 class="row" style="grid-row: 5" v-if="selectedQueue">Continuar</h2>
       <div class="confirm-row" style="grid-row: 6">
-        <button class="confirm-row-button" v-if="selectedQueue" @click="handleConfirm">Confirmar seleção</button>
+        <button class="confirm-row-button" v-if="selectedQueue" @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
       </div>
     </div>
   </main>
 </template>
 
 <script>
+import { useAuthStore } from '../stores/store.js'
+
 export default {
   props: ['handleConfirm', 'selectQueue', 'currentElo', 'targetElo', 'selectedQueue'],
   data() {
     return {}
   },
   computed: {
+    isAuthenticated() {
+      const authStore = useAuthStore()
+      return authStore.isAuthenticated
+    },
     // isBlocked retorna true caso deva ser impossível selecionar Ranqueada Solo/Duo
     isBlocked() {
       if (this.$route.name.toLowerCase() == 'duojob') {

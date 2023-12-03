@@ -10,6 +10,7 @@
 import EloAtual from '../components/EloAtual.vue'
 import EloDesejado from '../components/EloDesejado.vue'
 import FilaDesejada from '../components/FilaDesejada.vue'
+import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
   components: { EloAtual, EloDesejado, FilaDesejada },
@@ -78,6 +79,16 @@ export default {
       return { price: totalPrice, time: totalDays }
     }
   },
+  created() {
+    const purchaseStore = usePurchaseStore()
+    const purchaseDetails = purchaseStore.purchase
+
+    if (purchaseStore.isStored) {
+      this.selectedElo.current = purchaseDetails.currentElo
+      this.selectedElo.target = purchaseDetails.targetElo
+      this.selectedQueue = purchaseDetails.queue
+    }
+  },
   methods: {
     handleEloClicked() {
       const eloAtual = this.$refs.EloAtual
@@ -114,7 +125,24 @@ export default {
     },
 
     handleConfirm() {
-      console.log('Confirmado')
+      const purchaseStore = usePurchaseStore()
+      const authStore = useAuthStore()
+      const currentPath = this.$route.path
+
+      const service = this.$route.name
+      const queue = this.selectedQueue
+      const currentElo = this.selectedElo.current
+      const targetElo = this.selectedElo.target
+      const price = this.serviceData.price
+      const days = this.serviceData.time
+
+      purchaseStore.keepPurchase(service, queue, currentElo, targetElo, price, days)
+
+      if (authStore.isAuthenticated) {
+        this.$router.push('/payment')
+      } else {
+        this.$router.push({ path: '/login', query: { previousPath: currentPath } })
+      }
     }
   }
 }

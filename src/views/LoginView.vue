@@ -5,33 +5,12 @@
       <div class="input-block">
         <div class="input-user" :class="{ inputRed: placeholder.error == 1 }">
           <img src="../assets/people.png" alt="" />
-          <input
-            :placeholder="placeholder.login"
-            type="text"
-            id="username"
-            v-model="formData.username"
-            @input="restrictSpecialCharacters"
-            @keyup.enter="handleSubmit"
-            autocomplete="username"
-          />
+          <input :placeholder="placeholder.login" type="text" id="username" v-model="formData.username" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" autocomplete="username" />
         </div>
         <div class="input-password" :class="{ inputRed: placeholder.error == 2 }">
           <img src="../assets/padlock.png" alt="" />
-          <input
-            :placeholder="placeholder.senha"
-            :type="showPassword ? 'text' : 'password'"
-            id="password"
-            v-model="formData.password"
-            @input="restrictSpecialCharacters"
-            @keyup.enter="handleSubmit"
-            autocomplete="current-password"
-          />
-          <img
-            src="../assets/visual.png"
-            style="cursor: pointer"
-            @click="togglePasswordVisibility"
-            alt=""
-          />
+          <input :placeholder="placeholder.senha" :type="showPassword ? 'text' : 'password'" id="password" v-model="formData.password" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" autocomplete="current-password" />
+          <img src="../assets/visual.png" style="cursor: pointer" @click="togglePasswordVisibility" alt="" />
         </div>
       </div>
       <RouterLink class="alternate" to="register">Registrar-se</RouterLink>
@@ -63,7 +42,7 @@ export default {
   },
 
   created() {
-    this.previousPath = this.$route.query.currentPath
+    this.previousPath = this.$route.query.previousPath
   },
 
   methods: {
