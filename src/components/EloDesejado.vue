@@ -3,35 +3,37 @@
     <div class="column">
       <h2 class="row">Elo desejado</h2>
       <template v-for="(elo, eloIndex) in eloList" :key="elo">
-        <div class="row" v-if="!currentElo.name || (eloIndex == currentElo.eloIndex && currentElo.leagueIndex > 0) || eloIndex > currentElo.eloIndex">
-          <div
-            :class="{
-              selected: elo.name == targetElo.name,
-              blockedItem: eloIndex < currentElo.eloIndex
-            }"
-            class="elo"
-            v-if="!elo.visibleLeagues"
-            @click="showLeagues(elo, eloIndex)"
-          >
-            <img :src="elo.image" alt="" />
-            <p>
-              {{ targetElo.name == elo.name && !targetElo.isHigh ? elo.name + ' ' + (targetElo.leagueIndex + 1) : elo.name }}
-            </p>
-          </div>
-          <div class="leagues" v-if="elo.visibleLeagues">
+        <TransitionGroup name="list">
+          <div class="row" v-if="!currentElo.name || (eloIndex == currentElo.eloIndex && currentElo.leagueIndex > 0) || eloIndex > currentElo.eloIndex">
             <div
               :class="{
-                blockedItem: (eloIndex == this.currentElo.eloIndex && leagueIndex >= this.currentElo.leagueIndex) || eloIndex < currentElo.eloIndex
+                selected: elo.name == targetElo.name,
+                blockedItem: eloIndex < currentElo.eloIndex
               }"
-              class="league"
-              v-for="(league, leagueIndex) in ['I', 'II', 'III', 'IV']"
-              :key="league"
-              @click="showLeagues(elo, eloIndex, leagueIndex)"
+              class="elo"
+              v-if="!elo.visibleLeagues"
+              @click="showLeagues(elo, eloIndex)"
             >
-              <p>{{ league }}</p>
+              <img :src="elo.image" alt="" />
+              <p>
+                {{ targetElo.name == elo.name && !targetElo.isHigh ? elo.name + ' ' + (targetElo.leagueIndex + 1) : elo.name }}
+              </p>
+            </div>
+            <div class="leagues" v-if="elo.visibleLeagues">
+              <div
+                :class="{
+                  blockedItem: (eloIndex == this.currentElo.eloIndex && leagueIndex >= this.currentElo.leagueIndex) || eloIndex < currentElo.eloIndex
+                }"
+                class="league"
+                v-for="(league, leagueIndex) in ['I', 'II', 'III', 'IV']"
+                :key="league"
+                @click="showLeagues(elo, eloIndex, leagueIndex)"
+              >
+                <p>{{ league }}</p>
+              </div>
             </div>
           </div>
-        </div>
+        </TransitionGroup>
       </template>
     </div>
   </main>
@@ -176,11 +178,35 @@ export default {
 </script>
 
 <style scoped>
+.list-move,
+.list-enter-active {
+  transition:
+    opacity 2s ease,
+    transform 0.5s ease;
+}
+
+.list-leave-active {
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-20%);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(20%);
+}
+
 main {
   display: flex;
   align-items: center;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 }
 
 .column {
@@ -194,7 +220,7 @@ main {
   display: flex;
   flex-grow: 1;
   margin: 0 auto;
-  width: 180px;
+  width: 100%;
   height: 100%;
 }
 
@@ -235,7 +261,9 @@ img {
 }
 
 h2 {
-  padding-left: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .selected,

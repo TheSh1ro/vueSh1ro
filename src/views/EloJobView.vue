@@ -1,8 +1,10 @@
 <template>
   <main id="main">
-    <EloAtual ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
-    <EloDesejado ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
-    <FilaDesejada ref="FilaDesejada" :handleConfirm="handleConfirm" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name" />
+    <TransitionGroup name="list">
+      <EloAtual ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
+      <EloDesejado ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
+      <FilaDesejada ref="FilaDesejada" :handleConfirm="handleConfirm" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name" />
+    </TransitionGroup>
   </main>
 </template>
 
@@ -151,8 +153,31 @@ export default {
 #main {
   background-color: rgba(0, 0, 0, 0.8);
 
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
   justify-content: center;
   padding: 20px;
+  gap: 5vw;
+}
+
+.list-enter-active {
+  transition:
+    opacity 2s ease,
+    transform 0.5s ease;
+}
+.list-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.5s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-75%);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(75%);
 }
 </style>

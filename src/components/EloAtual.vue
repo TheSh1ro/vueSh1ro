@@ -4,28 +4,14 @@
       <h2 class="row">Elo atual</h2>
       <template v-for="(elo, eloIndex) in eloList" :key="elo">
         <div class="row" v-if="eloIndex < 9">
-          <div
-            :class="{ selected: elo.name == currentElo.name }"
-            class="elo"
-            v-if="!elo.visibleLeagues"
-            @click="showLeagues(elo, eloIndex)"
-          >
+          <div :class="{ selected: elo.name == currentElo.name }" class="elo" v-if="!elo.visibleLeagues" @click="showLeagues(elo, eloIndex)">
             <img :src="elo.image" alt="" />
             <p>
-              {{
-                currentElo.name == elo.name && !currentElo.isHigh
-                  ? elo.name + ' ' + (currentElo.leagueIndex + 1)
-                  : elo.name
-              }}
+              {{ currentElo.name == elo.name && !currentElo.isHigh ? elo.name + ' ' + (currentElo.leagueIndex + 1) : elo.name }}
             </p>
           </div>
           <div class="leagues" v-if="elo.visibleLeagues">
-            <div
-              class="league"
-              v-for="(league, leagueIndex) in ['I', 'II', 'III', 'IV']"
-              :key="league"
-              @click="showLeagues(elo, eloIndex, leagueIndex)"
-            >
+            <div class="league" v-for="(league, leagueIndex) in ['I', 'II', 'III', 'IV']" :key="league" @click="showLeagues(elo, eloIndex, leagueIndex)">
               <p>{{ league }}</p>
             </div>
           </div>
@@ -173,6 +159,7 @@ main {
   align-items: center;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 }
 
 .column {
@@ -186,7 +173,7 @@ main {
   display: flex;
   flex-grow: 1;
   margin: 0 auto;
-  width: 180px;
+  width: 100%;
   height: 100%;
 }
 
@@ -227,7 +214,9 @@ img {
 }
 
 h2 {
-  padding-left: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .selected,

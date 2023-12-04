@@ -90,6 +90,7 @@ export default {
 
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .container {
@@ -102,7 +103,7 @@ export default {
   align-items: center;
 
   height: fit-content;
-  margin-top: 20px;
+  margin: 20px;
   padding: 50px;
   gap: 30px;
 }

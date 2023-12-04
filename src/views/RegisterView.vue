@@ -117,6 +117,7 @@ export default {
 
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .container {
@@ -130,7 +131,7 @@ export default {
 
   height: fit-content;
   padding: 50px;
-  margin-top: 20px;
+  margin: 20px;
   gap: 30px;
 }
 

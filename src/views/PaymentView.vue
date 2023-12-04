@@ -58,6 +58,7 @@ export default {
   justify-content: center;
   height: fit-content;
   gap: 10vw;
+  margin: auto;
 }
 
 .container {

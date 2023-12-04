@@ -155,7 +155,7 @@ main {
 }
 #apresentation button:hover {
   border: 2px solid cyan;
-  box-shadow: 0px 0px 15px 0px cyan;
+  box-shadow: 0px 0px 20px cyan;
 }
 
 #apresentation h1 {
@@ -175,6 +175,9 @@ main {
 }
 
 .service {
+  background-color: rgb(30, 30, 45);
+  border: 2px solid orange;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -182,7 +185,6 @@ main {
 
   width: 200px;
   height: 340px;
-  background-color: rgb(30, 30, 45);
   border-radius: 20px;
   padding: 40px 35px;
 
@@ -194,7 +196,7 @@ main {
 }
 
 .service:hover {
-  box-shadow: 0px 0px 20px 0px cyan;
+  box-shadow: 0px 0px 20px 0px orange;
   background-color: transparent;
 }
 
@@ -239,5 +241,59 @@ main {
   font-weight: bold;
   cursor: pointer;
   margin-top: auto;
+}
+
+@media (min-width: 1900px) {
+  #apresentation {
+    font-size: 1.3rem;
+  }
+  #apresentation div {
+    width: 30rem;
+  }
+  #apresentation button {
+    padding: 20px 35px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  #services {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 60px;
+    min-height: 100vh;
+    margin-bottom: 20vh;
+  }
+  .service {
+    display: flex;
+    flex-direction: column;
+
+    width: 250px;
+    height: 380px;
+    background-color: rgb(30, 30, 45);
+    border-radius: 20px;
+    padding: 40px 35px;
+
+    transition:
+      background-color 0.3s,
+      box-shadow 0.3s,
+      opacity 1s ease;
+    cursor: pointer;
+  }
+  .service div {
+    justify-content: center;
+    flex-grow: 1;
+  }
+  .service p {
+    padding-top: 15px;
+  }
+  .service button {
+    height: 40px;
+    font-size: 1rem;
+  }
 }
 </style>

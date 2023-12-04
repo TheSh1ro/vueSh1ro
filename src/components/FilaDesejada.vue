@@ -1,17 +1,19 @@
 <template>
   <main>
     <div class="column">
-      <h2 class="row title">Fila</h2>
-      <div class="row">
-        <span @click="handleSelectElo('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
-      </div>
-      <div class="row">
-        <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
-      </div>
-      <h2 class="row" style="grid-row: 5" v-if="selectedQueue">Continuar</h2>
-      <div class="confirm-row" style="grid-row: 6">
-        <button class="confirm-row-button" v-if="selectedQueue" @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
-      </div>
+      <TransitionGroup name="list">
+        <h2 class="row title">Fila</h2>
+        <div class="row">
+          <span @click="handleSelectElo('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
+        </div>
+        <div class="row">
+          <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
+        </div>
+        <h2 class="row" style="grid-row: 5" v-if="selectedQueue">Continuar</h2>
+        <div class="confirm-row" style="grid-row: 6" v-if="selectedQueue">
+          <button class="confirm-row-button" @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
+        </div>
+      </TransitionGroup>
     </div>
   </main>
 </template>
@@ -67,29 +69,50 @@ export default {
 </script>
 
 <style scoped>
+.list-enter-active {
+  transition:
+    opacity 2s ease,
+    transform 0.5s ease;
+}
+.list-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.list-leave-to {
+  opacity: 0;
+}
+
 main {
   display: flex;
   align-items: center;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 }
 
 h2 {
-  padding-left: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .column {
   display: grid;
   grid-template-rows: repeat(11, 1fr);
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
 .row {
   display: flex;
   flex-grow: 1;
   margin: 0 auto;
-  width: 180px;
+  width: 100%;
   height: 100%;
 }
 
@@ -97,7 +120,7 @@ h2 {
   display: flex;
   flex-grow: 1;
   margin: 0 auto;
-  width: 180px;
+  width: 100%;
   height: 100%;
 }
 
@@ -108,11 +131,10 @@ h2 {
   border-radius: 7px;
 
   background-color: transparent;
-  width: fit-content;
   padding: 12px 20px;
   cursor: pointer;
   text-align: center;
-  font-weight: bold;
+  font-size: 1rem;
 
   transition:
     box-shadow 0.2s,
@@ -126,12 +148,12 @@ h2 {
 
 span {
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-grow: 1;
   gap: 5px;
   cursor: pointer;
   border: 1px solid transparent;
-  padding-left: 10px;
 }
 
 span:hover {
