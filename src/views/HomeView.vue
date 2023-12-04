@@ -5,11 +5,11 @@
       <div>
         <h1>SUBA DE ELO E FAÇA PARTE DOS 0.1% MELHORES JOGADORES</h1>
         <p>Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que estragam as suas partidas para trás.</p>
-        <a href="#services" @click="animateServices">Nossos serviços</a>
+        <button @click="animateServices">Nossos serviços</button>
       </div>
     </section>
     <section id="services">
-      <RouterLink to="elojob" class="service" v-if="showService.includes(1)" @click="this.$scrollToTop()">
+      <RouterLink to="/elojob" class="service" v-if="showService.includes(1)" @click="this.$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Suba de elo</h4>
@@ -19,7 +19,7 @@
         <button>Escolher</button>
       </RouterLink>
 
-      <RouterLink to="duojob" class="service" v-if="showService.includes(2)" @click="this.$scrollToTop()">
+      <RouterLink to="/duojob" class="service" v-if="showService.includes(2)" @click="this.$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Aprenda jogando</h4>
@@ -28,23 +28,23 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink to="md5" class="service" v-if="showService.includes(3)" @click="this.$scrollToTop()">
+      <RouterLink to="/" class="service" v-if="showService.includes(3)" @click="this.$scrollToTop()" @mouseover="constructionState('md5', 1)" @mouseout="constructionState('md5', 0)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
           <h2>MD5</h2>
           <p>Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória</p>
         </div>
-        <button>Escolher</button>
+        <button ref="md5">Escolher</button>
       </RouterLink>
-      <RouterLink to="tips" class="service" v-if="showService.includes(4)" @click="this.$scrollToTop()">
+      <RouterLink to="/" class="service" v-if="showService.includes(4)" @click="this.$scrollToTop()" @mouseover="constructionState('tips', 1)" @mouseout="constructionState('tips', 0)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Estude o jogo</h4>
           <h2>Shiro Tips</h2>
           <p>Tenha acesso ao nosso guia de altissima qualidade sobre a fase de rotas</p>
         </div>
-        <button>Escolher</button>
+        <button ref="tips">Escolher</button>
       </RouterLink>
     </section>
   </main>
@@ -59,7 +59,27 @@ export default {
   },
   computed: {},
   methods: {
+    constructionState(cardRef, isOver) {
+      if (isOver) {
+        this.$refs[cardRef].innerText = 'Em manuntenção'
+        this.$refs[cardRef].style.backgroundColor = 'black'
+        this.$refs[cardRef].style.color = 'red'
+        this.$refs[cardRef].style.borderColor = 'red'
+      } else {
+        this.$refs[cardRef].innerText = 'Escolher'
+        this.$refs[cardRef].style.backgroundColor = 'orange'
+        this.$refs[cardRef].style.color = 'black'
+        this.$refs[cardRef].style.borderColor = 'orange'
+      }
+    },
+
     async animateServices() {
+      // Scrollar para os serviços
+      document.getElementById('services').scrollIntoView({
+        behavior: 'smooth'
+      })
+
+      // Animar apenas uma vez por carregamento na página
       if (this.showService.includes('stop')) {
         return
       }
@@ -80,6 +100,7 @@ export default {
       await pushWithDelay(2, 100)
       await pushWithDelay(3, 100)
       await pushWithDelay(4, 100)
+      await pushWithDelay('stop')
     }
   }
 }
@@ -120,7 +141,7 @@ main {
   filter: hue-rotate(180deg) contrast(2);
 }
 
-#apresentation a {
+#apresentation button {
   background-color: transparent;
   width: fit-content;
   padding: 12px 20px;
@@ -131,9 +152,9 @@ main {
   cursor: pointer;
   text-align: center;
 }
-#apresentation a:hover {
+#apresentation button:hover {
   border: 2px solid cyan;
-  box-shadow: 0px 0px 25px 0px cyan;
+  box-shadow: 0px 0px 15px 0px cyan;
 }
 
 #apresentation h1 {
@@ -207,7 +228,7 @@ main {
   color: black;
   width: 100%;
   padding: 8px 12px;
-  border: none;
+  border: 1px solid orange;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
