@@ -7,7 +7,7 @@
     </div>
     <div class="riot">
       <input ref="riot_id" class="riot-id" type="text" placeholder="Digite seu Riot ID" v-model="riot_id" />
-      <input ref="riot_tag" class="riot-tag" type="text" v-model="riot_tag" />
+      <input ref="riot_tag" class="riot-tag" type="text" placeholder="#" v-model="riot_tag" />
     </div>
     <input ref="riot_login" type="text" placeholder="Digite seu usuário da Riot" v-model="riot_login" />
     <input ref="riot_password" type="text" placeholder="Digite sua senha da Riot" v-model="riot_password" />
