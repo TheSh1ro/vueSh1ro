@@ -6,11 +6,11 @@
       <button title="Insira aqui um código de referência ou promoção para ganhar um desconto no custo do serviço">?</button>
     </div>
     <div class="riot">
-      <input class="riot-id" type="text" placeholder="Digite seu Riot ID" v-model="riot_id" />
-      <input class="riot-tag" type="text" v-model="riot_tag" />
+      <input ref="riot_id" class="riot-id" type="text" placeholder="Digite seu Riot ID" v-model="riot_id" />
+      <input ref="riot_tag" class="riot-tag" type="text" v-model="riot_tag" />
     </div>
-    <input type="text" placeholder="Digite seu usuário da Riot" v-model="riot_login" />
-    <input type="text" placeholder="Digite sua senha da Riot" v-model="riot_password" />
+    <input ref="riot_login" type="text" placeholder="Digite seu usuário da Riot" v-model="riot_login" />
+    <input ref="riot_password" type="text" placeholder="Digite sua senha da Riot" v-model="riot_password" />
     <textarea
       name="champion"
       id="champion"
@@ -34,10 +34,57 @@ export default {
       riot_login: null,
       riot_password: null,
       refer_code: null,
-      description: null
+      description: null,
+
+      // caso algum campo esteja com um dado inválido
+      hasInvalidField: false
     }
   },
-  methods: {},
+  methods: {
+    handleConfirm() {
+      // Resetar as classes dos campos e hasInvalidField antes de verificar novamente
+      this.resetFieldClasses()
+      this.hasInvalidField = false
+
+      if (!this.riot_id || this.riot_id.trim().length < 3) {
+        this.setFieldClass('riot_id')
+        this.hasInvalidField = true
+      }
+
+      if (!this.riot_tag || this.riot_tag.trim().length < 4) {
+        this.setFieldClass('riot_tag')
+        this.hasInvalidField = true
+      }
+
+      if (!this.riot_login || this.riot_login.trim().length < 3) {
+        this.setFieldClass('riot_login')
+        this.hasInvalidField = true
+      }
+
+      if (!this.riot_password || this.riot_password.trim().length < 6) {
+        this.setFieldClass('riot_password')
+        this.hasInvalidField = true
+      }
+
+      if (this.hasInvalidField) return
+    },
+
+    resetFieldClasses() {
+      Object.keys(this.$refs).forEach((ref) => {
+        if (this.$refs[ref].classList) {
+          this.$refs[ref].classList.remove('invalid-field')
+        }
+      })
+    },
+
+    setFieldClass(fieldName) {
+      if (this.$refs[fieldName]) {
+        this.$refs[fieldName].classList.add('invalid-field')
+      }
+    }
+
+    // ... restante do código ...
+  },
   watch: {
     refer_code(newValue) {
       if (this.refer_code) this.refer_code = newValue.toUpperCase()
@@ -123,5 +170,12 @@ button:hover {
 }
 .riot-tag {
   width: 54px;
+}
+
+.invalid-field {
+  color: red;
+}
+.invalid-field::placeholder {
+  color: red;
 }
 </style>
