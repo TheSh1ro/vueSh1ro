@@ -197,6 +197,11 @@ main {
   background-color: transparent;
 }
 
+.service:hover button {
+  color: orange;
+  background-color: transparent;
+}
+
 .service div {
   display: flex;
   flex-direction: column;
