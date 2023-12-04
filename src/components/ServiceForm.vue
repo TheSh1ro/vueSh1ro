@@ -2,7 +2,7 @@
   <main>
     <h2>Insira os dados</h2>
     <div class="refer">
-      <input type="text" placeholder="Código de referência (opcional)" />
+      <input type="text" placeholder="Código de referência (opcional)" v-model="refer_code" />
       <button title="Insira aqui um código de referência ou promoção para ganhar um desconto no custo do serviço">?</button>
     </div>
     <div class="riot">
@@ -11,7 +11,13 @@
     </div>
     <input type="text" placeholder="Digite seu usuário da Riot" v-model="riot_login" />
     <input type="text" placeholder="Digite sua senha da Riot" v-model="riot_password" />
-    <textarea name="champion" id="champion" rows="3" v-model="description" placeholder="Fale sobre suas preferências (opcional)"></textarea>
+    <textarea
+      name="champion"
+      id="champion"
+      rows="3"
+      v-model="description"
+      placeholder="Fale sobre suas preferências (opcional), lembrando que a ShiroJobs não trabalha com campeões ou rotas específicas a menos que haja um combinado prévio, para isso utilize o chat 24h ou envie um e-mail. Ainda assim deixe alguma informação e então o booster seguirá na medida do possível"
+    ></textarea>
     <button class="confirm-btn" @click="handleConfirm" style="padding-block: 8px">Confirmar</button>
   </main>
 </template>
@@ -23,7 +29,7 @@ export default {
   data() {
     return {
       // component form
-      riot_id: null,
+      riot_id: '',
       riot_tag: '#',
       riot_login: null,
       riot_password: null,
@@ -31,17 +37,20 @@ export default {
       description: null
     }
   },
-  created() {},
-  computed: {
-    computed: {}
-  },
-  methods: {
-    upperCase() {
-      this.riottag ? (this.riottag = this.riottag.toUpperCase()) : undefined
-      this.riotid ? (this.riotid = this.riotid.toUpperCase()) : undefined
-
-      if (this.riottag[0] != '#') {
-        this.riottag[0] = '#'
+  methods: {},
+  watch: {
+    refer_code(newValue) {
+      if (this.refer_code) this.refer_code = newValue.toUpperCase()
+    },
+    riot_id(newValue) {
+      if (this.riot_id) this.riot_id = newValue.toUpperCase()
+    },
+    riot_tag(newValue) {
+      if (this.riot_tag) {
+        this.riot_tag = newValue.toUpperCase()
+        if (this.riot_tag[0] !== '#') {
+          this.riot_tag = '#' + this.riot_tag
+        }
       }
     }
   }
