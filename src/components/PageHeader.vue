@@ -6,16 +6,14 @@
         <h1>ShiroJobs</h1>
       </RouterLink>
       <section class="user">
-        <RouterLink to="/register" class="user-item" v-if="!isAuthenticated"
-          >Criar conta</RouterLink
-        >
+        <RouterLink to="/register" class="user-item" v-if="!isAuthenticated">Criar conta</RouterLink>
         <div class="user-item" @click="handleLogin">
           <span to="/login">{{ username }}</span>
           <img src="/assets/people.png" alt="Foto de usuário" v-if="isAuthenticated" />
         </div>
       </section>
       <section class="dropdown" v-if="showDropdown">
-        <span class="dropdown-item" @click="hideDropdown">Minha conta</span>
+        <RouterLink to="/account" class="dropdown-item" @click="hideDropdown">Minha conta</RouterLink>
         <span class="dropdown-item" @click="hideDropdown">Dashboard</span>
         <span class="dropdown-item" @click="handleLogout(), hideDropdown()">Desconectar</span>
       </section>
