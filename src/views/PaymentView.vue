@@ -3,12 +3,7 @@
     <div class="content" :class="{ redBorder: error == 1 }">
       <div class="methods">
         <h2 class="methods-title">Forma de pagamento</h2>
-        <button
-          :class="{ selectedMethod: method.name == selectedMethod }"
-          v-for="method in paymentMethods"
-          :key="method"
-          @click="selectedMethod = method.name"
-        >
+        <button :class="{ selectedMethod: method.name == selectedMethod }" v-for="method in paymentMethods" :key="method" @click="selectedMethod = method.name">
           <img :src="method.image" alt="" />
           <p>{{ method.name }}</p>
         </button>
@@ -17,25 +12,20 @@
         <h2 class="inputs-title">Informações da compra</h2>
         <input readonly class="readonly" type="text" v-model="user.username" />
         <div class="service">
-          <input
-            readonly
-            class="readonly"
-            type="text"
-            :value="currentEloName + ' ao ' + targetEloName"
-          />
-          <img :src="currentEloImage" alt="" />
-          <img :src="targetEloImage" alt="" />
+          <input readonly class="readonly" type="text" :value="currentEloName + ' ao ' + targetEloName" />
+          <img :src="currentElo.image" alt="" />
+          <img :src="targetElo.image" alt="" />
         </div>
         <div class="group-info">
-          <input readonly class="readonly" type="text" :value="'Fila ' + getQueue" />
-          <input readonly class="readonly" type="text" :value="serviceType" />
+          <input readonly class="readonly" type="text" :value="'Fila ' + queue" />
+          <input readonly class="readonly" type="text" :value="service" />
         </div>
         <input
           readonly
           class="readonly"
           type="text"
           :value="
-            totalPrice.toLocaleString('pt-BR', {
+            price.toLocaleString('pt-BR', {
               style: 'currency',
               currency: 'BRL',
               minimumFractionDigits: 2,
@@ -43,15 +33,12 @@
             })
           "
         />
-        <input readonly class="readonly" type="text" :value="'Prazo de ' + deadline + ' dias'" />
+        <input readonly class="readonly" type="text" :value="'Prazo de ' + time + ' dias'" />
       </div>
 
       <div class="checkbox">
         <input type="checkbox" id="checkbox" v-model="checkbox" />
-        <label for="checkbox" :class="{ redText: error.includes(1) }"
-          >Estou ciente de que jogar na conta na fila contratada (Solo/Duo ou Flexível) durante o
-          andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label
-        >
+        <label for="checkbox" :class="{ redText: error.includes(1) }">Estou ciente de que jogar na conta na fila contratada (Solo/Duo ou Flexível) durante o andamento do serviço afetará o resultado final ou mesmo o prazo deste.</label>
       </div>
       <div class="formButtons">
         <button class="paymentButton" @click="handlePaymentCancel">Voltar</button>
@@ -67,43 +54,14 @@
         <button title="Insira aqui o ID de algum amigo que te indicou o nosso site">?</button>
       </div>
       <div class="riot">
-        <input
-          type="text"
-          placeholder="Digite aqui seu RIOT ID"
-          v-model="riotid"
-          @input="upperCase"
-          :class="{ redText: error.includes(2) }"
-        />
-        <input
-          type="text"
-          v-model="riottag"
-          @input="upperCase"
-          :class="{ redText: error.includes(21) }"
-        />
+        <input type="text" placeholder="Digite aqui seu RIOT ID" v-model="riotid" @input="upperCase" :class="{ redText: error.includes(2) }" />
+        <input type="text" v-model="riottag" @input="upperCase" :class="{ redText: error.includes(21) }" />
       </div>
 
-      <input
-        v-model="riot_login"
-        type="text"
-        placeholder="Riot Login"
-        :class="{ redText: error.includes(3) }"
-      />
-      <input
-        v-model="riot_password"
-        type="text"
-        placeholder="Riot Password"
-        :class="{ redText: error.includes(4) }"
-      />
-      <textarea
-        v-model="description_champion"
-        type="text"
-        placeholder="Preferências de campeão, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
-      />
-      <textarea
-        v-model="description_lane"
-        type="text"
-        placeholder="Preferências de rota, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster"
-      />
+      <input v-model="riot_login" type="text" placeholder="Riot Login" :class="{ redText: error.includes(3) }" />
+      <input v-model="riot_password" type="text" placeholder="Riot Password" :class="{ redText: error.includes(4) }" />
+      <textarea v-model="description_champion" type="text" placeholder="Preferências de campeão, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster" />
+      <textarea v-model="description_lane" type="text" placeholder="Preferências de rota, escreva aqui (opcional), não obrigatóriamente será seguido pelo booster" />
       <button class="paymentButton" @click="handlePaymentConfirmation">Confirmar</button>
     </div>
   </main>
@@ -116,67 +74,77 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      riotid: null,
-      riottag: '#',
+      // Status da página
+      previousPage: null,
+      error: [],
+      showAll: false,
+
       paymentMethods: [
         { name: 'Pix', image: '/assets/pix.png' },
         { name: 'Crédito', image: '/assets/credit.png' },
         { name: 'Débito', image: '/assets/debit.png' }
       ],
+
       selectedMethod: null,
 
+      // AuthStore
       user: null,
 
-      serviceQueue: 1,
-      serviceType: null,
-      totalPrice: null,
-      currentName: null,
-      currentImage: null,
-      targetName: null,
-      targetImage: null,
-      deadline: null,
+      // PurchaseStore
+      service: null,
+      queue: null,
+      currentElo: null,
+      targetElo: null,
+      price: null,
+      time: null,
 
+      // Formulários
+      riotid: null,
+      riottag: '#',
       checkbox: false,
       refer_code: null,
       riot_login: null,
       riot_password: null,
       description_lane: null,
-      description_champion: null,
-
-      previousPage: null,
-      error: [],
-      showAll: false
+      description_champion: null
     }
   },
 
   created() {
     this.selectedMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].name : null
 
-    const purchaseStore = usePurchaseStore()
     const authStore = useAuthStore()
+    const purchaseStore = usePurchaseStore()
 
-    this.previousPage = this.$route.query.service
+    this.previousPage = this.$route.query.service.toLowerCase()
 
     // Checa se os dados estão carregados, caso contrário volta para a home para evitar erros
     if (purchaseStore.purchase && authStore.user) {
       this.user = authStore.user
-      this.serviceType = purchaseStore.purchase.serviceType
-      this.totalPrice = purchaseStore.purchase.totalPrice
-      this.currentEloName = purchaseStore.purchase.currentEloName
-      this.currentEloImage = purchaseStore.purchase.currentEloImage
-      this.targetEloName = purchaseStore.purchase.targetEloName
-      this.targetEloImage = purchaseStore.purchase.targetEloImage
-      this.deadline = purchaseStore.purchase.deadline
+
+      this.service = purchaseStore.purchase.service
+      this.queue = purchaseStore.purchase.queue
+      this.currentElo = purchaseStore.purchase.currentElo
+      this.targetElo = purchaseStore.purchase.targetElo
+      this.price = purchaseStore.purchase.price
+      this.time = purchaseStore.purchase.time
     } else {
-      this.$router.push('/' + this.previousPage)
+      this.$router.push('/' + this.previousPage.toLowerCase())
     }
   },
   computed: {
+    currentEloName() {
+      const elo = this.currentElo
+      return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
+    },
+
+    targetEloName() {
+      const elo = this.targetElo
+      return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
+    },
+
     getRiotFullname() {
       return this.riotid ? this.riotid + this.riottag : null
-    },
-    getQueue() {
-      return this.serviceQueue ? 'ranqueada solo/duo' : 'ranqueada flexível'
     },
 
     username() {
@@ -195,8 +163,9 @@ export default {
     },
 
     handlePaymentCancel() {
-      const purchaseStore = usePurchaseStore()
-      purchaseStore.clearPurchase()
+      // Limpar todas as seleções de elo feitas
+      usePurchaseStore().clearPurchase()
+      // Voltar para a página de escolha de elo
       this.$router.push('/' + this.previousPage)
     },
 
@@ -239,7 +208,6 @@ export default {
 * {
   transition:
     background-color 0.2s,
-    color 0s;
 }
 
 main {

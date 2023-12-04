@@ -83,7 +83,7 @@ export default {
     const purchaseStore = usePurchaseStore()
     const purchaseDetails = purchaseStore.purchase
 
-    if (purchaseStore.storedService == this.$route.name) {
+    if (purchaseStore.purchase && purchaseStore.purchase.service == this.$route.name) {
       this.selectedElo.current = purchaseDetails.currentElo
       this.selectedElo.target = purchaseDetails.targetElo
       this.selectedQueue = purchaseDetails.queue

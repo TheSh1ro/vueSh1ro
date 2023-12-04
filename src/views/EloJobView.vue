@@ -81,12 +81,11 @@ export default {
   },
   created() {
     const purchaseStore = usePurchaseStore()
-    const purchaseDetails = purchaseStore.purchase
 
-    if (purchaseStore.storedService == this.$route.name) {
-      this.selectedElo.current = purchaseDetails.currentElo
-      this.selectedElo.target = purchaseDetails.targetElo
-      this.selectedQueue = purchaseDetails.queue
+    if (purchaseStore.purchase && purchaseStore.purchase.service == this.$route.name) {
+      this.selectedElo.current = purchaseStore.purchase.currentElo
+      this.selectedElo.target = purchaseStore.purchase.targetElo
+      this.selectedQueue = purchaseStore.purchase.queue
     }
   },
   methods: {
@@ -139,7 +138,7 @@ export default {
       purchaseStore.keepPurchase(service, queue, currentElo, targetElo, price, days)
 
       if (authStore.isAuthenticated) {
-        this.$router.push('/payment')
+        this.$router.push({ path: '/payment', query: { service: service } })
       } else {
         this.$router.push({ path: '/login', query: { previousPath: currentPath } })
       }
