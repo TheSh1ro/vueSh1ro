@@ -2,7 +2,9 @@
   <main id="main">
     <div class="content">
       <ServiceAbout :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" />
-      <ServiceForm v-if="visibleForm" />
+      <Transition name="form">
+        <ServiceForm v-if="visibleForm" class="container" />
+      </Transition>
     </div>
   </main>
 </template>
@@ -57,5 +59,23 @@ export default {
   justify-content: center;
   height: fit-content;
   gap: 10vw;
+}
+
+.container {
+  transition: transform 5.5s;
+}
+
+/* we will explain what these classes do next! */
+.form-enter-active,
+.form-leave-active {
+  transition:
+    opacity 3s ease,
+    transform 0.5s ease;
+}
+
+.form-enter-from,
+.form-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
 }
 </style>
