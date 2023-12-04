@@ -1,8 +1,8 @@
 <template>
   <main id="main">
     <div class="content">
-      <ServiceAbout :toggleVisibleForm />
-      <ServiceForm v-if="showForm" />
+      <ServiceAbout :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" />
+      <ServiceForm v-if="visibleForm" />
     </div>
   </main>
 </template>
@@ -55,5 +55,7 @@ export default {
 .content {
   display: flex;
   justify-content: center;
+  height: fit-content;
+  gap: 10vw;
 }
 </style>

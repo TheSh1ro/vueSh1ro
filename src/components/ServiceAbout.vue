@@ -27,13 +27,13 @@
     </div>
 
     <div class="form-block checkbox-block">
-      <input id="checkbox" type="checkbox" v-model="checkbox" />
+      <input :disabled="visibleForm" id="checkbox" type="checkbox" v-model="checkbox" />
       <label for="checkbox">Estou ciente de que jogar na conta durante o andamento do serviço afetará o produto final deste </label>
     </div>
 
     <div class="form-block button-block">
-      <button class="button" @click="handleCancel">Voltar</button>
-      <button class="button" @click="toggleVisibleForm(checkbox)">Continuar</button>
+      <button class="button" @click="handleCancel" :style="{ 'grid-column': visibleForm ? '1/3' : 'auto' }">Voltar</button>
+      <button class="button" @click="toggleVisibleForm(checkbox)" v-if="!visibleForm">Continuar</button>
     </div>
   </main>
 </template>
@@ -42,7 +42,7 @@
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
-  props: ['toggleVisibleForm'],
+  props: ['toggleVisibleForm', 'visibleForm'],
   data() {
     return {
       // from AuthStore
@@ -123,6 +123,7 @@ export default {
 * {
   user-select: none;
 }
+
 main {
   background-color: white;
   color: black;
@@ -131,9 +132,9 @@ main {
   display: flex;
   flex-direction: column;
 
-  border-radius: 5px;
-  height: fit-content;
   width: 320px;
+  height: fit-content;
+  border-radius: 3px;
   padding: 20px 30px;
 
   gap: 20px;
@@ -145,6 +146,8 @@ input {
   padding: 7px;
   border: 1px solid black;
   background-color: rgb(225, 225, 225);
+
+  border-radius: 3px;
 }
 
 .form-block {
@@ -172,7 +175,7 @@ input {
   align-items: center;
 
   padding: 7px 5px;
-  border-radius: 8px;
+  border-radius: 3px;
 
   gap: 10px;
 }
@@ -187,7 +190,7 @@ input {
 .input-block {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 .elos {
   display: flex;
@@ -211,6 +214,10 @@ input {
   gap: 10px;
 }
 
+#checkbox:disabled {
+  filter: sepia() hue-rotate(340deg) saturate(5) invert();
+}
+
 .button-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -222,8 +229,8 @@ input {
   color: white;
   cursor: pointer;
 
-  padding: 7px;
-  border-radius: 5px;
+  padding: 8px;
+  border-radius: 3px;
 }
 .button:hover {
   background-color: darkblue;
