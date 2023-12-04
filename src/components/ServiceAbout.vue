@@ -3,7 +3,7 @@
     <div class="form-block payment-block">
       <h2 class="block-title payment-title">Forma de pagamento</h2>
       <template v-for="method in paymentMethods" :key="method">
-        <div class="payment-method" :class="{ selected: method.name === selectedMethod.name }" @click="handleSelectMethod(method)">
+        <div class="payment-method" :class="{ selected: method.name === selectedMethod.name }" v-if="selectedMethod" @click="handleSelectMethod(method)">
           <img class="payment-image" :src="method.image" alt="" />
           <p>{{ method.name }}</p>
         </div>
@@ -42,7 +42,7 @@
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
-  props: ['toggleVisibleForm', 'visibleForm'],
+  props: ['toggleVisibleForm', 'visibleForm', 'handleSelectMethod', 'selectedMethod'],
   data() {
     return {
       // from AuthStore
@@ -63,13 +63,12 @@ export default {
         { name: 'Pix', image: '/assets/pix.png' },
         { name: 'Crédito', image: '/assets/credit.png' },
         { name: 'Débito', image: '/assets/debit.png' }
-      ],
-      selectedMethod: null
+      ]
     }
   },
   created() {
     // Pix por padrão
-    this.selectedMethod = this.paymentMethods[0]
+    this.handleSelectMethod(this.paymentMethods[0])
 
     const authStore = useAuthStore()
     const purchaseStore = usePurchaseStore()
@@ -104,10 +103,6 @@ export default {
     }
   },
   methods: {
-    handleSelectMethod(method) {
-      this.selectedMethod = method
-    },
-
     handleCancel() {
       // Limpar todas as seleções de elo feitas
       usePurchaseStore().clearPurchase()
