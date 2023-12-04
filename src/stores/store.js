@@ -21,11 +21,11 @@ export const useAuthStore = defineStore('auth', {
 export const usePurchaseStore = defineStore('purchase', {
   state: () => ({
     purchase: null,
-    isStored: false
+    storedService: false
   }),
   actions: {
     keepPurchase(service, queue, currentElo, targetElo, price, days) {
-      this.isStored = true
+      this.storedService = service
 
       this.purchase = {
         service: service,
