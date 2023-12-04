@@ -3,7 +3,7 @@
     <div class="content">
       <ServiceAbout :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" />
       <Transition name="form">
-        <ServiceForm v-if="visibleForm" class="container" />
+        <ServiceForm v-if="visibleForm" class="container" :handleConfirm="globalConfirm" />
       </Transition>
     </div>
   </main>
@@ -41,7 +41,8 @@ export default {
     toggleVisibleForm(checkbox) {
       if (checkbox) this.visibleForm = true
     }
-  }
+  },
+  handleConfirm() {}
 }
 </script>
 

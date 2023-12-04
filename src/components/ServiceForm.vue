@@ -26,6 +26,7 @@
 // import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
+  props: ['globalConfirm'],
   data() {
     return {
       // component form
@@ -67,6 +68,8 @@ export default {
       }
 
       if (this.hasInvalidField) return
+
+      this.globalConfirm(this.riot_id, this.riot_tag, this.riot_login, this.riot_password, this.refer_code, this.description)
     },
 
     resetFieldClasses() {
