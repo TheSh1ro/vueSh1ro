@@ -136,7 +136,7 @@ export default {
       purchaseStore.keepPurchase(service, queue, currentElo, targetElo, price, days)
 
       if (authStore.isAuthenticated) {
-        this.$router.push('/payment')
+        this.$router.push({ path: '/payment', query: { service: service } })
       } else {
         this.$router.push({ path: '/login', query: { previousPath: currentPath } })
       }

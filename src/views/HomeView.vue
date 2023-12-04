@@ -84,7 +84,8 @@ export default {
         return
       }
 
-      this.showService = []
+      // Anulando animação!!!!!!!!!!!!!!!!!!
+      this.showService = [1, 2, 3, 4]
       const showService = this.showService
 
       async function pushWithDelay(value, delay) {

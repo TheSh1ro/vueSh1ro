@@ -22,13 +22,13 @@
         <input readonly type="text" :value="queue" />
         <input readonly type="text" :value="service" />
       </div>
-      <input readonly type="text" :value="price" />
-      <input readonly type="text" :value="'Prazo de ' + time + ' dias'" />
+      <input readonly type="text" :value="price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })" />
+      <input readonly type="text" :value="'Prazo máximo de ' + time + ' dias'" />
     </div>
 
     <div class="form-block checkbox-block">
       <input :disabled="visibleForm" id="checkbox" type="checkbox" v-model="checkbox" />
-      <label for="checkbox">Estou ciente de que jogar na conta durante o andamento do serviço afetará o produto final deste </label>
+      <label for="checkbox" style="text-align: start;">Estou ciente de que jogar na conta durante o andamento do serviço afetará o produto final deste </label>
     </div>
 
     <div class="form-block button-block">
