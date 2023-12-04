@@ -24,7 +24,6 @@ export default {
       visibleForm: false
     }
   },
-
   created() {
     const authStore = useAuthStore()
     const purchaseStore = usePurchaseStore()

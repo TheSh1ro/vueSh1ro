@@ -5,51 +5,20 @@
       <div class="input-block">
         <div class="input-item" :class="{ inputRed: placeholder.error.includes(1) }">
           <img src="../assets/people.png" alt="" />
-          <input
-            :placeholder="placeholder.fullname"
-            type="text"
-            id="fullname"
-            v-model="formData.fullname"
-            @keyup.enter="handleSubmit"
-          />
-        </div>
-        <div class="input-item" :class="{ inputRed: placeholder.error.includes(2) }">
-          <img src="../assets/people.png" alt="" />
-          <input
-            :placeholder="placeholder.login"
-            type="text"
-            id="username"
-            v-model="formData.username"
-            @input="restrictSpecialCharacters"
-            @keyup.enter="handleSubmit"
-          />
+          <input :placeholder="placeholder.fullname" type="text" id="fullname" v-model="formData.fullname" @keyup.enter="handleSubmit" />
         </div>
         <div class="input-item" :class="{ inputRed: placeholder.error.includes(3) }">
           <img src="../assets/people.png" alt="" />
-          <input
-            :placeholder="placeholder.email"
-            type="text"
-            id="email"
-            v-model="formData.email"
-            @input="restrictSpecialCharacters"
-            @keyup.enter="handleSubmit"
-          />
+          <input :placeholder="placeholder.email" type="text" id="email" v-model="formData.email" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" />
+        </div>
+        <div class="input-item" :class="{ inputRed: placeholder.error.includes(2) }">
+          <img src="../assets/people.png" alt="" />
+          <input :placeholder="placeholder.login" type="text" id="username" v-model="formData.username" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" />
         </div>
         <div class="input-item" :class="{ inputRed: placeholder.error.includes(4) }">
           <img src="../assets/padlock.png" alt="" />
-          <input
-            :placeholder="placeholder.senha"
-            :type="showPassword ? 'text' : 'password'"
-            id="password"
-            v-model="formData.password"
-            @input="restrictSpecialCharacters"
-            @keyup.enter="handleSubmit"
-          />
-          <img
-            src="../assets/visual.png"
-            style="cursor: pointer"
-            @click="togglePasswordVisibility"
-          />
+          <input :placeholder="placeholder.senha" :type="showPassword ? 'text' : 'password'" id="password" v-model="formData.password" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" />
+          <img src="../assets/visual.png" style="cursor: pointer" @click="togglePasswordVisibility" />
         </div>
       </div>
       <RouterLink class="alternate" to="login">Fazer login</RouterLink>
@@ -145,11 +114,9 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-  padding: 40px;
 
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .container {
@@ -161,7 +128,9 @@ export default {
   justify-content: center;
   align-items: center;
 
+  height: fit-content;
   padding: 50px;
+  margin-top: 20px;
   gap: 30px;
 }
 

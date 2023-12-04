@@ -15,20 +15,20 @@
       <input readonly type="text" :value="username" />
       <div class="elos">
         <input readonly type="text" :value="currentEloName + ' ao ' + targetEloName" />
-        <img class="elo-image" :src="currentElo.image" alt="Imagem do elo atual" />
-        <img class="elo-image" :src="targetElo.image" alt="Imagem do elo de destino" />
+        <img class="elo-image" :src="currentElo.image" alt="Imagem do elo atual" v-if="currentElo" />
+        <img class="elo-image" :src="targetElo.image" alt="Imagem do elo de destino" v-if="targetElo" />
       </div>
       <div class="services">
-        <input readonly type="text" :value="queue" />
-        <input readonly type="text" :value="service" />
+        <input readonly type="text" :value="queue" v-if="queue" />
+        <input readonly type="text" :value="service" v-if="service" />
       </div>
-      <input readonly type="text" :value="price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })" />
-      <input readonly type="text" :value="'Prazo máximo de ' + time + ' dias'" />
+      <input readonly type="text" :value="price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })" v-if="price" />
+      <input readonly type="text" :value="'Prazo máximo de ' + time + ' dias'" v-if="time" />
     </div>
 
     <div class="form-block checkbox-block">
       <input :disabled="visibleForm" id="checkbox" type="checkbox" v-model="checkbox" />
-      <label for="checkbox" style="text-align: start;">Estou ciente de que jogar na conta durante o andamento do serviço afetará o produto final deste </label>
+      <label for="checkbox" style="text-align: start">Estou ciente de que jogar na conta durante o andamento do serviço afetará o produto final deste </label>
     </div>
 
     <div class="form-block button-block">
@@ -68,18 +68,15 @@ export default {
     }
   },
   created() {
+    // Pix por padrão
     this.selectedMethod = this.paymentMethods[0]
 
     const authStore = useAuthStore()
     const purchaseStore = usePurchaseStore()
 
-    // Salva o nome da página anterior em lowercase
-    this.previousPage = this.$route.query.service.toLowerCase()
-
-    // Checa se os dados estão carregados, caso contrário volta para a home para evitar erros
+    // Recebe os dados de purchaseStore
     if (purchaseStore.purchase && authStore.user) {
       this.user = authStore.user
-
       this.service = purchaseStore.purchase.service
       this.queue = purchaseStore.purchase.queue
       this.currentElo = purchaseStore.purchase.currentElo
@@ -91,11 +88,13 @@ export default {
   computed: {
     currentEloName() {
       const elo = this.currentElo
+      if (elo == null) return 'Nome não disponível'
       return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
     },
 
     targetEloName() {
       const elo = this.targetElo
+      if (elo == null) return 'Nome não disponível'
       return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
     },
 

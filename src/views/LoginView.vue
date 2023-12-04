@@ -87,11 +87,9 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-  padding: 40px;
 
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .container {
@@ -103,6 +101,8 @@ export default {
   justify-content: center;
   align-items: center;
 
+  height: fit-content;
+  margin-top: 20px;
   padding: 50px;
   gap: 30px;
 }
