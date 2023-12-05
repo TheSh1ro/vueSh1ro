@@ -8,7 +8,7 @@
         <button @click="animateServices">Nossos serviços</button>
       </div>
     </section>
-    <section id="services">
+    <section ref="services" id="services" :style="{ height: servicesPadding }">
       <RouterLink to="/elojob" class="service" v-if="showService.includes(1)" @click="$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
@@ -32,7 +32,7 @@
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
-          <h2>MD5</h2>
+          <h1>MD5</h1>
           <p>Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória</p>
         </div>
         <button ref="md5">Escolher</button>
@@ -54,10 +54,17 @@
 export default {
   data() {
     return {
-      showService: [1, 2, 3, 4]
+      showService: [1, 2, 3, 4],
+      servicesHeight: null,
+      servicesPadding: null
     }
   },
-  computed: {},
+  mounted() {},
+  computed: {
+    windowHeight() {
+      return window.innerHeight
+    }
+  },
   methods: {
     constructionState(cardRef, isOver) {
       if (isOver) {
@@ -113,27 +120,26 @@ main {
   color: white;
 
   display: grid;
-  justify-items: center;
   grid-template-columns: 1fr;
-  grid-template-rows: 92vh 1fr;
+  grid-template-rows: calc(90vh) 1fr;
+  padding-inline: 20px;
 }
 
 #apresentation {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
 
   gap: 20px;
-  width: 70%;
-  height: fit-content;
+
+  font-size: 1.5rem;
 }
 
 #apresentation div {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 20rem;
+  width: 30vw;
   color: cyan;
 }
 
@@ -144,14 +150,15 @@ main {
 
 #apresentation button {
   background-color: transparent;
-  width: fit-content;
-  padding: 12px 20px;
+  width: 18rem;
+  padding: 22px 20px;
   border-radius: 25px;
   border: 2px solid cyan;
   transition: box-shadow 0.2s;
   color: whitesmoke;
   cursor: pointer;
   text-align: center;
+  font-size: 1.5rem;
 }
 #apresentation button:hover {
   border: 2px solid cyan;
@@ -166,25 +173,27 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
 
-  gap: 30px;
-  min-height: 100vh;
+  gap: 45px 30px;
+  padding-top: 10vh;
+  padding-inline: 50px;
+  min-height: 70vh;
   margin-bottom: 20vh;
 }
 
 .service {
   background-color: rgb(30, 30, 45);
   border: 2px solid orange;
+  font-size: 1.2rem;
 
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
 
-  width: 200px;
-  height: 340px;
+  width: 300px;
+  height: 450px;
   border-radius: 20px;
   padding: 40px 35px;
 
@@ -227,73 +236,41 @@ main {
 }
 
 .service p {
-  margin-top: 10px;
+  margin-top: 20px;
   color: rgb(185, 255, 255);
+  text-align: center;
 }
 
 .service button {
   background-color: orange;
   color: black;
   width: 100%;
-  padding: 8px 12px;
+  height: fit-content;
+  padding: 15px;
   border: 1px solid orange;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: auto;
+  font-size: 1rem;
+  justify-self: end;
 }
 
-@media (min-width: 1900px) {
-  #apresentation {
-    font-size: 1.3rem;
+@media (min-width: 1310px) and (max-width: 1740px) {
+  #services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    width: fit-content;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 768px) {
+  #apresentation button {
+    font-size: 1.2rem;
   }
   #apresentation div {
-    width: 30rem;
-  }
-  #apresentation button {
-    padding: 20px 35px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-
-  #services {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-
-    gap: 60px;
-    min-height: 100vh;
-    margin-bottom: 20vh;
-  }
-  .service {
-    display: flex;
-    flex-direction: column;
-
-    width: 250px;
-    height: 380px;
-    background-color: rgb(30, 30, 45);
-    border-radius: 20px;
-    padding: 40px 35px;
-
-    transition:
-      background-color 0.3s,
-      box-shadow 0.3s,
-      opacity 1s ease;
-    cursor: pointer;
-  }
-  .service div {
-    justify-content: center;
-    flex-grow: 1;
-  }
-  .service p {
-    padding-top: 15px;
-  }
-  .service button {
-    height: 40px;
-    font-size: 1rem;
+    width: 100%;
   }
 }
 </style>
