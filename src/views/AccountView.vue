@@ -1,32 +1,41 @@
 <template>
   <main>
     <div class="container">
-      <nav class="sidebar">
-        <span @click="selected = 1" class="sidebar-item" :class="{ selected: selected == 1 }"
-          >Perfil</span
-        >
-        <span @click="selected = 2" class="sidebar-item" :class="{ selected: selected == 2 }"
-          >Minhas compras</span
-        >
+      <nav class="topbar">
+        <span @click="selected = 1" class="topbar-item" :class="{ selected: selected == 1 }">Perfil</span>
+        <span @click="selected = 2" class="topbar-item" :class="{ selected: selected == 2 }">Minhas compras</span>
       </nav>
       <div class="content">
-        <div class="group">
-          <h2>Usuário</h2>
-          <input class="readonly" readonly type="text" v-model="user.username" />
+        <div class="profile">
+          <div class="block">
+            <h3>Usuário:</h3>
+            <input readonly class="readonly" type="text" v-model="user.username" v-if="user" />
+          </div>
+          <div class="block">
+            <h3>Nome completo:</h3>
+            <input readonly class="readonly" type="text" placeholder="Texto" v-model="user.fullname" />
+          </div>
+          <div class="block">
+            <h3>E-mail:</h3>
+            <input readonly class="readonly" type="text" placeholder="Texto" v-model="user.email" />
+          </div>
+          <div class="block">
+            <h3>Senha:</h3>
+            <input readonly class="readonly" type="text" value="**************" />
+          </div>
+          <div class="block">
+            <h3>Confirmar senha:</h3>
+            <input readonly class="readonly" type="text" value="**************" />
+          </div>
+          <div class="block">
+            <h3>Data de nascimento:</h3>
+            <input readonly class="readonly" type="text" value="20/11/2003" />
+          </div>
+          <button>Salvar mudança</button>
         </div>
-        <div class="group">
-          <h2>Nome completo</h2>
-          <input type="text" placeholder="Texto" />
+        <div class="historic">
+          <h2>Compras</h2>
         </div>
-        <div class="group">
-          <h2>E-mail</h2>
-          <input type="text" placeholder="Texto" />
-        </div>
-        <div class="group">
-          <h2>Senha</h2>
-          <input readonly type="text" value="**************" />
-        </div>
-        <button>Mudar senha</button>
       </div>
     </div>
   </main>
@@ -46,9 +55,20 @@ export default {
   created() {
     const authStore = useAuthStore()
 
-    authStore.user ? (this.user = authStore.user) : this.$router.push('/')
+    authStore.user ? (this.user = authStore.user) : this.$router.push('/login')
   },
-  computed: {},
+  watch: {
+    isAuthenticated() {
+      if (!this.isAuthenticated) {
+        this.$router.push('/login')
+      }
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return useAuthStore().isAuthenticated
+    }
+  },
   methods: {}
 }
 </script>
@@ -72,31 +92,40 @@ main {
   border: 1px solid white;
 }
 
-.sidebar {
+.topbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-.sidebar-item {
+.topbar-item {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
-
-.sidebar-item:hover {
+.topbar-item:last-child {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.selected {
+.historic {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
 .content {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.profile,
+.historic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
 }
 
 input {
@@ -105,7 +134,6 @@ input {
   width: 250px;
   font-size: 1.1rem;
   padding: 10px;
-  text-align: center;
   background-color: transparent;
   color: yellow;
 }
@@ -113,9 +141,17 @@ input {
 input::placeholder {
   color: white;
 }
+.block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
 
 button {
-  width: 100%;
+  align-self: center;
+  margin-top: 20px;
+  width: 70%;
   padding: 10px;
   background-color: blue;
   color: white;
@@ -127,10 +163,7 @@ button:hover {
   background-color: rgba(0, 0, 255, 0.831);
 }
 
-.content .group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: center;
+h3 {
+  text-align: end;
 }
 </style>

@@ -5,27 +5,24 @@
         <img src="/assets/riven.png" alt="" />
         <h2>ShiroJobs</h2>
       </div>
-      <p>
-        League of Legends and Valorant are registered trademarks of Riot Games, Inc. We are in no
-        way affiliated with, associated with or endorsed by Riot Games, Inc.
-      </p>
+      <p>League of Legends and Valorant are registered trademarks of Riot Games, Inc. We are in no way affiliated with, associated with or endorsed by Riot Games, Inc.</p>
     </ul>
     <ul class="hidden">
       <h2 class="title">Jogos</h2>
-      <li>League of Legends</li>
-      <li>Valorant</li>
+      <a class="item" href="https://playvalorant.com/">League of Legends</a>
+      <a class="item" href="https://leagueoflegends.com/">Valorant</a>
     </ul>
     <ul class="hidden">
       <h2 class="title">Páginas</h2>
-      <li>EloJob</li>
-      <li>DuoJob</li>
-      <li>MD5</li>
+      <RouterLink class="item" to="/elojob">EloJob</RouterLink>
+      <RouterLink class="item" to="/duojob">DuoJob</RouterLink>
+      <RouterLink class="item" to="/md5">MD5</RouterLink>
     </ul>
     <ul>
       <h2 class="title">Contato</h2>
-      <li>Wathsapp</li>
-      <li>E-mail</li>
-      <li>Chat</li>
+      <a class="item" href="https://whatsa.me/5547999999999/?t=Ol%C3%A1,%20gostaria%20de%20pedir%20um%20ELOJOB%20na%20ShiroJobs">Wathsapp</a>
+      <a class="item" href="mailto:gabrielmonteiro1111@gmail.com">E-mail</a>
+      <RouterLink class="item" to="/">Chat</RouterLink>
     </ul>
   </main>
 </template>
@@ -58,6 +55,11 @@ main {
   gap: 50px;
 }
 
+ul {
+  display: flex;
+  flex-direction: column;
+}
+
 div {
   display: flex;
   align-items: center;
@@ -76,13 +78,13 @@ p {
   color: rgb(160, 160, 220);
 }
 
-li {
+.item {
   color: rgb(160, 160, 220);
   cursor: pointer;
   margin-bottom: 5px;
 }
 
-li:hover {
+.item:hover {
   color: white;
 }
 
