@@ -1,14 +1,14 @@
 <template>
   <main>
     <div class="column">
+      <h2 class="row title">Fila</h2>
+      <div class="row">
+        <span @click="handleSelectElo('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
+      </div>
+      <div class="row">
+        <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
+      </div>
       <TransitionGroup name="list">
-        <h2 class="row title">Fila</h2>
-        <div class="row">
-          <span @click="handleSelectElo('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
-        </div>
-        <div class="row">
-          <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
-        </div>
         <h2 class="row" style="grid-row: 5" v-if="selectedQueue">Continuar</h2>
         <div class="confirm-row" style="grid-row: 6" v-if="selectedQueue">
           <button class="confirm-row-button" @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
@@ -80,7 +80,7 @@ export default {
 
 .list-enter-from {
   opacity: 0;
-  transform: translateX(-100%);
+  transform: translateY(-200%);
 }
 
 .list-leave-to {
