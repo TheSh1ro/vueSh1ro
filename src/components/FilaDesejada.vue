@@ -11,8 +11,8 @@
         <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
       </div>
       <TransitionGroup name="list">
-        <div class="row" style="grid-row: 5">
-          <h2 v-if="selectedQueue">Continuar</h2>
+        <div class="row" style="grid-row: 5" v-if="selectedQueue">
+          <h2>Continuar</h2>
         </div>
         <div class="row" style="grid-row: 6" v-if="selectedQueue">
           <button @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
@@ -74,6 +74,7 @@ export default {
 
 <style scoped>
 /* List transition animations */
+.list-move,
 .list-enter-active {
   transition:
     opacity 2s ease,
@@ -81,16 +82,19 @@ export default {
 }
 
 .list-leave-active {
-  transition: opacity 0.5s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.5s ease;
 }
 
 .list-enter-from {
   opacity: 0;
-  transform: translateY(-200%);
+  transform: translateY(-150%);
 }
 
 .list-leave-to {
   opacity: 0;
+  transform: translateY(-150%);
 }
 
 /* Main layout styles */
