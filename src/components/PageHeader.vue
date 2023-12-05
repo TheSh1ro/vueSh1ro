@@ -120,22 +120,23 @@ header {
   top: 60px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(95, 194, 230, 0.5);
+  border: 1px solid rgba(95, 194, 230, 1);
+  background-color: rgba(95, 194, 230, 0.15);
   border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
 .dropdown-item {
-  padding: 10px 20px;
+  padding: 15px 40px;
   cursor: pointer;
+  color: rgb(225, 225, 225);
 }
 
 .dropdown-item:last-child {
   border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
 }
 
 .dropdown-item:hover {
-  background-color: rgba(95, 194, 230, 0.5);
+  background-color: rgba(95, 194, 230, 0.3);
+  color: white;
 }
 </style>
