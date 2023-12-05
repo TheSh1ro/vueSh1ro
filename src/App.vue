@@ -40,6 +40,7 @@ input:-webkit-autofill:focus {
 
 html {
   scroll-behavior: smooth;
+  font-size: 18px;
 }
 
 #app {
