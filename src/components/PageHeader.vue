@@ -12,7 +12,7 @@
           <img src="/assets/people.png" alt="Foto de usuário" v-if="isAuthenticated" />
         </div>
       </section>
-      <section class="dropdown" v-if="showDropdown">
+      <section ref="dropdown" class="dropdown" v-if="showDropdown">
         <RouterLink to="/account" class="dropdown-item" @click="hideDropdown">Minha conta</RouterLink>
         <span class="dropdown-item" @click="hideDropdown">Dashboard</span>
         <span class="dropdown-item" @click="handleLogout(), hideDropdown()">Desconectar</span>
@@ -30,7 +30,6 @@ export default {
       showDropdown: false
     }
   },
-  created() {},
   computed: {
     isAuthenticated() {
       return useAuthStore().isAuthenticated
