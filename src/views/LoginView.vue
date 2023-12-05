@@ -13,7 +13,7 @@
       </div>
       <RouterLink class="router" to="/register">Criar conta</RouterLink>
 
-      <button @click="handleSubmit">Entrar</button>
+      <button @click="handleLoginSubmit">Entrar</button>
     </div>
   </main>
 </template>
@@ -27,7 +27,7 @@ export default {
       // password input status ( text / password ) to change pwd visibility
       passwordInputType: 'text',
 
-      // form data
+      // login form data
       username: null,
       password: null
     }
@@ -48,7 +48,7 @@ export default {
       this.passwordInputType = this.passwordInputType === 'text' ? 'password' : 'text'
     },
 
-    handleSubmit() {
+    handleLoginSubmit() {
       const authStore = useAuthStore()
 
       this.resetFieldClasses()
@@ -56,6 +56,8 @@ export default {
 
       const username = this.username
       const password = this.password
+      const email = 'usuarioteste@gmail.com'
+      const fullname = 'Garry A. Leeds'
 
       if (!username || username.length < 5) {
         this.hasInvalidField = true
@@ -69,10 +71,10 @@ export default {
 
       if (this.hasInvalidField) return
 
-      authStore.login(username, password)
+      authStore.login(username, password, email, fullname)
 
       if (this.previousPath) {
-        this.$router.push(this.previousPath)
+        this.$router.push('/' + this.previousPage)
       } else {
         this.$router.push('/')
       }

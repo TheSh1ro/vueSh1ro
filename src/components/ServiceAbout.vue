@@ -12,7 +12,7 @@
 
     <div class="form-block input-block">
       <h2 class="block-title">Informações da compra</h2>
-      <input readonly type="text" :value="username" />
+      <input readonly type="text" :value="user.fullname" />
       <div class="elos">
         <input readonly type="text" :value="currentEloName + ' ao ' + targetEloName" />
         <img class="elo-image" :src="currentElo.image" alt="Imagem do elo atual" v-if="currentElo" />
@@ -95,11 +95,6 @@ export default {
       const elo = this.targetElo
       if (elo == null) return 'Nome não disponível'
       return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
-    },
-
-    username() {
-      const authStore = useAuthStore()
-      return authStore.user ? authStore.user.username : ''
     }
   },
   methods: {
