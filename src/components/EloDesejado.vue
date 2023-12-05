@@ -126,6 +126,7 @@ export default {
       if (elo.isHigh) {
         this.sendHideLeagues()
         this.handleSelectElo(elo, eloIndex)
+        this.verifyScroll()
       }
 
       // Selecionado elo (que possui ligas)
@@ -138,6 +139,7 @@ export default {
         // Prosseguir
         this.sendHideLeagues()
         this.handleSelectElo(elo, eloIndex, leagueIndex)
+        this.verifyScroll()
       }
 
       // Seleção de duas etapas, a próxima se encaixará em um dos ifs acima
@@ -145,8 +147,6 @@ export default {
         this.sendHideLeagues()
         elo.visibleLeagues = !eloState
       }
-
-      this.verifyScroll()
     },
 
     // Função chamada pelo componente pai

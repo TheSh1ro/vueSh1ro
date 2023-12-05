@@ -117,6 +117,24 @@ export default {
   transform: translateY(-150%);
 }
 
+@media (max-width: 1100px) {
+  main {
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
 /* Main layout styles */
 main {
   display: flex;
