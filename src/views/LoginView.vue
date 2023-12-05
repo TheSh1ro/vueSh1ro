@@ -1,176 +1,171 @@
 <template>
-  <div id="main">
+  <main id="main">
     <div class="container">
-      <h2 class="title-block">Acesse sua conta</h2>
-      <div class="input-block">
-        <div class="input-user" :class="{ inputRed: placeholder.error == 1 }">
-          <img src="../assets/people.png" alt="" />
-          <input :placeholder="placeholder.login" type="text" id="username" v-model="formData.username" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" autocomplete="username" />
-        </div>
-        <div class="input-password" :class="{ inputRed: placeholder.error == 2 }">
-          <img src="../assets/padlock.png" alt="" />
-          <input :placeholder="placeholder.senha" :type="showPassword ? 'text' : 'password'" id="password" v-model="formData.password" @input="restrictSpecialCharacters" @keyup.enter="handleSubmit" autocomplete="current-password" />
-          <img src="../assets/visual.png" style="cursor: pointer" @click="togglePasswordVisibility" alt="" />
-        </div>
+      <h2>Login</h2>
+      <div class="input-row">
+        <input ref="username" id="username" v-model="username" type="text" placeholder="Insira seu usuário" @input="restrictSpecialCharacters" />
+        <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
       </div>
-      <RouterLink class="alternate" to="register">Registrar-se</RouterLink>
-      <button class="button" @click="handleSubmit">Entrar</button>
+      <div class="input-row">
+        <input ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Insira sua senha" @input="restrictSpaceCharacter" />
+        <img class="input-icon" style="left: 12px" src="/assets/padlock.png" alt="Cadeado de senha" />
+        <img class="input-icon" style="right: 12px; cursor: pointer" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
+      </div>
+      <RouterLink class="router" to="/register">Criar conta</RouterLink>
+
+      <button @click="handleSubmit">Entrar</button>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
-import { useAuthStore } from '../stores/store.js'
+import { useAuthStore } from '../stores/store'
 
 export default {
   data() {
     return {
-      previousPath: null,
-      showPassword: false,
+      // password input status ( text / password ) to change pwd visibility
+      passwordInputType: 'text',
 
-      formData: {
-        username: '',
-        password: ''
-      },
-
-      placeholder: {
-        login: 'Usuário',
-        senha: 'Senha',
-        error: 0
-      }
+      // form data
+      username: null,
+      password: null
     }
   },
-
-  created() {
-    this.previousPath = this.$route.query.previousPath
-  },
-
+  created() {},
+  computed: {},
   methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword
-    },
-
     restrictSpecialCharacters(event) {
       const input = event.target
-      input.value = input.value.replace(/[^\w.@]/gi, '')
+      input.value = input.value.toLowerCase().replace(/[^\w\d]/gi, '')
+    },
+    restrictSpaceCharacter(event) {
+      const input = event.target
+      input.value = input.value.replace(/\s/g, '')
+    },
+
+    togglePasswordVisibility() {
+      this.passwordInputType = this.passwordInputType === 'text' ? 'password' : 'text'
     },
 
     handleSubmit() {
       const authStore = useAuthStore()
-      const username = this.formData.username
-      const password = this.formData.password
 
-      if (username.length < 3) {
-        this.placeholder.login = 'Insira um login'
-        this.placeholder.error = 1
-        return
+      this.resetFieldClasses()
+      this.hasInvalidField = false
+
+      const username = this.username
+      const password = this.password
+
+      if (!username || username.length < 5) {
+        this.hasInvalidField = true
+        this.$refs.username.classList.add('invalid-field')
       }
 
-      if (!password) {
-        this.placeholder.senha = 'Insira uma senha'
-        this.placeholder.error = 2
-        return
+      if (!password || password.length < 5) {
+        this.hasInvalidField = true
+        this.$refs.password.classList.add('invalid-field')
       }
 
-      authStore.login(username.toLowerCase(), password)
+      if (this.hasInvalidField) return
 
-      if (this.previousPath != null) {
+      authStore.login(username, password)
+
+      if (this.previousPath) {
         this.$router.push(this.previousPath)
       } else {
         this.$router.push('/')
       }
+    },
+
+    resetFieldClasses() {
+      Object.keys(this.$refs).forEach((ref) => {
+        if (this.$refs[ref].classList) {
+          this.$refs[ref].classList.remove('invalid-field')
+        }
+      })
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
+:root {
+  --main-color: rgb(80, 145, 225);
+}
+
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
+  padding-bottom: 20vh;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .container {
-  background-color: white;
-  color: black;
-
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-
   height: fit-content;
-  margin: 20px;
-  padding: 50px;
-  gap: 30px;
+  padding: 30px;
+  border-radius: 5px;
+  gap: 8px;
+  background-color: white;
+  color: rgb(80, 145, 225);
+  text-align: center;
 }
 
 h2 {
-  color: rgb(0, 160, 255);
-  padding-block: 15px;
+  margin-bottom: 15px;
+  user-select: none;
 }
 
-.input-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.input-user,
-.input-password {
+.input-row {
   position: relative;
   display: flex;
   align-items: center;
-  background-color: rgb(205, 205, 205);
-  flex-grow: 1;
-  width: 100%;
-  border: 1px solid transparent;
-  border-radius: 10px;
 }
 
 input {
-  background-color: rgb(205, 205, 205);
-  padding: 10px;
-  border: none;
-  width: 100%;
-  border: none;
-  min-width: 200px;
+  padding: 12px;
+  padding-inline: 40px;
+  color: black;
   border-radius: 10px;
-}
-
-input:focus {
+  background-color: rgb(205, 205, 205);
+  border: none;
   outline: none;
 }
 
-img {
-  height: 16px;
-  padding: 10px;
+.input-icon {
+  position: absolute;
+  width: 15px;
 }
 
-.alternate {
-  text-decoration: underline;
+.router {
+  cursor: pointer;
+  user-select: none;
+  margin-top: 5px;
+}
+.router:hover {
+  color: black;
 }
 
-.button {
-  background-color: rgb(0, 160, 215);
+button {
+  margin-top: 15px;
+  padding: 8px;
+  background-color: rgb(80, 145, 225);
   color: white;
-  padding: 12px 20px;
-  width: 100%;
   border: none;
   cursor: pointer;
+  width: 100%;
+}
+button:hover {
+  background-color: rgb(40, 65, 205);
 }
 
-.button:hover {
-  background: none;
-  background-color: rgb(0, 120, 175);
+.invalid-field {
+  color: darkred;
 }
-
-.inputRed {
-  border: 1px solid red;
+.invalid-field::placeholder {
+  color: darkred;
 }
 </style>
-``

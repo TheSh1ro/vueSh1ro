@@ -42,7 +42,7 @@
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
-  props: ['toggleVisibleForm', 'visibleForm', 'handleSelectMethod', 'selectedMethod'],
+  props: ['goToPreviousPage', 'toggleVisibleForm', 'visibleForm', 'handleSelectMethod', 'selectedMethod'],
   data() {
     return {
       // from AuthStore
@@ -106,8 +106,8 @@ export default {
     handleCancel() {
       // Limpar todas as seleções de elo feitas
       usePurchaseStore().clearPurchase()
-      // Voltar para a página de escolha de elo
-      this.$router.push('/' + this.previousPage)
+      // Voltar para a página anterior (escolha de elo)
+      this.goToPreviousPage()
     }
   }
 }
@@ -126,8 +126,8 @@ main {
   display: flex;
   flex-direction: column;
 
+  min-height: 420px;
   width: 320px;
-  height: fit-content;
   border-radius: 3px;
   padding: 20px 30px;
 
@@ -155,9 +155,11 @@ input {
   grid-template-rows: 1fr 1fr;
   column-gap: 10px;
 }
+
 .payment-title {
   grid-column: 1/4;
 }
+
 .payment-method {
   background-color: transparent;
   color: black;
@@ -173,10 +175,12 @@ input {
 
   gap: 10px;
 }
+
 .payment-method:hover {
   background-color: black;
   color: white;
 }
+
 .payment-image {
   height: 20px;
 }
@@ -186,11 +190,13 @@ input {
   flex-direction: column;
   gap: 7px;
 }
+
 .elos {
   display: flex;
   gap: 5px;
   width: 100%;
 }
+
 .elos img {
   width: 38px;
 }
@@ -199,6 +205,7 @@ input {
   display: flex;
   gap: 5px;
 }
+
 .services input {
   width: 100%;
 }
@@ -217,6 +224,7 @@ input {
   grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
+
 .button {
   background-color: black;
   border: 1px solid black;
@@ -226,6 +234,7 @@ input {
   padding: 8px;
   border-radius: 3px;
 }
+
 .button:hover {
   background-color: darkblue;
   border-color: darkblue;

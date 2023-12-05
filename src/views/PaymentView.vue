@@ -1,9 +1,12 @@
 <template>
   <main id="main">
     <div class="content">
-      <ServiceAbout :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" :handleSelectMethod="handleSelectMethod" :selectedMethod="selectedMethod" />
+      <!-- ServiceAbout component -->
+      <ServiceAbout :goToPreviousPage="goToPreviousPage" :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" :handleSelectMethod="handleSelectMethod" :selectedMethod="selectedMethod" />
+
+      <!-- Transition for ServiceForm component -->
       <Transition name="form">
-        <ServiceForm v-if="visibleForm" class="container" :handleConfirm="globalConfirm" />
+        <ServiceForm v-if="visibleForm" class="container" :handleConfirm="handleConfirm" />
       </Transition>
     </div>
   </main>
@@ -11,8 +14,6 @@
 
 <script>
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
-// import axios from 'axios'
-
 import ServiceAbout from '../components/ServiceAbout.vue'
 import ServiceForm from '../components/ServiceForm.vue'
 
@@ -20,50 +21,67 @@ export default {
   components: { ServiceAbout, ServiceForm },
   data() {
     return {
-      previousPage: null, // nome da página anterior (elojob / duojob)
-      visibleForm: false, // status visível do segundo formulário
-
-      // from PurchaseStore
+      // Component state
+      previousPage: null,
+      visibleForm: false,
       service: null,
       queue: null,
       currentElo: null,
       targetElo: null,
       price: null,
       time: null,
-
       selectedMethod: null
     }
   },
+  computed: {
+    // Retorna status logado/deslogado do usuário
+    isAuthenticated() {
+      const authStore = useAuthStore()
+      return authStore.isAuthenticated
+    }
+  },
+  watch: {
+    isAuthenticated(newIsAuthenticated) {
+      if (!newIsAuthenticated) {
+        this.goToPreviousPage()
+      }
+    }
+  },
+
   created() {
+    // Initialize stores
     const authStore = useAuthStore()
     const purchaseStore = usePurchaseStore()
 
-    // salva o nome da página anterior em lowercase
+    // Save the name of the previous page in lowercase
     this.previousPage = this.$route.query.service.toLowerCase()
 
-    // checa se os dados estão carregados, caso contrário volta para a home para evitar erros
+    // Check if data is loaded, otherwise redirect to home to avoid errors
     if (!purchaseStore.purchase || !authStore.user) {
-      this.$router.push('/' + this.previousPage.toLowerCase())
+      this.goToPreviousPage()
     }
   },
-  computed: {},
   methods: {
+    goToPreviousPage() {
+      this.$router.push('/' + this.previousPage)
+    },
     handleSelectMethod(method) {
       this.selectedMethod = method
     },
-
     toggleVisibleForm(checkbox) {
       if (checkbox) this.visibleForm = true
-    }
-  },
-  handleConfirm(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
-    const dataToBackend = {
-      riot_id: riot_id,
-      riot_tag: riot_tag,
-      riot_login: riot_login,
-      riot_password: riot_password,
-      refer_code: refer_code,
-      description: description
+    },
+    handleConfirm(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
+      // Handle confirm logic here
+      const dataToBackend = {
+        riot_id: riot_id,
+        riot_tag: riot_tag,
+        riot_login: riot_login,
+        riot_password: riot_password,
+        refer_code: refer_code,
+        description: description
+      }
+      // Add logic to send data to the backend
     }
   }
 }
@@ -72,24 +90,31 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
   display: grid;
-  padding: 20px 20px 0px 20px;
+  padding-bottom: 20vh;
 }
 
 .content {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   height: fit-content;
-  gap: 10vw;
-  margin: auto;
+  row-gap: 40px;
+  margin: 20px;
+}
+
+@media (max-width: 900px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .container {
   transition: transform 5.5s;
 }
 
-/* we will explain what these classes do next! */
+/* Transition classes */
 .form-enter-active,
 .form-leave-active {
   transition:

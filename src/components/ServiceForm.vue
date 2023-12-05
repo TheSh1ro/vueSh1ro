@@ -120,6 +120,7 @@ main {
   display: flex;
   flex-direction: column;
 
+  min-height: 420px;
   width: 320px;
   border-radius: 3px;
   padding: 20px 30px;
@@ -127,16 +128,14 @@ main {
   gap: 15px;
 }
 
-input {
+input,
+textarea {
   padding: 7px;
   border: 1px solid black;
   border-radius: 3px;
 }
 
 textarea {
-  padding: 7px;
-  border: 1px solid black;
-  border-radius: 3px;
   flex-grow: 1;
 }
 
@@ -147,30 +146,31 @@ button {
   cursor: pointer;
   border-radius: 3px;
 }
+
 button:hover {
   background-color: darkblue;
   border-color: darkblue;
 }
 
-.refer {
-  display: flex;
-  gap: 5px;
-}
-.refer input {
-  flex-grow: 1;
-}
-.refer button {
-  width: 35px;
-}
-
+.refer,
 .riot {
   display: flex;
   gap: 5px;
   width: 100%;
 }
+
+.refer input {
+  flex-grow: 1;
+}
+
+.refer button {
+  width: 35px;
+}
+
 .riot-id {
   flex-grow: 1;
 }
+
 .riot-tag {
   width: 54px;
 }
@@ -178,6 +178,7 @@ button:hover {
 .invalid-field {
   color: red;
 }
+
 .invalid-field::placeholder {
   color: red;
 }

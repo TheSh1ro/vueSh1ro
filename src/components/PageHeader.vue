@@ -23,6 +23,7 @@
 
 <script>
 import { useAuthStore } from '../stores/store.js'
+
 export default {
   data() {
     return {
@@ -59,17 +60,17 @@ export default {
 
 <style scoped>
 header {
+  display: grid;
+
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
 }
 
 .content {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-block: 10px;
-  margin-inline: 10px;
+  padding-inline: 10px;
 }
 
 .logo {
@@ -117,22 +118,23 @@ header {
   position: absolute;
   right: 20px;
   top: 60px;
-
   display: flex;
   flex-direction: column;
-
   border: 1px solid rgba(95, 194, 230, 0.5);
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
+
 .dropdown-item {
   padding: 10px 20px;
   cursor: pointer;
 }
+
 .dropdown-item:last-child {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 .dropdown-item:hover {
   background-color: rgba(95, 194, 230, 0.5);
 }
