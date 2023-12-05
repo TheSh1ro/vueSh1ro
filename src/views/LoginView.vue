@@ -24,6 +24,8 @@ import { useAuthStore } from '../stores/store'
 export default {
   data() {
     return {
+      previousPath: null,
+
       // password input status ( text / password ) to change pwd visibility
       passwordInputType: 'text',
 
@@ -32,7 +34,9 @@ export default {
       password: null
     }
   },
-  created() {},
+  created() {
+    this.previousPath = this.$route.query.previousPath
+  },
   computed: {},
   methods: {
     restrictSpecialCharacters(event) {
@@ -74,7 +78,7 @@ export default {
       authStore.login(username, password, email, fullname)
 
       if (this.previousPath) {
-        this.$router.push('/' + this.previousPage)
+        this.$router.push(this.previousPath)
       } else {
         this.$router.push('/')
       }
