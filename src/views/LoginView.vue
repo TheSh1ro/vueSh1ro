@@ -89,11 +89,7 @@ export default {
 }
 </script>
 
-<style>
-:root {
-  --main-color: rgb(80, 145, 225);
-}
-
+<style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
   padding-bottom: 20vh;
