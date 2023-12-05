@@ -181,27 +181,21 @@ export default {
 
 <style scoped>
 /* Transitions for list animations */
-.list-move,
-.list-enter-active {
-  transition:
-    opacity 2s ease,
-    transform 0.5s ease;
-}
-
-.list-leave-active {
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
-}
-
 .list-enter-from {
   opacity: 0;
-  transform: translateX(-20%);
+  transform: translateX(-10%);
+}
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .list-leave-to {
   opacity: 0;
-  transform: translateX(20%);
+  transform: translateX(10%);
 }
 
 /* Main layout styles */
@@ -218,6 +212,7 @@ main {
   grid-template-rows: repeat(11, 1fr);
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .row {

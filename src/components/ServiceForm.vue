@@ -18,7 +18,7 @@
       v-model="description"
       placeholder="Fale sobre suas preferências (opcional), lembrando que a ShiroJobs não trabalha com campeões ou rotas específicas a menos que haja um combinado prévio, para isso utilize o chat 24h ou envie um e-mail. Ainda assim deixe alguma informação e então o booster seguirá na medida do possível"
     ></textarea>
-    <button class="confirm-btn" @click="handleConfirm" style="padding-block: 8px">Confirmar</button>
+    <button class="confirm-btn" @click="handleSubmit" style="padding-block: 8px">Confirmar</button>
   </main>
 </template>
 
@@ -26,7 +26,7 @@
 // import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
-  props: ['sendFormData'],
+  props: ['handleSubmitForm'],
   data() {
     return {
       // component form
@@ -42,7 +42,7 @@ export default {
     }
   },
   methods: {
-    handleConfirm() {
+    handleSubmit() {
       // Resetar as classes dos campos e hasInvalidField antes de verificar novamente
       this.resetFieldClasses()
       this.hasInvalidField = false
@@ -69,7 +69,7 @@ export default {
 
       if (this.hasInvalidField) return
 
-      this.sendFormData(this.riot_id, this.riot_tag, this.riot_login, this.riot_password, this.refer_code, this.description)
+      this.handleSubmitForm(this.riot_id, this.riot_tag, this.riot_login, this.riot_password, this.refer_code, this.description)
     },
 
     resetFieldClasses() {

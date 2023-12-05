@@ -1,12 +1,18 @@
 <template>
   <main id="main">
-    <div class="content">
-      <ServiceAbout :goToPreviousPage="goToPreviousPage" :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" :handleSelectMethod="handleSelectMethod" :selectedMethod="selectedMethod" />
+    <div class="content" v-if="!sentOrder" key="default">
+      <TransitionGroup name="form">
+        <ServiceAbout key="about" v-if="1 == 1" :goToPreviousPage="goToPreviousPage" :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" :handleSelectMethod="handleSelectMethod" :selectedMethod="selectedMethod" />
 
-      <Transition name="form">
-        <ServiceForm v-if="visibleForm" class="container" :sendFormData="verifyToBackend" />
-      </Transition>
+        <ServiceForm key="form" v-if="visibleForm" class="container" :handleSubmitForm="handleSubmitForm" />
+      </TransitionGroup>
     </div>
+    <Transition name="status">
+      <div class="confirmedSent" v-if="sentOrder" key="confirmed">
+        <h1>Sua compra foi realizada com sucesso!</h1>
+        <img src="/assets/checkmark.png" alt="Imagem de OK" />
+      </div>
+    </Transition>
   </main>
 </template>
 
@@ -19,19 +25,43 @@ export default {
   components: { ServiceAbout, ServiceForm },
   data() {
     return {
-      // Component state
+      // Last page absolute URL ( /elojob or /duojob )
       previousPage: null,
+
+      // Component state
       visibleForm: false,
+      sentOrder: false,
+
+      // Component data [from service view]
       service: null,
       queue: null,
       currentElo: null,
       targetElo: null,
       price: null,
       time: null,
-      selectedMethod: null
+      selectedMethod: null, // from ServiceAbout
+
+      // Component data [from child form]
+      riot_id: null, // from ServiceForm
+      riot_tag: null, // from ServiceForm
+      riot_login: null, // from ServiceForm
+      riot_password: null, // from ServiceForm
+      refer_code: null, // from ServiceForm
+      description: null // from ServiceForm
     }
   },
   computed: {
+    currentEloName() {
+      const elo = this.currentElo
+      if (elo == null) return 'Nome não disponível'
+      return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
+    },
+
+    targetEloName() {
+      const elo = this.targetElo
+      if (elo == null) return 'Nome não disponível'
+      return elo.isHigh ? elo.name : elo.name + ' ' + (elo.leagueIndex + 1)
+    },
     // Retorna status logado/deslogado do usuário
     isAuthenticated() {
       const authStore = useAuthStore()
@@ -57,42 +87,72 @@ export default {
     // Check if data is loaded, otherwise redirect to home to avoid errors
     if (!purchaseStore.purchase || !authStore.user) {
       this.goToPreviousPage()
+    } else {
+      this.user = authStore.user
+      this.service = purchaseStore.purchase.service
+      this.queue = purchaseStore.purchase.queue
+      this.currentElo = purchaseStore.purchase.currentElo
+      this.targetElo = purchaseStore.purchase.targetElo
+      this.price = purchaseStore.purchase.price
+      this.time = purchaseStore.purchase.time
     }
   },
   methods: {
     goToPreviousPage() {
       this.$router.push('/' + this.previousPage)
     },
+
     handleSelectMethod(method) {
       this.selectedMethod = method
     },
+
     toggleVisibleForm(checkbox) {
       if (checkbox) this.visibleForm = true
     },
-    verifyToBackend(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
+
+    handleSubmitForm(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
+      this.riot_id = riot_id
+      this.riot_tag = riot_tag
+      this.riot_login = riot_login
+      this.riot_password = riot_password
+      this.refer_code = refer_code
+      this.description = description
+
+      this.sendToBackend()
+    },
+
+    sendToBackend() {
       // Handle confirm logic here
       const dataToBackend = {
-        // FormData
-        riot_id: riot_id,
-        riot_tag: riot_tag,
-        riot_login: riot_login,
-        riot_password: riot_password,
-        refer_code: refer_code,
-        description: description,
-        payment_method: this.selectedMethod,
+        // Informações de elo
+        currentElo: this.currentEloName,
+        targetElo: this.targetEloName,
 
-        // SelectionData
-        visibleForm: this.visibleForm,
+        // Informações de login
+        riot_login: this.riot_login,
+        riot_password: this.riot_password,
+
+        // Informações de valor / desconto
+        refer_code: this.refer_code,
+        price: this.price,
+        payment_method: this.selectedMethod.name,
+
+        // Informações de scouting
+        riot_id: this.riot_id,
+        riot_tag: this.riot_tag,
+
+        // Informações de serviço / modo
         service: this.service,
         queue: this.queue,
-        currentElo: this.currentElo,
-        targetElo: this.targetElo,
-        price: this.price,
+        description: this.description,
         time: this.time
       }
 
       console.log(dataToBackend)
-      // Add logic to send data to the backend
+
+      this.sentOrder = true
+
+      // TERMINAR A PARTE DO AXIOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     }
   }
 }
@@ -130,16 +190,37 @@ export default {
   opacity: 0;
   transform: translateX(-100%);
 }
+.form-move,
 .form-enter-active {
   transition:
-    opacity 3s ease,
+    opacity 2s ease,
     transform 0.5s ease;
 }
 
-.form-leave-to {
+/* TransitionGroup status classes */
+.status-enter-from {
   opacity: 0;
 }
-.form-leave-active {
-  transition: opacity 1s ease;
+.status-enter-active {
+  transition: opacity 3s ease;
+}
+
+.confirmedSent {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  align-self: center;
+  align-items: center;
+  height: fit-content;
+  width: fit-content;
+  padding: 20px;
+}
+.confirmedSent h1 {
+  color: rgb(25, 231, 148);
+  text-align: center;
+  font-size: 2rem;
+}
+.confirmedSent img {
+  height: 150px;
 }
 </style>

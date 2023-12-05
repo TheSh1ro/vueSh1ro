@@ -67,14 +67,17 @@ export default {
     }
   },
   created() {
-    // Pix por padrão
+    // Initialize default payment method
     this.handleSelectMethod(this.paymentMethods[0])
 
+    // Initialize stores
     const authStore = useAuthStore()
     const purchaseStore = usePurchaseStore()
 
-    // Recebe os dados de purchaseStore
-    if (purchaseStore.purchase && authStore.user) {
+    // Check if data is loaded, otherwise redirect to home to avoid errors
+    if (!purchaseStore.purchase || !authStore.user) {
+      this.goToPreviousPage()
+    } else {
       this.user = authStore.user
       this.service = purchaseStore.purchase.service
       this.queue = purchaseStore.purchase.queue
