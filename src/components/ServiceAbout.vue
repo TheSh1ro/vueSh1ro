@@ -42,7 +42,7 @@
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
-  props: ['goToPreviousPage', 'toggleVisibleForm', 'visibleForm', 'handleSelectMethod', 'selectedMethod'],
+  props: ['clearPurchaseStore', 'goToPreviousPage', 'toggleVisibleForm', 'visibleForm', 'handleSelectMethod', 'selectedMethod'],
   data() {
     return {
       // from AuthStore
@@ -102,10 +102,8 @@ export default {
   },
   methods: {
     handleCancel() {
-      // Limpar todas as seleções de elo feitas
-      usePurchaseStore().clearPurchase()
-      // Voltar para a página anterior (escolha de elo)
-      this.goToPreviousPage()
+      this.clearPurchaseStore() // Limpar todas as seleções de elo feitas
+      this.goToPreviousPage() // Voltar para a página anterior (escolha de elo)
     }
   }
 }

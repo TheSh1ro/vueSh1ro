@@ -109,6 +109,12 @@ export default {
   created() {},
   computed: {},
   methods: {
+    verifyScroll(elo) {
+      if (elo < 7) return
+      if (window.innerWidth < 1050) {
+        window.scrollTo(0, 500)
+      }
+    },
     showLeagues(elo, eloIndex, leagueIndex) {
       // Salva o estado do seletor clicado
       const eloState = elo.visibleLeagues
@@ -139,6 +145,8 @@ export default {
         this.sendHideLeagues()
         elo.visibleLeagues = !eloState
       }
+
+      this.verifyScroll()
     },
 
     // Função chamada pelo componente pai

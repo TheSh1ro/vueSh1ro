@@ -57,7 +57,6 @@ export default {
         elo: this.selectedElo.target.eloIndex,
         league: this.selectedElo.target.leagueIndex
       }
-
       const priceList = this.priceList
 
       let totalPrice = 0,
@@ -124,11 +123,6 @@ export default {
       // Caso o elo atual selecionado seja maior que o elo desejado selecionado, limpa o elo desejado
       if ((currentElo.eloIndex == targetElo.eloIndex && currentElo.leagueIndex <= targetElo.leagueIndex) || currentElo.eloIndex > targetElo.eloIndex || (currentElo.isHigh && currentElo.eloIndex == targetElo.eloIndex)) {
         this.selectedElo.target = []
-      }
-
-      // Caso selecione um elo inicial mestre ou superior, limpa a seleção de fila
-      if (currentElo.isHigh) {
-        this.selectedQueue = null
       }
 
       // Limpa a seleção de fila para melhor experiência do usuário

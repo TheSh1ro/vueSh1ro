@@ -59,8 +59,8 @@ export default {
       }
       const priceList = this.priceList
 
-      let totalPrice = 0
-      let totalDays = 0
+      let totalPrice = 0,
+        totalDays = 0
 
       for (let eloIndex = start.elo; eloIndex <= end.elo; eloIndex++) {
         if (!priceList[eloIndex].isHigh) {
@@ -93,12 +93,11 @@ export default {
   },
   created() {
     const purchaseStore = usePurchaseStore()
-    const purchaseDetails = purchaseStore.purchase
 
     if (purchaseStore.purchase && purchaseStore.purchase.service == this.$route.name) {
-      this.selectedElo.current = purchaseDetails.currentElo
-      this.selectedElo.target = purchaseDetails.targetElo
-      this.selectedQueue = purchaseDetails.queue
+      this.selectedElo.current = purchaseStore.purchase.currentElo
+      this.selectedElo.target = purchaseStore.purchase.targetElo
+      this.selectedQueue = purchaseStore.purchase.queue
     }
   },
   methods: {

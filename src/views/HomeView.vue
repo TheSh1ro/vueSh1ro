@@ -9,7 +9,7 @@
       </div>
     </section>
     <section id="services">
-      <RouterLink to="/elojob" class="service" v-if="showService.includes(1)" @click="this.$scrollToTop()">
+      <RouterLink to="/elojob" class="service" v-if="showService.includes(1)" @click="$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Suba de elo</h4>
@@ -19,7 +19,7 @@
         <button>Escolher</button>
       </RouterLink>
 
-      <RouterLink to="/duojob" class="service" v-if="showService.includes(2)" @click="this.$scrollToTop()">
+      <RouterLink to="/duojob" class="service" v-if="showService.includes(2)" @click="$scrollToTop()">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Aprenda jogando</h4>
@@ -28,7 +28,7 @@
         </div>
         <button>Escolher</button>
       </RouterLink>
-      <RouterLink to="/" class="service" v-if="showService.includes(3)" @click="this.$scrollToTop()" @mouseover="constructionState('md5', 1)" @mouseout="constructionState('md5', 0)">
+      <RouterLink to="/" class="service" v-if="showService.includes(3)" @click="$scrollToTop()" @mouseover="constructionState('md5', 1)" @mouseout="constructionState('md5', 0)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Comece bem</h4>
@@ -37,7 +37,7 @@
         </div>
         <button ref="md5">Escolher</button>
       </RouterLink>
-      <RouterLink to="/" class="service" v-if="showService.includes(4)" @click="this.$scrollToTop()" @mouseover="constructionState('tips', 1)" @mouseout="constructionState('tips', 0)">
+      <RouterLink to="/" class="service" v-if="showService.includes(4)" @click="$scrollToTop()" @mouseover="constructionState('tips', 1)" @mouseout="constructionState('tips', 0)">
         <img src="/assets/star.png" alt="" />
         <div>
           <h4>Estude o jogo</h4>

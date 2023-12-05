@@ -2,7 +2,15 @@
   <main id="main">
     <div class="content" v-if="!sentOrder" key="default">
       <TransitionGroup name="form">
-        <ServiceAbout key="about" v-if="1 == 1" :goToPreviousPage="goToPreviousPage" :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" :handleSelectMethod="handleSelectMethod" :selectedMethod="selectedMethod" />
+        <ServiceAbout
+          key="about"
+          :clearPurchaseStore="clearPurchaseStore"
+          :goToPreviousPage="goToPreviousPage"
+          :toggleVisibleForm="toggleVisibleForm"
+          :visibleForm="visibleForm"
+          :handleSelectMethod="handleSelectMethod"
+          :selectedMethod="selectedMethod"
+        />
 
         <ServiceForm key="form" v-if="visibleForm" class="container" :handleSubmitForm="handleSubmitForm" />
       </TransitionGroup>
@@ -101,7 +109,9 @@ export default {
     goToPreviousPage() {
       this.$router.push('/' + this.previousPage)
     },
-
+    clearPurchaseStore() {
+      usePurchaseStore().clearPurchase()
+    },
     handleSelectMethod(method) {
       this.selectedMethod = method
     },
@@ -151,6 +161,7 @@ export default {
       console.log(dataToBackend)
 
       this.sentOrder = true
+      this.clearPurchaseStore()
 
       // TERMINAR A PARTE DO AXIOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     }
