@@ -1,7 +1,9 @@
 <template>
   <main>
     <div class="column">
-      <h2 class="row">Elo desejado</h2>
+      <div class="row">
+        <h2 class="title">Elo desejado</h2>
+      </div>
       <template v-for="(elo, eloIndex) in eloList" :key="elo">
         <TransitionGroup name="list">
           <div class="row" v-if="!currentElo.name || (eloIndex == currentElo.eloIndex && currentElo.leagueIndex > 0) || eloIndex > currentElo.eloIndex">
@@ -260,10 +262,11 @@ img {
   margin-left: 5px;
 }
 
-h2 {
+.title {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 15px;
 }
 
 .selected,

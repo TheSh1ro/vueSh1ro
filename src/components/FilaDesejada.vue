@@ -1,7 +1,9 @@
 <template>
   <main>
     <div class="column">
-      <h2 class="row title">Fila</h2>
+      <div class="row">
+        <h2>Fila</h2>
+      </div>
       <div class="row">
         <span @click="handleSelectElo('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
       </div>
@@ -9,9 +11,11 @@
         <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
       </div>
       <TransitionGroup name="list">
-        <h2 class="row" style="grid-row: 5" v-if="selectedQueue">Continuar</h2>
-        <div class="confirm-row" style="grid-row: 6" v-if="selectedQueue">
-          <button class="confirm-row-button" @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
+        <div class="row" style="grid-row: 5">
+          <h2 v-if="selectedQueue">Continuar</h2>
+        </div>
+        <div class="row" style="grid-row: 6" v-if="selectedQueue">
+          <button @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
         </div>
       </TransitionGroup>
     </div>
@@ -99,6 +103,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 15px;
 }
 
 .column {
@@ -116,15 +121,7 @@ h2 {
   height: 100%;
 }
 
-.confirm-row {
-  display: flex;
-  flex-grow: 1;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-}
-
-.confirm-row-button {
+button {
   flex-grow: 1;
   border: 2px solid cyan;
   color: whitesmoke;
@@ -140,7 +137,7 @@ h2 {
     box-shadow 0.2s,
     background-color 0.4s;
 }
-.confirm-row-button:hover {
+button:hover {
   border: 2px solid cyan;
   box-shadow: 0px 0px 10px 0px cyan;
   background-color: rgba(0, 100, 100, 0.5);
@@ -148,12 +145,12 @@ h2 {
 
 span {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-grow: 1;
   gap: 5px;
   cursor: pointer;
   border: 1px solid transparent;
+  padding-left: 15px;
 }
 
 span:hover {

@@ -1,7 +1,9 @@
 <template>
   <main>
     <div class="column">
-      <h2 class="row">Elo atual</h2>
+      <div class="row">
+        <h2 class="title">Elo atual</h2>
+      </div>
       <template v-for="(elo, eloIndex) in eloList" :key="elo">
         <div class="row" v-if="eloIndex < 9">
           <div :class="{ selected: elo.name == currentElo.name }" class="elo" v-if="!elo.visibleLeagues" @click="showLeagues(elo, eloIndex)">
@@ -213,10 +215,11 @@ img {
   margin-left: 5px;
 }
 
-h2 {
+.title {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 15px;
 }
 
 .selected,
