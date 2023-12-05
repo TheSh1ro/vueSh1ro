@@ -105,11 +105,12 @@ export default {
   align-items: center;
   height: fit-content;
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   gap: 8px;
   background-color: white;
   color: rgb(80, 145, 225);
   text-align: center;
+  margin-top: 10vh;
 }
 
 h2 {
@@ -143,19 +144,21 @@ input {
   user-select: none;
   margin-top: 5px;
 }
+
 .router:hover {
   color: black;
 }
 
 button {
   margin-top: 15px;
-  padding: 8px;
+  padding: 12px;
   background-color: rgb(80, 145, 225);
   color: white;
   border: none;
   cursor: pointer;
   width: 100%;
 }
+
 button:hover {
   background-color: rgb(40, 65, 205);
 }
@@ -163,6 +166,7 @@ button:hover {
 .invalid-field {
   color: darkred;
 }
+
 .invalid-field::placeholder {
   color: darkred;
 }
