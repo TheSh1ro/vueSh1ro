@@ -12,7 +12,7 @@
 
     <div class="form-block input-block">
       <h2 class="block-title">Informações da compra</h2>
-      <input readonly type="text" :value="user.fullname" />
+      <input readonly type="text" :value="user.fullname" v-if="user" />
       <div class="elos">
         <input readonly type="text" :value="currentEloName + ' ao ' + targetEloName" />
         <img class="elo-image" :src="currentElo.image" alt="Imagem do elo atual" v-if="currentElo" />

@@ -1,9 +1,19 @@
 <template>
   <main id="main">
     <TransitionGroup name="list">
-      <EloAtual ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
-      <EloDesejado ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
-      <FilaDesejada class="fila" ref="FilaDesejada" :handleConfirm="handleConfirm" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name" />
+      <EloAtual key="elo-atual" ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
+      <EloDesejado key="elo-desejado" ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
+      <FilaDesejada
+        key="fila"
+        class="fila"
+        ref="FilaDesejada"
+        :handleConfirm="handleConfirm"
+        :selectQueue="handleSelectQueue"
+        :currentElo="selectedElo.current"
+        :targetElo="selectedElo.target"
+        :selectedQueue="selectedQueue"
+        v-if="selectedElo.target.name"
+      />
     </TransitionGroup>
   </main>
 </template>

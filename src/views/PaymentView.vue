@@ -1,12 +1,10 @@
 <template>
   <main id="main">
     <div class="content">
-      <!-- ServiceAbout component -->
       <ServiceAbout :goToPreviousPage="goToPreviousPage" :toggleVisibleForm="toggleVisibleForm" :visibleForm="visibleForm" :handleSelectMethod="handleSelectMethod" :selectedMethod="selectedMethod" />
 
-      <!-- Transition for ServiceForm component -->
       <Transition name="form">
-        <ServiceForm v-if="visibleForm" class="container" :handleConfirm="handleConfirm" />
+        <ServiceForm v-if="visibleForm" class="container" :sendFormData="verifyToBackend" />
       </Transition>
     </div>
   </main>
@@ -71,7 +69,7 @@ export default {
     toggleVisibleForm(checkbox) {
       if (checkbox) this.visibleForm = true
     },
-    handleConfirm(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
+    verifyToBackend(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
       // Handle confirm logic here
       const dataToBackend = {
         riot_id: riot_id,
@@ -81,6 +79,8 @@ export default {
         refer_code: refer_code,
         description: description
       }
+
+      console.log(dataToBackend)
       // Add logic to send data to the backend
     }
   }
@@ -115,16 +115,20 @@ export default {
 }
 
 /* Transition classes */
-.form-enter-active,
-.form-leave-active {
+.form-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.form-enter-active {
   transition:
     opacity 3s ease,
     transform 0.5s ease;
 }
 
-.form-enter-from,
 .form-leave-to {
   opacity: 0;
-  transform: translateX(-100%);
+}
+.form-leave-active {
+  transition: opacity 1s ease;
 }
 </style>

@@ -26,11 +26,11 @@
 // import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 
 export default {
-  props: ['globalConfirm'],
+  props: ['sendFormData'],
   data() {
     return {
       // component form
-      riot_id: '',
+      riot_id: null,
       riot_tag: '#',
       riot_login: null,
       riot_password: null,
@@ -69,7 +69,7 @@ export default {
 
       if (this.hasInvalidField) return
 
-      this.globalConfirm(this.riot_id, this.riot_tag, this.riot_login, this.riot_password, this.refer_code, this.description)
+      this.sendFormData(this.riot_id, this.riot_tag, this.riot_login, this.riot_password, this.refer_code, this.description)
     },
 
     resetFieldClasses() {
@@ -90,14 +90,14 @@ export default {
   },
   watch: {
     refer_code(newValue) {
-      if (this.refer_code) this.refer_code = newValue.toUpperCase()
+      if (this.refer_code) this.refer_code = newValue.toUpperCase().replace(/[^\w\d]/gi, '')
     },
     riot_id(newValue) {
-      if (this.riot_id) this.riot_id = newValue.toUpperCase()
+      if (this.riot_id) this.riot_id = newValue.toUpperCase().replace(/[^\w\d\s]/gi, '')
     },
     riot_tag(newValue) {
       if (this.riot_tag) {
-        this.riot_tag = newValue.toUpperCase()
+        this.riot_tag = newValue.toUpperCase().replace(/[^\w\d]/gi, '')
         if (this.riot_tag[0] !== '#') {
           this.riot_tag = '#' + this.riot_tag
         }
