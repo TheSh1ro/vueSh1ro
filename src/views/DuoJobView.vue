@@ -3,7 +3,7 @@
     <TransitionGroup name="list">
       <EloAtual ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
       <EloDesejado ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
-      <FilaDesejada ref="FilaDesejada" :handleConfirm="handleConfirm" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name" />
+      <FilaDesejada class="fila" ref="FilaDesejada" :handleConfirm="handleConfirm" :selectQueue="handleSelectQueue" :currentElo="selectedElo.current" :targetElo="selectedElo.target" :selectedQueue="selectedQueue" v-if="selectedElo.target.name" />
     </TransitionGroup>
   </main>
 </template>
@@ -156,6 +156,20 @@ export default {
   justify-content: center;
   padding: 20px;
   gap: 5vw;
+}
+
+@media (max-width: 1050px) {
+  #main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 82vh 82vh;
+  }
+
+  .fila {
+    width: 50%;
+    justify-self: center;
+    grid-column: 1/3;
+  }
 }
 
 .list-enter-active {
