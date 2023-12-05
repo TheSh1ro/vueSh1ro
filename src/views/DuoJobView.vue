@@ -116,6 +116,7 @@ export default {
         this.selectedElo.target = []
       }
 
+      // Limpa a seleção de fila para melhor experiência do usuário
       this.selectedQueue = null
     },
 

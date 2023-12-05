@@ -1,9 +1,13 @@
 <template>
   <main id="main">
     <div class="container">
-      <h2>Login</h2>
+      <h2>Criar conta</h2>
       <div class="input-row">
-        <input ref="username" id="username" v-model="username" type="text" placeholder="Insira um usuário" @input="restrictSpecialCharacters" />
+        <input ref="fullname" id="fullname" v-model="fullname" type="text" placeholder="Nome completo" @input="restrictSymbols" />
+        <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
+      </div>
+      <div class="input-row">
+        <input ref="username" id="username" v-model="username" type="text" placeholder="Crie um usuário" @input="restrictSpecialCharacters" />
         <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
       </div>
       <div class="input-row">
@@ -11,11 +15,11 @@
         <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
       </div>
       <div class="input-row">
-        <input ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Insira uma senha" @input="restrictSpaceCharacter" />
+        <input ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Crie uma senha" @input="restrictSpaceCharacter" />
         <img class="input-icon" style="left: 12px" src="/assets/padlock.png" alt="Cadeado de senha" />
         <img class="input-icon" style="right: 12px; cursor: pointer" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
       </div>
-      <RouterLink class="router" to="/login">Entrar</RouterLink>
+      <RouterLink class="router" to="/login">Fazer login</RouterLink>
 
       <button @click="handleRegisterSubmit">Confirmar cadastro</button>
     </div>
@@ -29,9 +33,10 @@ export default {
   data() {
     return {
       // password input status ( text / password ) to change pwd visibility
-      passwordInputType: 'text',
+      passwordInputType: 'password',
 
       // new user data
+      fullname: null,
       username: null,
       password: null,
       email: null
@@ -48,20 +53,28 @@ export default {
       const input = event.target
       input.value = input.value.replace(/\s/g, '')
     },
+    restrictSymbols(event) {
+      const input = event.target
+      input.value = input.value.replace(/[^\w\d]/gi, '')
+    },
 
     togglePasswordVisibility() {
       this.passwordInputType = this.passwordInputType === 'text' ? 'password' : 'text'
     },
 
     handleRegisterSubmit() {
-      const authStore = useAuthStore()
-
       this.resetFieldClasses()
       this.hasInvalidField = false
 
+      const fullname = this.fullname
       const username = this.username
       const password = this.password
       const email = this.email
+
+      if (!fullname || fullname.length < 10) {
+        this.hasInvalidField = true
+        this.$refs.fullname.classList.add('invalid-field')
+      }
 
       if (!username || username.length < 5) {
         this.hasInvalidField = true

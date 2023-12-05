@@ -5,10 +5,10 @@
         <h2>Fila</h2>
       </div>
       <div class="row">
-        <span @click="handleSelectElo('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
+        <span @click="handleSelectQueue('solo', 'Ranqueada Solo/Duo')" :class="{ selected: selectedQueue == 'Ranqueada Solo/Duo', blocked: isBlocked }">Ranqueada Solo/duo</span>
       </div>
       <div class="row">
-        <span @click="handleSelectElo('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
+        <span @click="handleSelectQueue('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
       </div>
       <TransitionGroup name="list">
         <div class="row" style="grid-row: 5" v-if="selectedQueue">
@@ -30,7 +30,27 @@ export default {
   data() {
     return {}
   },
+  created() {
+    if (this.isDuoJob && this.targetElo && this.targetElo.eloIndex > 7) {
+      this.selectQueue('Ranqueada Flexível')
+    }
+  },
+  watch: {
+    targetElo() {
+      if (this.isDuoJob && this.targetElo && this.targetElo.eloIndex > 7) {
+        this.selectQueue('Ranqueada Flexível')
+      }
+    },
+    currentElo() {
+      if (this.isDuoJob && this.targetElo && this.targetElo.eloIndex > 7) {
+        this.selectQueue('Ranqueada Flexível')
+      }
+    }
+  },
   computed: {
+    isDuoJob() {
+      return this.$route.name.toLowerCase() == 'duojob'
+    },
     isAuthenticated() {
       const authStore = useAuthStore()
       return authStore.isAuthenticated
@@ -49,7 +69,7 @@ export default {
     }
   },
   methods: {
-    handleSelectElo(type, queue) {
+    handleSelectQueue(type, queue) {
       if (this.$route.name.toLowerCase() == 'elojob') {
         this.selectQueue(queue)
       }

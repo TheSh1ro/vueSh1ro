@@ -120,6 +120,9 @@ export default {
       if (currentElo.isHigh) {
         this.selectedQueue = null
       }
+
+      // Limpa a seleção de fila para melhor experiência do usuário
+      this.selectedQueue = null
     },
 
     handleSelectQueue(queue) {
