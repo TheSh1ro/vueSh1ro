@@ -47,10 +47,11 @@ export default {
         elo: this.selectedElo.target.eloIndex,
         league: this.selectedElo.target.leagueIndex
       }
+
       const priceList = this.priceList
 
-      let totalPrice = 0
-      let totalDays = 0
+      let totalPrice = 0,
+        totalDays = 0
 
       for (let eloIndex = start.elo; eloIndex <= end.elo; eloIndex++) {
         if (!priceList[eloIndex].isHigh) {
@@ -152,7 +153,6 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
   display: grid;
   grid-template-columns: repeat(3, 300px);
   justify-content: center;
@@ -179,6 +179,7 @@ export default {
     opacity 2s ease,
     transform 0.5s ease;
 }
+
 .list-leave-active {
   transition:
     opacity 0.2s ease,

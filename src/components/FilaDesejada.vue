@@ -73,11 +73,13 @@ export default {
 </script>
 
 <style scoped>
+/* List transition animations */
 .list-enter-active {
   transition:
     opacity 2s ease,
     transform 0.5s ease;
 }
+
 .list-leave-active {
   transition: opacity 0.5s ease;
 }
@@ -91,6 +93,7 @@ export default {
   opacity: 0;
 }
 
+/* Main layout styles */
 main {
   display: flex;
   align-items: center;
@@ -99,6 +102,7 @@ main {
   width: 100%;
 }
 
+/* Header styles */
 h2 {
   display: flex;
   justify-content: center;
@@ -106,6 +110,7 @@ h2 {
   padding-left: 15px;
 }
 
+/* Column and Row styles */
 .column {
   display: grid;
   grid-template-rows: repeat(11, 1fr);
@@ -121,28 +126,29 @@ h2 {
   height: 100%;
 }
 
+/* Button styles */
 button {
   flex-grow: 1;
   border: 2px solid cyan;
   color: whitesmoke;
   border-radius: 7px;
-
   background-color: transparent;
   padding: 12px 20px;
   cursor: pointer;
   text-align: center;
   font-size: 1rem;
-
   transition:
     box-shadow 0.2s,
     background-color 0.4s;
 }
+
 button:hover {
   border: 2px solid cyan;
   box-shadow: 0px 0px 10px 0px cyan;
   background-color: rgba(0, 100, 100, 0.5);
 }
 
+/* Span styles */
 span {
   display: flex;
   align-items: center;
@@ -157,6 +163,7 @@ span:hover {
   background-color: rgba(0, 100, 100, 0.5);
 }
 
+/* Selected and Blocked styles */
 .selected {
   background-color: rgba(0, 100, 100, 0.5);
   border-color: rgb(0, 100, 100);
@@ -170,6 +177,7 @@ span:hover {
   animation: shake 0.3s alternate;
 }
 
+/* Shake animation */
 @keyframes shake {
   0% {
     transform: translateX(0);

@@ -180,6 +180,7 @@ export default {
 </script>
 
 <style scoped>
+/* Transitions for list animations */
 .list-move,
 .list-enter-active {
   transition:
@@ -203,6 +204,7 @@ export default {
   transform: translateX(20%);
 }
 
+/* Main layout styles */
 main {
   display: flex;
   align-items: center;
@@ -226,6 +228,7 @@ main {
   height: 100%;
 }
 
+/* Styles for elo and leagues */
 .elo {
   display: flex;
   align-items: center;
@@ -249,14 +252,12 @@ main {
   border: 1px solid transparent;
 }
 
-.elo:hover {
-  background-color: rgba(0, 100, 100, 0.5);
-}
-
+.elo:hover,
 .league:hover {
   background-color: rgba(0, 100, 100, 0.5);
 }
 
+/* Styles for images and titles */
 img {
   height: 2rem;
   margin-left: 5px;
@@ -269,6 +270,7 @@ img {
   padding-left: 15px;
 }
 
+/* Styles for selected and blocked items */
 .selected,
 .selected:hover {
   background-color: rgba(0, 100, 100, 0.5);
@@ -277,12 +279,14 @@ img {
 
 .blockedItem:hover {
   background-color: rgba(100, 0, 0, 0.5);
-  border-color: rgb (100, 0, 0);
+  border-color: rgb(100, 0, 0);
 }
+
 .blockedItem:active {
   animation: shake 0.3s alternate;
 }
 
+/* Keyframes for shake animation */
 @keyframes shake {
   0% {
     transform: translateX(0);

@@ -150,7 +150,6 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
   display: grid;
   grid-template-columns: repeat(3, 300px);
   justify-content: center;
@@ -177,6 +176,7 @@ export default {
     opacity 2s ease,
     transform 0.5s ease;
 }
+
 .list-leave-active {
   transition:
     opacity 0.2s ease,

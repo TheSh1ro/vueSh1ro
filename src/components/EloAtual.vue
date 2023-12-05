@@ -202,10 +202,7 @@ main {
   border: 1px solid transparent;
 }
 
-.elo:hover {
-  background-color: rgba(0, 100, 100, 0.5);
-}
-
+.elo:hover,
 .league:hover {
   background-color: rgba(0, 100, 100, 0.5);
 }
