@@ -72,12 +72,23 @@ export default {
     verifyToBackend(riot_id, riot_tag, riot_login, riot_password, refer_code, description) {
       // Handle confirm logic here
       const dataToBackend = {
+        // FormData
         riot_id: riot_id,
         riot_tag: riot_tag,
         riot_login: riot_login,
         riot_password: riot_password,
         refer_code: refer_code,
-        description: description
+        description: description,
+        payment_method: this.selectedMethod,
+
+        // SelectionData
+        visibleForm: this.visibleForm,
+        service: this.service,
+        queue: this.queue,
+        currentElo: this.currentElo,
+        targetElo: this.targetElo,
+        price: this.price,
+        time: this.time
       }
 
       console.log(dataToBackend)
