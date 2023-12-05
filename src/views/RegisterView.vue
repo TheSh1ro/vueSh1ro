@@ -2,24 +2,26 @@
   <main id="main">
     <div class="container">
       <h2>Criar conta</h2>
-      <div class="input-row">
-        <input ref="fullname" id="fullname" v-model="fullname" type="text" placeholder="Nome completo" @input="restrictSymbols" />
-        <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
+      <div class="block">
+        <div class="input-row">
+          <input ref="fullname" id="fullname" v-model="fullname" type="text" placeholder="Nome completo" @input="restrictNoLetters" />
+          <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
+        </div>
+        <div class="input-row">
+          <input ref="username" id="username" v-model="username" type="text" placeholder="Crie um usuário" @input="restrictSpecialCharacters" />
+          <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
+        </div>
+        <div class="input-row">
+          <input ref="email" id="email" v-model="email" type="text" placeholder="Insira um email existente" @input="restrictSpaceCharacter" />
+          <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
+        </div>
+        <div class="input-row">
+          <input ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Crie uma senha" @input="restrictSpaceCharacter" />
+          <img class="input-icon" style="left: 12px" src="/assets/padlock.png" alt="Cadeado de senha" />
+          <img class="input-icon" style="right: 12px; cursor: pointer" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
+        </div>
+        <RouterLink class="router" to="/login">Fazer login</RouterLink>
       </div>
-      <div class="input-row">
-        <input ref="username" id="username" v-model="username" type="text" placeholder="Crie um usuário" @input="restrictSpecialCharacters" />
-        <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
-      </div>
-      <div class="input-row">
-        <input ref="email" id="email" v-model="email" type="text" placeholder="Insira um email existente" @input="restrictSpaceCharacter" />
-        <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
-      </div>
-      <div class="input-row">
-        <input ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Crie uma senha" @input="restrictSpaceCharacter" />
-        <img class="input-icon" style="left: 12px" src="/assets/padlock.png" alt="Cadeado de senha" />
-        <img class="input-icon" style="right: 12px; cursor: pointer" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
-      </div>
-      <RouterLink class="router" to="/login">Fazer login</RouterLink>
 
       <button @click="handleRegisterSubmit">Confirmar cadastro</button>
     </div>
@@ -53,9 +55,10 @@ export default {
       const input = event.target
       input.value = input.value.replace(/\s/g, '')
     },
-    restrictSymbols(event) {
+    restrictNoLetters(event) {
       const input = event.target
-      input.value = input.value.replace(/[^\w\d]/gi, '')
+      input.value = input.value.replace(/[^\w\s]/gi, '')
+      input.value = input.value.replace(/[!\d]/gi, '')
     },
 
     togglePasswordVisibility() {
@@ -112,27 +115,32 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-  padding-bottom: 20vh;
   display: flex;
   justify-content: center;
+  font-size: 1.2rem;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: fit-content;
-  padding: 30px;
+  padding: 50px;
   border-radius: 10px;
   gap: 8px;
   background-color: white;
   color: rgb(80, 145, 225);
   text-align: center;
   margin-top: 10vh;
+  height: fit-content;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 h2 {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   user-select: none;
 }
 
@@ -142,8 +150,13 @@ h2 {
   align-items: center;
 }
 
+input,
+button {
+  padding: 16px;
+  font-size: 1rem;
+}
 input {
-  padding: 12px;
+  width: 250px;
   padding-inline: 40px;
   color: black;
   border-radius: 10px;
@@ -160,7 +173,9 @@ input {
 .router {
   cursor: pointer;
   user-select: none;
-  margin-top: 5px;
+  margin-block: 10px 20px;
+  width: fit-content;
+  align-self: center;
 }
 
 .router:hover {
@@ -169,7 +184,6 @@ input {
 
 button {
   margin-top: 15px;
-  padding: 12px;
   background-color: rgb(80, 145, 225);
   color: white;
   border: none;
