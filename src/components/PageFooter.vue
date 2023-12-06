@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <footer ref="footer" id="footer">
     <ul>
       <div class="title">
         <img src="/assets/riven.png" alt="" />
@@ -25,7 +25,7 @@
       <a class="item" href="mailto:gabrielmonteiro1111@gmail.com">E-mail</a>
       <RouterLink class="item" to="/">Chat</RouterLink>
     </ul>
-  </main>
+  </footer>
 </template>
 
 <script>
@@ -45,7 +45,7 @@ export default {
   color: rgb(68, 189, 229);
 }
 
-main {
+#footer {
   background-color: rgb(20, 20, 30);
 
   display: grid;

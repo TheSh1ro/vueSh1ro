@@ -103,22 +103,46 @@ export default {
           visibleLeagues: false
         }
       ],
-      newSelectedElo: []
+      newSelectedElo: [],
+      windowInnerHeight: window.innerHeight,
+      appHeight: document.getElementById('app').clientHeight
     }
   },
-  created() {},
+  mounted() {
+    // Adiciona um ouvinte de redimensionamento da janela
+    window.addEventListener('resize', this.updateWindowInnerHeight)
+    window.addEventListener('resize', this.updateAppHeight)
+  },
+  beforeUnmount() {
+    // Remove o ouvinte de redimensionamento ao destruir o componente
+    window.removeEventListener('resize', this.updateWindowInnerHeight)
+    window.removeEventListener('resize', this.updateAppHeight)
+  },
   computed: {
-    innerHeight() {
-      return window.innerHeight
+    footerHeight() {
+      return document.getElementById('footer').clientHeight
+    },
+    footerTop() {
+      return this.appHeight - this.clientHeight - this.footerHeight
     }
   },
   methods: {
-    verifyScroll(elo) {
-      if (elo < 7) return
-      if (window.innerWidth < 1050) {
-        window.scrollTo(0, (this.innerHeight / 10) * 4)
+    updateWindowInnerHeight() {
+      this.windowInnerHeight = window.innerHeight
+    },
+    updateAppHeight() {
+      this.appHeight = document.getElementById('app').clientHeight
+    },
+
+    scrollToFooterTop() {
+      if (window.innerWidth < 1140) {
+        setTimeout(() => {
+          this.updateAppHeight()
+          window.scrollTo(0, this.appHeight - this.windowInnerHeight - this.footerHeight)
+        }, 0)
       }
     },
+
     showLeagues(elo, eloIndex, leagueIndex) {
       // Salva o estado do seletor clicado
       const eloState = elo.visibleLeagues
@@ -130,7 +154,7 @@ export default {
       if (elo.isHigh) {
         this.sendHideLeagues()
         this.handleSelectElo(elo, eloIndex)
-        this.verifyScroll()
+        this.scrollToFooterTop()
       }
 
       // Selecionado elo (que possui ligas)
@@ -143,7 +167,7 @@ export default {
         // Prosseguir
         this.sendHideLeagues()
         this.handleSelectElo(elo, eloIndex, leagueIndex)
-        this.verifyScroll()
+        this.scrollToFooterTop()
       }
 
       // Seleção de duas etapas, a próxima se encaixará em um dos ifs acima

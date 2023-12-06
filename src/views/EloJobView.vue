@@ -160,9 +160,11 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
+
   display: grid;
-  grid-template-columns: repeat(3, 300px);
   justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
+
   padding-block: 20px;
   padding-inline: 5vw;
   gap: 5vw;
