@@ -7,12 +7,12 @@
       </div>
       <p>League of Legends and Valorant are registered trademarks of Riot Games, Inc. We are in no way affiliated with, associated with or endorsed by Riot Games, Inc.</p>
     </ul>
-    <ul class="hidden">
+    <ul class="hideItem">
       <h2 class="title">Jogos</h2>
       <a class="item" href="https://playvalorant.com/" target="_blank">League of Legends</a>
       <a class="item" href="https://leagueoflegends.com/" target="_blank">Valorant</a>
     </ul>
-    <ul class="hidden">
+    <ul class="hideItem">
       <h2 class="title">Páginas</h2>
       <RouterLink class="item" to="/md5">Shiro Tips</RouterLink>
       <RouterLink class="item" to="/elojob">EloJob</RouterLink>
@@ -52,7 +52,7 @@ main {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   justify-items: center;
 
-  padding: 40px 120px;
+  padding: 40px 60px;
   gap: 50px;
 }
 
@@ -89,13 +89,13 @@ p {
   color: white;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
   main {
     grid-template-columns: 1fr 1fr;
     padding: 40px;
   }
 
-  .hidden {
+  .hideItem {
     display: none;
   }
 }

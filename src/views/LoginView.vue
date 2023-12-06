@@ -2,19 +2,24 @@
   <main id="main">
     <div class="container" @keyup.enter="handleLoginSubmit">
       <h2>Login</h2>
-      <div class="block">
-        <div class="input-row">
-          <input ref="username" id="username" v-model="username" type="text" placeholder="Insira seu usuário" @input="restrictSpecialCharacters" />
-          <img class="input-icon" style="left: 12px" src="/assets/people.png" alt="Imagem de login" />
+      <div class="row">
+        <input class="input-text" ref="username" id="username" v-model="username" type="text" placeholder="Insira seu usuário" @input="restrictSpecialCharacters" />
+        <img class="input-icon" :style="{ left: inputSpace }" src="/assets/people.png" alt="Imagem de login" />
+      </div>
+      <div class="row">
+        <input class="input-text" ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Insira sua senha" @input="restrictSpaceCharacter" />
+        <img class="input-icon" :style="{ left: inputSpace }" src="/assets/padlock.png" alt="Cadeado de senha" />
+        <img class="input-icon input-eye" :style="{ right: inputSpace }" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
+      </div>
+      <div class="others-row">
+        <div class="checkbox">
+          <input id="remember" v-model="rememberPassword" type="checkbox" />
+          <label for="remember">Lembrar senha</label>
         </div>
-        <div class="input-row">
-          <input ref="password" id="password" v-model="password" :type="passwordInputType" placeholder="Insira sua senha" @input="restrictSpaceCharacter" />
-          <img class="input-icon" style="left: 12px" src="/assets/padlock.png" alt="Cadeado de senha" />
-          <img class="input-icon" style="right: 12px; cursor: pointer" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
-        </div>
-        <RouterLink class="router" to="/register">Criar conta</RouterLink>
+        <p>Esqueci a senha</p>
       </div>
       <button @click="handleLoginSubmit">Entrar</button>
+      <RouterLink class="router" to="/register">Não possui uma conta? Registre-se</RouterLink>
     </div>
   </main>
 </template>
@@ -29,6 +34,8 @@ export default {
 
       // password input status ( text / password ) to change pwd visibility
       passwordInputType: 'password',
+      inputSpace: '12px',
+      rememberPassword: true,
 
       // login form data
       username: null,
@@ -98,93 +105,115 @@ export default {
 
 <style scoped>
 #main {
+  display: grid;
   background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px;
-  border-radius: 10px;
-  gap: 8px;
   background-color: white;
-  color: rgb(80, 145, 225);
-  text-align: center;
-  height: fit-content;
-  margin-bottom: 20vh;
-}
-.block {
+  color: rgb(60, 155, 220);
+
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
+  min-width: fit-content;
+  width: 300px;
+  height: fit-content;
+
+  margin: auto;
+  padding: 30px;
+  gap: 15px;
+
+  border-radius: 15px;
+  border: 1px solid white;
 }
 
 h2 {
-  margin-bottom: 25px;
-  user-select: none;
+  text-align: center;
+  margin-block: 15px;
 }
 
-.input-row {
+.row {
+  display: flex;
+  align-items: center;
   position: relative;
+}
+.others-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  gap: 50px;
+}
+.checkbox {
   display: flex;
   align-items: center;
 }
+.checkbox > * {
+  cursor: pointer;
+}
+label {
+  padding-left: 8px;
+}
+.others-row > p {
+  cursor: pointer;
+}
 
-input,
+.input-text,
 button {
-  padding: 16px;
-  font-size: 0.8rem;
+  padding-inline: 38px;
+  padding-block: 15px;
+  border-radius: 12px;
 }
-input {
-  width: 250px;
-  padding-inline: 49px;
-  color: black;
-  border-radius: 10px;
-  background-color: rgb(205, 205, 205);
-  border: none;
-  outline: none;
-}
-
 .input-icon {
   position: absolute;
-  width: 20px;
+  width: 16px;
+}
+
+.input-text {
+  width: 100%;
+  background-color: transparent;
+
+  color: black;
+  outline: none;
+  border: none;
+  height: 12px;
+  background-color: rgb(220, 220, 220);
+}
+
+.input-eye {
+  cursor: pointer;
 }
 
 .router {
   cursor: pointer;
-  user-select: none;
-  margin-block: 10px 20px;
-  width: fit-content;
-  align-self: center;
+  font-size: 14px;
+  text-align: center;
 }
 
+.container p:hover,
+.container label:hover,
 .router:hover {
   color: black;
 }
 
 button {
-  margin-top: 15px;
-  background-color: rgb(80, 145, 225);
+  background-color: rgb(60, 155, 220);
   color: white;
   border: none;
   cursor: pointer;
-  width: 100%;
 }
 
 button:hover {
-  background-color: rgb(40, 65, 205);
+  background-color: rgb(30, 125, 190);
 }
 
 .invalid-field {
-  color: darkred;
+  color: rgb(190, 0, 0);
+  outline: 1px solid rgb(190, 0, 0);
 }
 
 .invalid-field::placeholder {
-  color: darkred;
+  color: rgb(190, 0, 0);
 }
 </style>
