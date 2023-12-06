@@ -6,7 +6,7 @@
         <h1>ShiroJobs</h1>
       </RouterLink>
       <section class="user">
-        <RouterLink to="/register" class="user-item" v-if="!isAuthenticated">Criar conta</RouterLink>
+        <!-- <RouterLink to="/register" class="user-item" v-if="!isAuthenticated">Criar conta</RouterLink> -->
         <div class="user-item" @click="handleLogin">
           <span to="/login">{{ username }}</span>
           <img src="/assets/people.png" alt="Foto de usuário" v-if="isAuthenticated" />
@@ -36,7 +36,7 @@ export default {
     },
     username() {
       const authStore = useAuthStore()
-      return authStore.user ? authStore.user.username : 'Entrar'
+      return authStore.user ? authStore.user.username : 'Iniciar sessão'
     }
   },
   methods: {
@@ -107,10 +107,12 @@ header {
 
 .user-item {
   cursor: pointer;
+  color: white;
+  transition: color 0.2s;
 }
 
 .user-item:hover {
-  color: rgb(200, 200, 200);
+  color: rgb(185, 185, 185);
 }
 
 .dropdown {

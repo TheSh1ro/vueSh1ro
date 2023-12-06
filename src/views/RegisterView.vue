@@ -117,6 +117,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 1.2rem;
 }
 
@@ -130,8 +131,8 @@ export default {
   background-color: white;
   color: rgb(80, 145, 225);
   text-align: center;
-  margin-top: 10vh;
   height: fit-content;
+  margin-bottom: 20vh;
 }
 .block {
   display: flex;
@@ -153,11 +154,11 @@ h2 {
 input,
 button {
   padding: 16px;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 input {
   width: 250px;
-  padding-inline: 40px;
+  padding-inline: 49px;
   color: black;
   border-radius: 10px;
   background-color: rgb(205, 205, 205);
@@ -167,7 +168,7 @@ input {
 
 .input-icon {
   position: absolute;
-  width: 15px;
+  width: 20px;
 }
 
 .router {
