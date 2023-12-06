@@ -1,6 +1,7 @@
 <template>
   <main id="main">
     <div class="container" @keyup.enter="handleLoginSubmit">
+      <h5 style="color: red; text-align: center">[Qualquer usuário consegue entrar]</h5>
       <h2>Login</h2>
       <div class="row">
         <input class="input-text" ref="username" id="username" v-model="username" type="text" placeholder="Insira seu usuário" @input="restrictSpecialCharacters" />

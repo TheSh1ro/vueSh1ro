@@ -21,8 +21,8 @@ export default {
   data() {
     return {
       services: [
-        { title: 'MD5', subtitle: 'Comece bem', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/star.png', route: '/md5', buttonText: 'Escolher', isActive: false },
         { title: 'EloJob', subtitle: 'Suba de elo', description: 'Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra', image: '/assets/star.png', route: '/elojob', buttonText: 'Escolher', isActive: true },
+        { title: 'MD5', subtitle: 'Comece bem', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/star.png', route: '/md5', buttonText: 'Escolher', isActive: false },
         { title: 'DuoJob', subtitle: 'Aprenda jogando', description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters', image: '/assets/star.png', route: '/duojob', buttonText: 'Escolher', isActive: true },
         { title: 'Shiro Tips', subtitle: 'Estude o jogo', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/star.png', route: '/tips', buttonText: 'Escolher', isActive: false }
       ]

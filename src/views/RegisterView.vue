@@ -1,6 +1,7 @@
 <template>
   <main id="main">
     <div class="container">
+      <h5 style="color: red; text-align: center">[Os dados não estão sendo salvos]</h5>
       <h2>Criar conta</h2>
       <div class="row">
         <input class="input-text" ref="fullname" id="fullname" v-model="fullname" type="text" placeholder="Nome completo" @input="restrictNoLetters" />
