@@ -11,10 +11,10 @@
         <span @click="handleSelectQueue('flex', 'Ranqueada Flexível')" :class="{ selected: selectedQueue == 'Ranqueada Flexível' }">Ranqueada Flexível</span>
       </div>
       <TransitionGroup name="list">
-        <div class="row" style="grid-row: 5" v-if="selectedQueue">
+        <div class="row hidden confirm-title" v-if="selectedQueue">
           <h2>Continuar</h2>
         </div>
-        <div class="row" style="grid-row: 6" v-if="selectedQueue">
+        <div class="row confirm-button" v-if="selectedQueue">
           <button @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
         </div>
       </TransitionGroup>
@@ -117,24 +117,6 @@ export default {
   transform: translateY(-150%);
 }
 
-@media (max-width: 1100px) {
-  main {
-    display: flex;
-    flex-direction: row;
-    background-color: red;
-  }
-
-  .column {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
-  }
-}
-
 /* Main layout styles */
 main {
   display: flex;
@@ -155,7 +137,7 @@ h2 {
 /* Column and Row styles */
 .column {
   display: grid;
-  grid-template-rows: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 8vh);
   height: 100%;
   width: 100%;
 }
@@ -229,6 +211,24 @@ span:hover {
   }
   100% {
     transform: translateX(5px);
+  }
+}
+
+@media (max-width: 1140px) {
+  .column {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5vh;
+  }
+  .row {
+    height: 8vh;
+    text-align: center;
+  }
+  .hidden {
+    display: none;
+  }
+  .confirm-button {
+    margin-top: 20px;
   }
 }
 </style>

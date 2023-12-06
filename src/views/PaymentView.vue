@@ -173,23 +173,19 @@ export default {
 #main {
   background-color: rgba(0, 0, 0, 0.8);
   display: grid;
-  padding-bottom: 20vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .content {
   display: flex;
   justify-content: space-evenly;
+  width: fit-content;
   height: fit-content;
   row-gap: 40px;
-  margin: 20px;
-}
-
-@media (max-width: 900px) {
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  margin: 5vh 5vw;
+  gap: 5vh 5vw;
+  flex-wrap: wrap;
 }
 
 .container {

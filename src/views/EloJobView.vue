@@ -168,15 +168,14 @@ export default {
   gap: 5vw;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1140px) {
   #main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: calc(100vh - 100px) 50vh;
+    grid-template-rows: calc(100vh - 100px) 1fr;
   }
 
   .fila {
-    width: 50%;
     grid-column: 1/3;
   }
 }
