@@ -9,18 +9,19 @@
     </ul>
     <ul class="hidden">
       <h2 class="title">Jogos</h2>
-      <a class="item" href="https://playvalorant.com/">League of Legends</a>
-      <a class="item" href="https://leagueoflegends.com/">Valorant</a>
+      <a class="item" href="https://playvalorant.com/" target="_blank">League of Legends</a>
+      <a class="item" href="https://leagueoflegends.com/" target="_blank">Valorant</a>
     </ul>
     <ul class="hidden">
       <h2 class="title">Páginas</h2>
+      <RouterLink class="item" to="/md5">Shiro Tips</RouterLink>
       <RouterLink class="item" to="/elojob">EloJob</RouterLink>
       <RouterLink class="item" to="/duojob">DuoJob</RouterLink>
       <RouterLink class="item" to="/md5">MD5</RouterLink>
     </ul>
     <ul>
       <h2 class="title">Contato</h2>
-      <a class="item" href="https://whatsa.me/5547999999999/?t=Ol%C3%A1,%20gostaria%20de%20pedir%20um%20ELOJOB%20na%20ShiroJobs">Wathsapp</a>
+      <a class="item" href="https://whatsa.me/5547999999999/?t=Ol%C3%A1,%20gostaria%20de%20pedir%20um%20ELOJOB%20na%20ShiroJobs" target="blank">Wathsapp</a>
       <a class="item" href="mailto:gabrielmonteiro1111@gmail.com">E-mail</a>
       <RouterLink class="item" to="/">Chat</RouterLink>
     </ul>
