@@ -218,10 +218,10 @@ span:hover {
   .column {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5vh;
+    height: 40vh;
   }
   .row {
-    height: 8vh;
+    max-height: 8vh;
     text-align: center;
   }
   .hidden {

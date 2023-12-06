@@ -168,18 +168,6 @@ export default {
   gap: 5vw;
 }
 
-@media (max-width: 1140px) {
-  #main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: calc(100vh - 100px) 1fr;
-  }
-
-  .fila {
-    grid-column: 1/3;
-  }
-}
-
 .list-enter-active {
   transition:
     opacity 2s ease,
@@ -200,5 +188,17 @@ export default {
 .list-leave-to {
   opacity: 0;
   transform: translateX(75%);
+}
+
+@media (max-width: 1140px) {
+  #main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: calc(100vh - 100px) 1fr;
+  }
+
+  .fila {
+    grid-column: 1/3;
+  }
 }
 </style>

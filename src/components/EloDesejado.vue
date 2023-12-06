@@ -107,12 +107,16 @@ export default {
     }
   },
   created() {},
-  computed: {},
+  computed: {
+    innerHeight() {
+      return window.innerHeight
+    }
+  },
   methods: {
     verifyScroll(elo) {
       if (elo < 7) return
       if (window.innerWidth < 1050) {
-        window.scrollTo(0, 500)
+        window.scrollTo(0, (this.innerHeight / 10) * 4)
       }
     },
     showLeagues(elo, eloIndex, leagueIndex) {
