@@ -160,8 +160,6 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
 }
 
 .column {
@@ -223,5 +221,11 @@ img {
 .selected:hover {
   background-color: rgba(0, 100, 100, 0.5);
   border: 1px solid rgba(0, 100, 100, 1);
+}
+
+@media (max-width: 400px) {
+  .title {
+    font-size: 6.7vw;
+  }
 }
 </style>
