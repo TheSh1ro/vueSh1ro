@@ -1,7 +1,6 @@
 <template>
   <main id="main">
     <div class="container">
-      <h5 style="color: red; text-align: center">[Os dados não estão sendo salvos]</h5>
       <h2>Criar conta</h2>
       <div class="row">
         <input class="input-text" ref="fullname" id="fullname" v-model="fullname" type="text" placeholder="Nome completo" @input="restrictNoLetters" />
@@ -114,6 +113,9 @@ export default {
 <style scoped>
 #main {
   display: grid;
+  align-items: center;
+  justify-content: center;
+
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -124,11 +126,10 @@ export default {
   display: flex;
   flex-direction: column;
 
-  min-width: fit-content;
-  width: 300px;
+  width: fit-content;
   height: fit-content;
 
-  margin: auto;
+  margin-inline: 5vw;
   padding: 30px;
   gap: 15px;
 

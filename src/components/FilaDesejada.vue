@@ -15,7 +15,7 @@
           <h2>Continuar</h2>
         </div>
         <div class="row confirm-button" v-if="selectedQueue">
-          <button @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Fazer login' }}</button>
+          <button @click="handleConfirm">{{ isAuthenticated ? 'Confirmar seleção' : 'Continuar' }}</button>
         </div>
       </TransitionGroup>
     </div>
@@ -228,7 +228,19 @@ span:hover {
     display: none;
   }
   .confirm-button {
-    margin-top: 20px;
+    margin-top: 15px;
+  }
+  button {
+    color: rgb(0, 175, 175);
+    font-weight: bold;
+    background-color: transparent;
+    border-color: rgb(0, 175, 175);
+  }
+  h2 {
+    width: 100%;
+  }
+  span {
+    justify-content: center;
   }
 }
 </style>

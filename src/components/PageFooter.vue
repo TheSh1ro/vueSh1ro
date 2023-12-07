@@ -90,9 +90,9 @@ p {
 }
 
 @media (max-width: 900px) {
-  main {
+  #footer {
     grid-template-columns: 1fr 1fr;
-    padding: 40px;
+    padding: 30px;
   }
 
   .hideItem {

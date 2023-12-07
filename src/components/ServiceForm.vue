@@ -121,7 +121,7 @@ main {
   flex-direction: column;
 
   min-height: 420px;
-  width: 320px;
+  max-width: 320px;
   border-radius: 3px;
   padding: 20px 30px;
 

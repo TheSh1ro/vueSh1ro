@@ -123,11 +123,11 @@ main {
   flex-direction: column;
 
   min-height: 420px;
-  width: 320px;
+  max-width: 320px;
   border-radius: 3px;
-  padding: 20px 30px;
+  padding: 20px;
 
-  gap: 20px;
+  gap: 15px;
 }
 
 input {
@@ -141,7 +141,6 @@ input {
 }
 
 .form-block {
-  width: 100%;
   height: fit-content;
 }
 
@@ -190,7 +189,6 @@ input {
 .elos {
   display: flex;
   gap: 5px;
-  width: 100%;
 }
 
 .elos img {

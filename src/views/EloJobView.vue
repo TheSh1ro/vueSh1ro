@@ -160,14 +160,25 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
-
   display: grid;
+  grid-template-columns: repeat(3, 300px);
   justify-content: center;
-  grid-template-columns: 1fr 1fr 1fr;
-
-  padding-block: 20px;
-  padding-inline: 5vw;
+  padding-top: 20px;
+  padding-inline: 2vw;
   gap: 5vw;
+}
+
+@media (max-width: 1140px) {
+  #main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: calc(100vh - 100px) 1fr;
+  }
+
+  .fila {
+    width: 100%;
+    grid-column: 1/3;
+  }
 }
 
 .list-enter-active {
@@ -190,17 +201,5 @@ export default {
 .list-leave-to {
   opacity: 0;
   transform: translateX(75%);
-}
-
-@media (max-width: 1140px) {
-  #main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: calc(100vh - 100px) 1fr;
-  }
-
-  .fila {
-    grid-column: 1/3;
-  }
 }
 </style>

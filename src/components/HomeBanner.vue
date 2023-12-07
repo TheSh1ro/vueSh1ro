@@ -1,6 +1,6 @@
 <template>
   <section id="banner">
-    <img src="/assets/giphy.gif" alt="" />
+    <img src="/assets/giphy.gif" alt="" class="hidden" />
     <div>
       <h1>SUBA DE ELO E FAÇA PARTE DOS 0.1% MELHORES JOGADORES</h1>
       <p>Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que estragam as suas partidas para trás.</p>
@@ -74,6 +74,9 @@ h1 {
 @media (max-width: 768px) {
   div {
     width: 60%;
+  }
+  .hidden {
+    display: none;
   }
 }
 </style>

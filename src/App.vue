@@ -45,7 +45,6 @@ html {
 
 #app {
   display: grid;
-  grid-template-columns: 100vw;
   grid-template-rows: 60px minmax(calc(100vh - 60px), 1fr) auto;
   color: white;
 

@@ -172,24 +172,21 @@ export default {
 <style scoped>
 #main {
   background-color: rgba(0, 0, 0, 0.8);
+
   display: grid;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .content {
   display: flex;
   justify-content: space-evenly;
-  width: fit-content;
-  height: fit-content;
-  row-gap: 40px;
-  margin: 5vh 5vw;
+  width: 100%;
+  margin-inline: 3vw;
   gap: 5vh 5vw;
-  flex-wrap: wrap;
-}
 
-.container {
-  transition: transform 5.5s;
+  flex-wrap: wrap;
 }
 
 /* Transition classes */

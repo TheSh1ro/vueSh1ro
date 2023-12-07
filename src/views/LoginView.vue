@@ -1,7 +1,6 @@
 <template>
   <main id="main">
     <div class="container" @keyup.enter="handleLoginSubmit">
-      <h5 style="color: red; text-align: center">[Qualquer usuário consegue entrar]</h5>
       <h2>Login</h2>
       <div class="row">
         <input class="input-text" ref="username" id="username" v-model="username" type="text" placeholder="Insira seu usuário" @input="restrictSpecialCharacters" />
@@ -107,6 +106,9 @@ export default {
 <style scoped>
 #main {
   display: grid;
+  align-items: center;
+  justify-content: center;
+
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -117,11 +119,10 @@ export default {
   display: flex;
   flex-direction: column;
 
-  min-width: fit-content;
-  width: 300px;
+  width: fit-content;
   height: fit-content;
 
-  margin: auto;
+  margin-inline: 5vw;
   padding: 30px;
   gap: 15px;
 
@@ -144,7 +145,6 @@ h2 {
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
-  gap: 50px;
 }
 .checkbox {
   display: flex;
