@@ -198,10 +198,10 @@ export default {
           console.error('Erro ao enviar para o backend:', error)
         })
         .finally(() => {
-          this.sentOrder = true
           console.log(dataToBackend)
           this.clearPurchaseStore()
         })
+      this.sentOrder = true
     }
   }
 }
@@ -286,9 +286,7 @@ export default {
 }
 
 .confirmedSent .button:hover {
-  border-color: rgb(25, 231, 148);
-  background-color: black;
-  width: 12rem;
+  box-shadow: 0px 0px 10px rgb(25, 231, 148);
 }
 
 @media (max-width: 768px) {

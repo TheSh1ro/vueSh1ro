@@ -85,8 +85,6 @@ export default {
         this.$refs[fieldName].classList.add('invalid-field')
       }
     }
-
-    // ... restante do código ...
   },
   watch: {
     refer_code(newValue) {
