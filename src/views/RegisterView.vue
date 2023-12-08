@@ -125,13 +125,14 @@ export default {
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   width: fit-content;
   height: fit-content;
 
   margin-inline: 5vw;
   padding: 30px;
-  gap: 12px;
+  gap: 15px;
 
   border-radius: 15px;
   border: 1px solid white;
