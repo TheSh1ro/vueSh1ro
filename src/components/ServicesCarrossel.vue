@@ -1,7 +1,7 @@
 <template>
   <section id="services" ref="servicesContainer" @wheel="handleMouseWheel">
     <template v-for="service in services" :key="service">
-      <RouterLink :to="service.route" class="service" @click="handleClickedService">
+      <RouterLink :to="service.isactive ? service.route : '/'" class="service" @click="handleClickedService">
         <img :src="service.image" alt="" />
         <div>
           <h4>{{ service.subtitle }}</h4>
@@ -42,12 +42,11 @@ export default {
   computed: {},
   methods: {
     handleMouseWheel(event) {
-      console.log(window.innerWidth)
       if (window.innerWidth > 1160) return
 
       const container = this.$refs.servicesContainer
 
-      const scrollAmount = 224 // Ajuste conforme necessário
+      const scrollAmount = 75 // Ajuste conforme necessário
 
       event.preventDefault()
 
@@ -168,7 +167,6 @@ export default {
 #services {
   scrollbar-width: thin;
   scrollbar-color: cyan rgb(25, 25, 40);
-  scroll-behavior: smooth;
 }
 
 @media (max-width: 1160px) {

@@ -1,10 +1,10 @@
 <template>
-  <section id="banner">
+  <section id="banner" ref="banner">
     <img src="/assets/giphy.gif" alt="" class="hidden" />
     <div>
       <h1>SUBA DE ELO E FAÇA PARTE DOS 0.1% MELHORES JOGADORES</h1>
       <p>Ajudamos você a subir de ELO, garantir recompensas de temporada e deixar os jogadores que estragam as suas partidas para trás.</p>
-      <button @click="scrollToServices()">Nossos serviços</button>
+      <button @click="scrollTest()">Nossos serviços</button>
     </div>
   </section>
 </template>
@@ -20,6 +20,13 @@ export default {
     scrollToServices() {
       document.getElementById('services').scrollIntoView({
         behavior: 'smooth'
+      })
+    },
+    scrollTest() {
+      const bannerHeight = this.$refs.banner.clientHeight
+
+      window.scroll({
+        top: bannerHeight
       })
     }
   }

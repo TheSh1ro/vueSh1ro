@@ -31,6 +31,6 @@ main {
   grid-template-columns: 1fr;
   grid-template-rows: calc(100vh - 60px - 15px) 1fr;
 
-  padding-bottom: 20vh;
+  padding-bottom: 27vh;
 }
 </style>

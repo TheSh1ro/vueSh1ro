@@ -142,6 +142,7 @@ export default {
         }, 0)
       }
     },
+    
 
     showLeagues(elo, eloIndex, leagueIndex) {
       // Salva o estado do seletor clicado
