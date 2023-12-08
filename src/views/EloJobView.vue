@@ -151,6 +151,7 @@ export default {
         this.$router.push({ path: '/payment', query: { service: service } })
       } else {
         this.$router.push({ path: '/login', query: { previousPath: currentPath } })
+        this.$scrollToTop()
       }
     }
   }

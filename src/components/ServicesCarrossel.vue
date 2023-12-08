@@ -21,10 +21,18 @@ export default {
   data() {
     return {
       services: [
-        { title: 'EloJob', subtitle: 'Suba de elo', description: 'Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra', image: '/assets/challenger.png', route: '/elojob', buttonText: 'Escolher', isActive: true },
+        {
+          title: 'EloJob',
+          subtitle: 'Melhore seu elo',
+          description: 'Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra',
+          image: '/assets/challenger.png',
+          route: '/elojob',
+          buttonText: 'Escolher',
+          isActive: true
+        },
         { title: 'DuoJob', subtitle: 'Aprenda jogando', description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters', image: '/assets/challenger.png', route: '/duojob', buttonText: 'Escolher', isActive: true },
-        { title: 'MD5', subtitle: 'Comece bem', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/challenger.png', route: '/md5', buttonText: 'Escolher', isActive: false },
-        { title: 'Shiro Tips', subtitle: 'Estude o jogo', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/challenger.png', route: '/tips', buttonText: 'Escolher', isActive: false }
+        { title: 'MD5', subtitle: 'Tenha um bom início', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/challenger.png', route: '/md5', buttonText: 'Escolher', isActive: false },
+        { title: 'Shiro Tips', subtitle: 'Estude o jogo conosco', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/challenger.png', route: '/tips', buttonText: 'Escolher', isActive: false }
       ]
     }
   },
@@ -43,6 +51,9 @@ export default {
 #services {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  overflow-x: scroll;
+
   gap: 2vw;
   margin-inline: 2vw;
 }
@@ -56,44 +67,56 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 40px;
 
-  border: 2px solid var(--blue);
-  border-radius: 25px;
+  border-radius: 20px;
+  border: 2px solid cyan;
+  background-color: rgb(25, 25, 40);
+  transition: background-color 0.2s;
+}
+
+.service:hover {
+  background-color: transparent;
+  box-shadow: 0px 0px 25px cyan;
+}
+
+.service:hover button {
+  background-color: transparent;
+  color: cyan;
+  border-color: cyan;
 }
 
 .service img {
-  width: 120px;
+  margin-top: 10px;
+  width: 100px;
 }
 
 .service div {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  margin-block: 15px 60px;
 }
 
 .service h4 {
-  color: orange;
+  color: cyan;
 }
 
 .service h2 {
   color: white;
-  margin-top: 3px;
 }
 
 .service p {
-  color: var(--blue);
-  margin-top: 20px;
+  color: whitesmoke;
+  margin-top: 10px;
 }
 
 .service button {
   width: 100%;
-  border: none;
-  background-color: var(--blue);
+  border: 2px solid cyan;
+  border-radius: 18px;
+  background-color: cyan;
   color: black;
-  padding-block: 8px;
-}
-
-.service button:hover {
+  padding-block: 12px;
 }
 </style>
