@@ -102,8 +102,8 @@ export default {
   width: fit-content;
   justify-self: center;
 
-  width: calc(100% - 50px);
-  gap: 20px;
+  width: calc(85% - 50px);
+  gap: 30px;
   padding: 10px;
 
   scroll-snap-type: x mandatory;
@@ -112,8 +112,9 @@ export default {
 
 .service {
   padding: 25px;
-  min-width: 200px;
-  max-width: 240px;
+  min-width: 240px;
+  max-width: 14vw;
+  min-height: 380px;
 
   display: flex;
   justify-content: space-between;
