@@ -1,5 +1,5 @@
 <template>
-  <section id="services">
+  <section id="services" ref="servicesContainer" @wheel="handleMouseWheel">
     <template v-for="service in services" :key="service">
       <RouterLink :to="service.route" class="service" @click="handleClickedService">
         <img :src="service.image" alt="" />
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       services: [
+        { title: 'MD5', subtitle: 'Tenha um bom início', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/challenger.png', route: '/md5', buttonText: 'Escolher', isActive: false },
         {
           title: 'EloJob',
           subtitle: 'Melhore seu elo',
@@ -31,16 +32,34 @@ export default {
           isActive: true
         },
         { title: 'DuoJob', subtitle: 'Aprenda jogando', description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters', image: '/assets/challenger.png', route: '/duojob', buttonText: 'Escolher', isActive: true },
-        { title: 'MD5', subtitle: 'Tenha um bom início', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/challenger.png', route: '/md5', buttonText: 'Escolher', isActive: false },
         { title: 'Shiro Tips', subtitle: 'Estude o jogo conosco', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/challenger.png', route: '/tips', buttonText: 'Escolher', isActive: false }
       ]
     }
   },
-  created() {},
+  mounted() {
+    this.centerScroll()
+  },
   computed: {},
   methods: {
+    handleMouseWheel(event) {
+      const container = this.$refs.servicesContainer
+
+      const scrollAmount = 224 // Ajuste conforme necessário
+
+      event.preventDefault()
+
+      container.scrollLeft += event.deltaY > 0 ? scrollAmount : -scrollAmount
+    },
     handleClickedService() {
       this.$scrollToTop()
+    },
+    centerScroll() {
+      const container = this.$refs.servicesContainer
+      const containerWidth = container.offsetWidth
+      const servicesWidth = container.scrollWidth
+
+      // Define o valor de scroll para o meio do contêiner
+      container.scrollLeft = (servicesWidth - containerWidth) / 2
     }
   },
   components: { RouterLink }
@@ -49,34 +68,42 @@ export default {
 
 <style scoped>
 #services {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  overflow-x: scroll;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: fit-content;
+  justify-self: center;
 
-  gap: 2vw;
-  margin-inline: 2vw;
+  width: calc(100% - 50px);
+  gap: 30px;
+  padding: 10px;
+
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
 }
 
 .service {
-  min-width: 200px;
   padding: 25px;
+  min-width: 200px;
+  max-width: 240px;
 
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  text-align: center;
 
-  border-radius: 20px;
+  text-align: center;
   border: 2px solid cyan;
   background-color: rgb(25, 25, 40);
-  transition: background-color 0.2s;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  border-radius: 10px;
 }
 
 .service:hover {
   background-color: transparent;
-  box-shadow: 0px 0px 25px cyan;
+  box-shadow: 0px 0px 15px cyan;
 }
 
 .service:hover button {
@@ -114,9 +141,36 @@ export default {
 .service button {
   width: 100%;
   border: 2px solid cyan;
-  border-radius: 18px;
   background-color: cyan;
   color: black;
   padding-block: 12px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  border-radius: 10px;
+}
+
+#services::-webkit-scrollbar {
+  width: 10px; /* largura da barra de rolagem */
+  height: 5px; /* largura da barra de rolagem */
+}
+
+#services::-webkit-scrollbar-thumb {
+  background-color: cyan; /* cor do polegar (barra de rolagem móvel) */
+  border-radius: 10px; /* borda do polegar */
+}
+
+/* Para navegadores Firefox */
+#services {
+  scrollbar-width: thin;
+  scrollbar-color: cyan rgb(25, 25, 40);
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 1160px) {
+  #services::-webkit-scrollbar-track {
+    background-color: rgb(25, 25, 40); /* cor da trilha da barra de rolagem */
+  }
 }
 </style>

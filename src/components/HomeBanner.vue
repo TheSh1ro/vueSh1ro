@@ -54,7 +54,7 @@ button {
   min-width: 12rem;
   width: 50%;
   padding: 18px;
-  border-radius: 25px;
+  border-radius: 10px;
   border: 2px solid cyan;
   transition: box-shadow 0.2s;
   color: whitesmoke;
