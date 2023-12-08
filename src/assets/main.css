@@ -6,6 +6,10 @@
   list-style-type: none;
 }
 
+:root {
+  --blue: rgb(0, 180, 255);
+}
+
 html {
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Linear+B&display=swap');
   font-family: 'Noto Sans Linear B', sans-serif;

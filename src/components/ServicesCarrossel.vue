@@ -21,10 +21,10 @@ export default {
   data() {
     return {
       services: [
-        { title: 'EloJob', subtitle: 'Suba de elo', description: 'Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra', image: '/assets/star.png', route: '/elojob', buttonText: 'Escolher', isActive: true },
-        { title: 'MD5', subtitle: 'Comece bem', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/star.png', route: '/md5', buttonText: 'Escolher', isActive: false },
-        { title: 'DuoJob', subtitle: 'Aprenda jogando', description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters', image: '/assets/star.png', route: '/duojob', buttonText: 'Escolher', isActive: true },
-        { title: 'Shiro Tips', subtitle: 'Estude o jogo', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/star.png', route: '/tips', buttonText: 'Escolher', isActive: false }
+        { title: 'EloJob', subtitle: 'Suba de elo', description: 'Serviço mais rápido, jogaremos na sua conta subindo seu elo de acordo com a sua compra', image: '/assets/challenger.png', route: '/elojob', buttonText: 'Escolher', isActive: true },
+        { title: 'DuoJob', subtitle: 'Aprenda jogando', description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters', image: '/assets/challenger.png', route: '/duojob', buttonText: 'Escolher', isActive: true },
+        { title: 'MD5', subtitle: 'Comece bem', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/challenger.png', route: '/md5', buttonText: 'Escolher', isActive: false },
+        { title: 'Shiro Tips', subtitle: 'Estude o jogo', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/challenger.png', route: '/tips', buttonText: 'Escolher', isActive: false }
       ]
     }
   },
@@ -43,65 +43,33 @@ export default {
 #services {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  width: fit-content;
-  justify-self: center;
-
-  width: 80vw;
-  gap: 30px;
-  padding-top: 10vh;
-  margin-bottom: 30vh;
-
-  flex-wrap: nowrap;
-  scroll-snap-type: x mandatory;
-  overflow-x: auto;
+  gap: 2vw;
+  margin-inline: 2vw;
 }
 
 .service {
-  background-color: rgb(30, 30, 45);
-  border: 2px solid orange;
+  min-width: 200px;
+  padding: 25px;
 
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: 40px;
 
-  min-width: 260px;
-  width: 260px;
-  height: 400px;
-  border-radius: 20px;
-  padding: 40px 35px;
-
-  transition:
-    background-color 0.3s,
-    box-shadow 0.3s,
-    opacity 1s ease;
-  cursor: pointer;
+  border: 2px solid var(--blue);
+  border-radius: 25px;
 }
 
-.service:hover {
-  box-shadow: 0px 0px 20px 0px orange;
-  background-color: transparent;
-}
-
-.service:hover button {
-  color: orange;
-  background-color: transparent;
+.service img {
+  width: 120px;
 }
 
 .service div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-
-  gap: 5px;
-}
-
-.service img {
-  width: 7rem;
-  height: 7rem;
-  filter: hue-rotate(200deg);
 }
 
 .service h4 {
@@ -110,25 +78,22 @@ export default {
 
 .service h2 {
   color: white;
+  margin-top: 3px;
 }
 
 .service p {
+  color: var(--blue);
   margin-top: 20px;
-  color: rgb(185, 255, 255);
-  text-align: center;
 }
 
 .service button {
-  background-color: orange;
-  color: black;
   width: 100%;
-  height: fit-content;
-  padding: 12px;
-  border: 1px solid orange;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 1rem;
-  justify-self: end;
+  border: none;
+  background-color: var(--blue);
+  color: black;
+  padding-block: 8px;
+}
+
+.service button:hover {
 }
 </style>

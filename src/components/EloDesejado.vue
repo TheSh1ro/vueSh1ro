@@ -264,7 +264,7 @@ main {
   display: flex;
   align-items: center;
   flex-grow: 1;
-  gap: 5px;
+  gap: 8px;
   cursor: pointer;
   border: 1px solid transparent;
 }

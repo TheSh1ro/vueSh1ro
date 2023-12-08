@@ -132,7 +132,6 @@ input {
   border: none;
   color: white;
   width: 250px;
-  font-size: 1.1rem;
   padding: 10px;
   background-color: transparent;
   color: yellow;

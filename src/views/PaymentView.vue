@@ -222,7 +222,6 @@ export default {
 .confirmedSent h1 {
   color: rgb(25, 231, 148);
   text-align: center;
-  font-size: 2rem;
 }
 .confirmedSent img {
   height: 150px;

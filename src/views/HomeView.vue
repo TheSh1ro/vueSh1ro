@@ -29,6 +29,8 @@ main {
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 80vh 1fr;
+  grid-template-rows: calc(100vh - 60px - 15px) 1fr;
+
+  padding-bottom: 20vh;
 }
 </style>

@@ -151,7 +151,6 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
   gap: 50px;
 }
 .checkbox {
@@ -196,7 +195,6 @@ button {
 
 .router {
   cursor: pointer;
-  font-size: 14px;
   text-align: center;
 }
 
