@@ -42,6 +42,9 @@ export default {
   computed: {},
   methods: {
     handleMouseWheel(event) {
+      console.log(window.innerWidth)
+      if (window.innerWidth > 1160) return
+
       const container = this.$refs.servicesContainer
 
       const scrollAmount = 224 // Ajuste conforme necessário
