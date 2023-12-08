@@ -1,7 +1,7 @@
 <template>
   <section id="services" ref="servicesContainer" @wheel="handleMouseWheel">
     <template v-for="service in services" :key="service">
-      <RouterLink :to="service.isactive ? service.route : '/'" class="service" @click="handleClickedService">
+      <RouterLink :to="service.isActive ? service.route : '/'" class="service" @click="handleClickedService">
         <img :src="service.image" alt="" />
         <div>
           <h4>{{ service.subtitle }}</h4>

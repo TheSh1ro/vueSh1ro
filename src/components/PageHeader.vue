@@ -13,7 +13,7 @@
         </div>
       </section>
       <section ref="dropdown" class="dropdown" v-if="showDropdown">
-        <RouterLink to="/account" class="dropdown-item" @click="hideDropdown">Minha conta</RouterLink>
+        <!-- <RouterLink to="/account" class="dropdown-item" @click="hideDropdown">Minha conta</RouterLink> -->
         <span class="dropdown-item" @click="hideDropdown">Dashboard</span>
         <span class="dropdown-item" @click="handleLogout(), hideDropdown()">Desconectar</span>
       </section>

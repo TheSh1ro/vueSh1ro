@@ -12,10 +12,6 @@
         <img class="input-icon input-eye" :style="{ right: inputSpace }" src="/assets/visual.png" alt="Botão de mostrar senha" @click="togglePasswordVisibility" />
       </div>
       <div class="others-row">
-        <div class="checkbox">
-          <input id="remember" v-model="rememberPassword" type="checkbox" />
-          <label for="remember">Lembrar senha</label>
-        </div>
         <p>Esqueci a senha</p>
       </div>
       <button @click="handleLoginSubmit">Entrar</button>
@@ -118,6 +114,7 @@ export default {
 
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   width: fit-content;
   height: fit-content;
@@ -140,23 +137,14 @@ h2 {
   align-items: center;
   position: relative;
 }
-.others-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.checkbox {
-  display: flex;
-  align-items: center;
-}
-.checkbox > * {
-  cursor: pointer;
-}
+
 label {
   padding-left: 8px;
 }
-.others-row > p {
+p {
   cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 .input-text,
@@ -188,6 +176,7 @@ button {
 .router {
   cursor: pointer;
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .container p:hover,
@@ -201,6 +190,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  width: 100%;
 }
 
 button:hover {

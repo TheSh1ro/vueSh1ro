@@ -2,7 +2,16 @@
   <main id="main">
     <TransitionGroup name="list">
       <EloAtual key="elo-atual" ref="EloAtual" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" />
-      <EloDesejado key="elo-desejado" ref="EloDesejado" :selectElo="handleSelectElo" :currentElo="selectedElo.current" :targetElo="selectedElo.target" @eloClicked="handleEloClicked" v-if="selectedElo.current.name" />
+      <EloDesejado
+        key="elo-desejado"
+        ref="EloDesejado"
+        :selectElo="handleSelectElo"
+        :currentElo="selectedElo.current"
+        :targetElo="selectedElo.target"
+        :scrollToFooterTop="scrollToFooterTop"
+        @eloClicked="handleEloClicked"
+        v-if="selectedElo.current.name"
+      />
       <FilaDesejada
         key="fila"
         class="fila"
@@ -28,6 +37,10 @@ export default {
   components: { EloAtual, EloDesejado, FilaDesejada },
   data() {
     return {
+      hasScrolled: false, // Scrollar apenas uma vez para seleção de fila
+      windowInnerHeight: window.innerHeight,
+      appHeight: document.getElementById('app').clientHeight,
+
       priceList: [
         { name: 'Ferro', value: 10, deadline: 2, isHigh: false },
         { name: 'Bronze', value: 10, deadline: 2, isHigh: false },
@@ -48,6 +61,13 @@ export default {
     }
   },
   computed: {
+    footerHeight() {
+      return document.getElementById('footer').clientHeight
+    },
+    footerTop() {
+      return this.appHeight - this.clientHeight - this.footerHeight
+    },
+
     serviceData() {
       const start = {
         elo: this.selectedElo.current.eloIndex,
@@ -91,6 +111,7 @@ export default {
       return { price: totalPrice, time: totalDays }
     }
   },
+
   created() {
     const purchaseStore = usePurchaseStore()
 
@@ -99,6 +120,17 @@ export default {
       this.selectedElo.target = purchaseStore.purchase.targetElo
       this.selectedQueue = purchaseStore.purchase.queue
     }
+  },
+  mounted() {
+    // Adiciona um ouvinte de redimensionamento da janela
+    window.addEventListener('resize', this.updateWindowInnerHeight)
+    window.addEventListener('resize', this.updateAppHeight)
+    if (usePurchaseStore().purchase) this.scrollToFooterTop()
+  },
+  beforeUnmount() {
+    // Remove o ouvinte de redimensionamento ao destruir o componente
+    window.removeEventListener('resize', this.updateWindowInnerHeight)
+    window.removeEventListener('resize', this.updateAppHeight)
   },
   methods: {
     handleEloClicked() {
@@ -149,9 +181,31 @@ export default {
 
       if (authStore.isAuthenticated) {
         this.$router.push({ path: '/payment', query: { service: service } })
+        this.$scrollToTop()
       } else {
         this.$router.push({ path: '/login', query: { previousPath: currentPath } })
         this.$scrollToTop()
+      }
+    },
+
+    updateWindowInnerHeight() {
+      this.windowInnerHeight = window.innerHeight
+    },
+    updateAppHeight() {
+      this.appHeight = document.getElementById('app').clientHeight
+    },
+    scrollToFooterTop() {
+      if (this.hasScrolled) {
+        return
+      } else {
+        this.hasScrolled = true
+      }
+
+      if (window.innerWidth < 1140) {
+        setTimeout(() => {
+          this.updateAppHeight()
+          window.scrollTo(0, this.appHeight - this.windowInnerHeight - this.footerHeight)
+        }, 0)
       }
     }
   }
@@ -163,6 +217,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   display: grid;
   grid-template-columns: repeat(3, 300px);
+  grid-template-rows: calc(100vh - 90px);
   justify-content: center;
   padding-top: 20px;
   padding-inline: 2vw;
@@ -173,7 +228,8 @@ export default {
   #main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: calc(100vh - 100px) 1fr;
+    grid-template-rows: calc(100vh - 80px) 1fr;
+    padding-top: 10px;
   }
 
   .fila {

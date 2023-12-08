@@ -131,7 +131,7 @@ export default {
 
   margin-inline: 5vw;
   padding: 30px;
-  gap: 15px;
+  gap: 12px;
 
   border-radius: 15px;
   border: 1px solid white;
@@ -146,25 +146,6 @@ h2 {
   display: flex;
   align-items: center;
   position: relative;
-}
-.others-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 50px;
-}
-.checkbox {
-  display: flex;
-  align-items: center;
-}
-.checkbox > * {
-  cursor: pointer;
-}
-label {
-  padding-left: 8px;
-}
-.others-row > p {
-  cursor: pointer;
 }
 
 .input-text,
@@ -196,6 +177,7 @@ button {
 .router {
   cursor: pointer;
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .container p:hover,

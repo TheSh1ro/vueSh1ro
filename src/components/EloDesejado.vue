@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  props: ['selectElo', 'currentElo', 'targetElo'],
+  props: ['selectElo', 'currentElo', 'targetElo', 'scrollToFooterTop'],
   data() {
     return {
       eloList: [
@@ -103,47 +103,10 @@ export default {
           visibleLeagues: false
         }
       ],
-      newSelectedElo: [],
-      windowInnerHeight: window.innerHeight,
-      appHeight: document.getElementById('app').clientHeight
-    }
-  },
-  mounted() {
-    // Adiciona um ouvinte de redimensionamento da janela
-    window.addEventListener('resize', this.updateWindowInnerHeight)
-    window.addEventListener('resize', this.updateAppHeight)
-  },
-  beforeUnmount() {
-    // Remove o ouvinte de redimensionamento ao destruir o componente
-    window.removeEventListener('resize', this.updateWindowInnerHeight)
-    window.removeEventListener('resize', this.updateAppHeight)
-  },
-  computed: {
-    footerHeight() {
-      return document.getElementById('footer').clientHeight
-    },
-    footerTop() {
-      return this.appHeight - this.clientHeight - this.footerHeight
+      newSelectedElo: []
     }
   },
   methods: {
-    updateWindowInnerHeight() {
-      this.windowInnerHeight = window.innerHeight
-    },
-    updateAppHeight() {
-      this.appHeight = document.getElementById('app').clientHeight
-    },
-
-    scrollToFooterTop() {
-      if (window.innerWidth < 1140) {
-        setTimeout(() => {
-          this.updateAppHeight()
-          window.scrollTo(0, this.appHeight - this.windowInnerHeight - this.footerHeight)
-        }, 0)
-      }
-    },
-    
-
     showLeagues(elo, eloIndex, leagueIndex) {
       // Salva o estado do seletor clicado
       const eloState = elo.visibleLeagues

@@ -8,7 +8,6 @@ import router from './router'
 
 const app = createApp(App)
 
-
 // Adicione um método global para fazer scroll para o topo
 app.config.globalProperties.$scrollToTop = () => {
   window.scrollTo(0, 0)
