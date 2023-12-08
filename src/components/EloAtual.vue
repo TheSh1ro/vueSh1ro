@@ -160,6 +160,8 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
 .column {
@@ -167,6 +169,7 @@ main {
   grid-template-rows: repeat(11, 1fr);
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .row {
@@ -177,6 +180,7 @@ main {
   height: 100%;
 }
 
+/* Styles for elo and leagues */
 .elo {
   display: flex;
   align-items: center;
@@ -205,6 +209,7 @@ main {
   background-color: rgba(0, 100, 100, 0.5);
 }
 
+/* Styles for images and titles */
 img {
   height: 2rem;
   margin-left: 5px;

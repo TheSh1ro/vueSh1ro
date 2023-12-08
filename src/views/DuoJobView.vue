@@ -180,8 +180,10 @@ export default {
 
       if (authStore.isAuthenticated) {
         this.$router.push({ path: '/payment', query: { service: service } })
+        this.$scrollToTop()
       } else {
         this.$router.push({ path: '/login', query: { previousPath: currentPath } })
+        this.$scrollToTop()
       }
     },
 
@@ -225,7 +227,8 @@ export default {
   #main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: calc(100vh - 100px) 1fr;
+    grid-template-rows: calc(100vh - 80px) 1fr;
+    padding-top: 10px;
   }
 
   .fila {

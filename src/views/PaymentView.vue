@@ -17,8 +17,11 @@
     </div>
     <Transition name="status">
       <div class="confirmedSent" v-if="sentOrder" key="confirmed">
-        <h1>Sua compra foi realizada com sucesso!</h1>
-        <img src="/assets/checkmark.png" alt="Imagem de OK" />
+        <div class="text">
+          <h1>Sua compra foi realizada com sucesso!</h1>
+          <img src="/assets/checkmark.png" alt="Imagem de OK" />
+        </div>
+        <RouterLink to="/" class="button">Voltar para o início</RouterLink>
       </div>
     </Transition>
   </main>
@@ -82,6 +85,14 @@ export default {
         this.goToPreviousPage()
       }
     }
+    // sentOrder(newSentOrder) {
+    //   console.log('oi')
+    //   if (newSentOrder === true) {
+    //     setTimeout(() => {
+    //       this.$router.push('/')
+    //     }, 10000)
+    //   }
+    // }
   },
 
   created() {
@@ -185,7 +196,7 @@ export default {
   margin: auto;
   flex-wrap: wrap;
 
-  gap: 30px;
+  gap: 30px 90px;
 
   flex-grow: 1;
 }
@@ -212,6 +223,14 @@ export default {
 
 .confirmedSent {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  justify-self: center;
+}
+.confirmedSent .text {
+  display: flex;
   justify-content: center;
   justify-self: center;
   align-self: center;
@@ -225,6 +244,29 @@ export default {
   text-align: center;
 }
 .confirmedSent img {
-  height: 150px;
+  width: 10vw;
+}
+.confirmedSent .button {
+  padding: 18px;
+  background-color: transparent;
+  border: 3px solid rgb(25, 231, 148);
+  color: rgb(25, 231, 148);
+  width: 50%;
+  text-align: center;
+  border-radius: 15px;
+
+  transition: width 0.2s;
+}
+
+.confirmedSent .button:hover {
+  border-color: rgb(25, 231, 148);
+  background-color: black;
+  width: 12rem;
+}
+
+@media (max-width: 768px) {
+  .confirmedSent h1 {
+    font-size: 1.5rem;
+  }
 }
 </style>

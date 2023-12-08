@@ -16,6 +16,7 @@
 
 <script>
 import { RouterLink } from 'vue-router'
+import { usePurchaseStore } from '../stores/store.js'
 
 export default {
   data() {
@@ -54,6 +55,7 @@ export default {
     },
     handleClickedService() {
       this.$scrollToTop()
+      usePurchaseStore().clearPurchase()
     },
     centerScroll() {
       const container = this.$refs.servicesContainer
@@ -72,11 +74,12 @@ export default {
 #services {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
   width: fit-content;
   justify-self: center;
 
   width: calc(100% - 50px);
-  gap: 30px;
+  gap: 20px;
   padding: 10px;
 
   scroll-snap-type: x mandatory;

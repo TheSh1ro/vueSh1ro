@@ -109,14 +109,13 @@ export default {
       if (window.innerWidth > 745) return
 
       const formHeight = this.$refs.serviceAbout.clientHeight
-      console.log(formHeight)
 
       setTimeout(() => {
         window.scroll({
           top: formHeight + 90,
           behavior: 'smooth'
         })
-      }, 200)
+      }, 100)
     }
   }
 }

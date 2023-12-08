@@ -3,7 +3,7 @@
     <div class="content">
       <RouterLink to="/" class="logo">
         <img src="/assets/riven.png" alt="" />
-        <h1>ShiroJobs</h1>
+        <h1 class="hiddenName">ShiroJobs</h1>
       </RouterLink>
       <section class="user">
         <!-- <RouterLink to="/register" class="user-item" v-if="!isAuthenticated">Criar conta</RouterLink> -->
@@ -139,5 +139,11 @@ header {
 .dropdown-item:hover {
   background-color: rgba(95, 194, 230, 0.3);
   color: white;
+}
+
+@media (max-width: 300px) {
+  .hiddenName {
+    display: none;
+  }
 }
 </style>

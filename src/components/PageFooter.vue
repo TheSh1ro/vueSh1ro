@@ -21,7 +21,7 @@
     </ul>
     <ul class="hideItem">
       <h2 class="title">Contato</h2>
-      <a class="item" href="https://whatsa.me/5547999999999/?t=Ol%C3%A1,%20gostaria%20de%20pedir%20um%20ELOJOB%20na%20ShiroJobs" target="blank">Wathsapp</a>
+      <a class="item" href="https://whatsa.me/5547984940663/?t=Ol%C3%A1,%20gostaria%20de%20pedir%20um%20elojob%20na%20ShiroJobs" target="blank">Wathsapp</a>
       <a class="item" href="mailto:gabrielmonteiro1111@gmail.com">E-mail</a>
       <RouterLink class="item" to="/">Chat</RouterLink>
     </ul>
@@ -91,9 +91,6 @@ p {
 
 @media (max-width: 768px) {
   #footer {
-    display: flex;
-  }
-  .hideItem {
     display: none;
   }
 }
