@@ -214,7 +214,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 15px;
+  padding-left: 5px;
 }
 
 .selected,
