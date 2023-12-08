@@ -1,7 +1,7 @@
 <template>
   <main>
-    <div class="container">
-      <template v-for="service in services.results" :key="service" v-if="services">
+    <div class="container" v-if="services">
+      <template v-for="service in services.results" :key="service">
         <div class="card">
           <header>
             <div>
@@ -20,8 +20,13 @@
             </div>
           </body>
           <footer>
+            <div class="footer-time">
+              <h5>{{ service.time }} dias</h5>
+            </div>
             <div class="footer-user">
-              {{ service.riot_id + service.riot_tag }}
+              <h5>
+                {{ service.riot_id + service.riot_tag }}
+              </h5>
             </div>
           </footer>
         </div>
@@ -43,7 +48,7 @@ export default {
   },
   mounted() {
     axios
-      .get('http://192.168.0.95:19003/servico/')
+      .get('http://0.0.0.0:19003/servico/')
       .then((response) => {
         this.services = response.data
       })
@@ -132,7 +137,8 @@ body {
   flex-grow: 1;
 
   border-right: 1px solid white;
-  padding: 20px;
+  height: 100%;
+  padding-block: 20px;
 }
 body h4 {
   margin-bottom: 15px;
@@ -142,12 +148,35 @@ body p {
 }
 
 footer {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 50px;
+  align-items: center;
+  height: fit-content;
+}
+
+.footer-time {
   display: flex;
-  padding: 8px;
-  font-weight: bold;
   justify-content: center;
+  align-items: center;
+
   border-inline: 1px solid white;
   border-top: 1px solid white;
+  height: 100%;
+  width: 100%;
+  color: blueviolet;
+}
+.footer-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 5px;
+  flex-grow: 1;
+  height: 100%;
+
+  border-top: 1px solid white;
+  border-right: 1px solid white;
   color: yellow;
 }
 </style>
