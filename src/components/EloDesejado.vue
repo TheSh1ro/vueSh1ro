@@ -329,10 +329,4 @@ img {
     transform: translateX(5px);
   }
 }
-
-@media (max-width: 400px) {
-  .title {
-    font-size: 6.7vw;
-  }
-}
 </style>

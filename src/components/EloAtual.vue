@@ -222,10 +222,4 @@ img {
   background-color: rgba(0, 100, 100, 0.5);
   border: 1px solid rgba(0, 100, 100, 1);
 }
-
-@media (max-width: 400px) {
-  .title {
-    font-size: 6.7vw;
-  }
-}
 </style>
