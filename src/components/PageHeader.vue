@@ -14,7 +14,7 @@
       </section>
       <section ref="dropdown" class="dropdown" v-if="showDropdown">
         <!-- <RouterLink to="/account" class="dropdown-item" @click="hideDropdown">Minha conta</RouterLink> -->
-        <span class="dropdown-item" @click="hideDropdown">Dashboard</span>
+        <RouterLink to="/dashboard" class="dropdown-item" @click="hideDropdown">Dashboard</RouterLink>
         <span class="dropdown-item" @click="handleLogout(), hideDropdown()">Desconectar</span>
       </section>
     </div>

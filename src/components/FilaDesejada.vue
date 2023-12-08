@@ -78,12 +78,12 @@ export default {
         switch (type) {
           case 'solo':
             if (this.isBlocked) return
-            this.selectQueue(queue)
+            this.selectQueue(queue, 1)
 
             break
 
           case 'flex':
-            this.selectQueue(queue)
+            this.selectQueue(queue, 2)
             break
         }
       }

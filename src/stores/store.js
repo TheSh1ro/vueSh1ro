@@ -20,7 +20,10 @@ export const useAuthStore = defineStore('auth', {
 
 export const usePurchaseStore = defineStore('purchase', {
   state: () => ({
-    purchase: null
+    purchase: null,
+
+    serviceId: null,
+    queueId: null
   }),
   actions: {
     keepPurchase(service, queue, currentElo, targetElo, price, days) {
@@ -33,9 +36,14 @@ export const usePurchaseStore = defineStore('purchase', {
         time: days
       }
     },
+    submitServiceId(id) {
+      this.serviceId = id
+    },
+    submitQueueId(id) {
+      this.queueId = id
+    },
     clearPurchase() {
       this.purchase = null
-      this.isStored = false
     }
   }
 })

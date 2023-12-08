@@ -57,7 +57,8 @@ export default {
         current: {},
         target: {}
       },
-      selectedQueue: null
+      selectedQueue: null,
+      selectedQueueId: null
     }
   },
   computed: {
@@ -160,8 +161,9 @@ export default {
       this.selectedQueue = null
     },
 
-    handleSelectQueue(queue) {
+    handleSelectQueue(queue, queueId) {
       this.selectedQueue = queue
+      this.selectedQueueId = queueId
     },
 
     handleConfirm() {
@@ -171,12 +173,15 @@ export default {
 
       const service = this.$route.name
       const queue = this.selectedQueue
+      const queueId = this.selectedQueueId
       const currentElo = this.selectedElo.current
       const targetElo = this.selectedElo.target
       const price = this.serviceData.price
       const days = this.serviceData.time
 
       purchaseStore.keepPurchase(service, queue, currentElo, targetElo, price, days)
+      purchaseStore.submitQueueId(queueId)
+      purchaseStore.submitServiceId(2) // 2 = duojob
 
       if (authStore.isAuthenticated) {
         this.$router.push({ path: '/payment', query: { service: service } })

@@ -31,6 +31,7 @@
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 import ServiceAbout from '../components/ServiceAbout.vue'
 import ServiceForm from '../components/ServiceForm.vue'
+import axios from 'axios'
 
 export default {
   components: { ServiceAbout, ServiceForm },
@@ -45,7 +46,9 @@ export default {
 
       // Component data [from service view]
       service: null,
+      serviceId: null,
       queue: null,
+      queueId: null,
       currentElo: null,
       targetElo: null,
       price: null,
@@ -109,7 +112,9 @@ export default {
     } else {
       this.user = authStore.user
       this.service = purchaseStore.purchase.service
+      this.serviceId = purchaseStore.serviceId
       this.queue = purchaseStore.purchase.queue
+      this.queueId = purchaseStore.queueId
       this.currentElo = purchaseStore.purchase.currentElo
       this.targetElo = purchaseStore.purchase.targetElo
       this.price = purchaseStore.purchase.price
@@ -146,35 +151,57 @@ export default {
       // Handle confirm logic here
       const dataToBackend = {
         // Informações de elo
-        currentElo: this.currentEloName,
-        targetElo: this.targetEloName,
-
-        // Informações de login
+        current_elo: this.currentEloName,
+        current_elo_image: this.currentElo.image,
+        target_elo: this.targetEloName,
+        target_elo_image: this.targetElo.image,
+        description: this.description,
         riot_login: this.riot_login,
         riot_password: this.riot_password,
-
-        // Informações de valor / desconto
         refer_code: this.refer_code,
-        price: this.price,
         payment_method: this.selectedMethod.name,
-
-        // Informações de scouting
+        price: this.price,
         riot_id: this.riot_id,
         riot_tag: this.riot_tag,
+        time: this.time,
+        user: 1,
+        service: this.serviceId,
+        queue: this.queueId,
+        status: 1
 
-        // Informações de serviço / modo
-        service: this.service,
-        queue: this.queue,
-        description: this.description,
-        time: this.time
+        // BACKEND DATA
+        // "current_elo": "string",
+        // "target_elo": "string",
+        // "description": "string",
+        // "riot_login": "string",
+        // "riot_password": "string",
+        // "refer_code": "string",
+        // "payment_method": "string",
+        // "price": "-18462111.85",
+        // "riot_id": "string",
+        // "riot_tag": "string",
+        // "time": 0,
+        // "user": 0,
+        // "service": 0,
+        // "queue": 0,
+        // "status": 0
       }
 
-      console.log(dataToBackend)
-
-      this.sentOrder = true
-      this.clearPurchaseStore()
-
-      // TERMINAR A PARTE DO AXIOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      axios
+        .post('http://192.168.0.95:19003/servico/', dataToBackend)
+        .then((response) => {
+          // Lógica de sucesso
+          console.log('Resposta do backend:', response.data)
+        })
+        .catch((error) => {
+          // Lógica de erro
+          console.error('Erro ao enviar para o backend:', error)
+        })
+        .finally(() => {
+          this.sentOrder = true
+          console.log(dataToBackend)
+          this.clearPurchaseStore()
+        })
     }
   }
 }

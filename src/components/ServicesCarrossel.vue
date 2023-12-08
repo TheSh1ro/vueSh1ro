@@ -1,7 +1,7 @@
 <template>
   <section id="services" ref="servicesContainer" @wheel="handleMouseWheel">
     <template v-for="service in services" :key="service">
-      <RouterLink :to="service.isActive ? service.route : '/'" class="service" @click="handleClickedService">
+      <RouterLink :to="service.isActive ? service.route : '/'" class="service" @click="handleClickedService(id)">
         <img :src="service.image" alt="" />
         <div>
           <h4>{{ service.subtitle }}</h4>
@@ -22,7 +22,15 @@ export default {
   data() {
     return {
       services: [
-        { title: 'MD5', subtitle: 'Tenha um bom início', description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória', image: '/assets/challenger.png', route: '/md5', buttonText: 'Escolher', isActive: false },
+        {
+          title: 'MD5',
+          subtitle: 'Tenha um bom início',
+          description: 'Realizamos sua série de classificação MD5 garantindo ao menos de 60% de vitória',
+          image: '/assets/challenger.png',
+          route: '/md5',
+          buttonText: 'Escolher',
+          isActive: false
+        },
         {
           title: 'EloJob',
           subtitle: 'Melhore seu elo',
@@ -32,8 +40,24 @@ export default {
           buttonText: 'Escolher',
           isActive: true
         },
-        { title: 'DuoJob', subtitle: 'Aprenda jogando', description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters', image: '/assets/challenger.png', route: '/duojob', buttonText: 'Escolher', isActive: true },
-        { title: 'Shiro Tips', subtitle: 'Estude o jogo conosco', description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas', image: '/assets/challenger.png', route: '/tips', buttonText: 'Escolher', isActive: false }
+        {
+          title: 'DuoJob',
+          subtitle: 'Aprenda jogando',
+          description: 'Você sobe de elo enquanto joga e aprende com um dos nossos diversos boosters',
+          image: '/assets/challenger.png',
+          route: '/duojob',
+          buttonText: 'Escolher',
+          isActive: true
+        },
+        {
+          title: 'Shiro Tips',
+          subtitle: 'Estude o jogo conosco',
+          description: 'Tenha acesso ao nosso guia de altíssima qualidade sobre a fase de rotas',
+          image: '/assets/challenger.png',
+          route: '/tips',
+          buttonText: 'Escolher',
+          isActive: false
+        }
       ]
     }
   },
@@ -53,7 +77,7 @@ export default {
 
       container.scrollLeft += event.deltaY > 0 ? scrollAmount : -scrollAmount
     },
-    handleClickedService() {
+    handleClickedService(id) {
       this.$scrollToTop()
       usePurchaseStore().clearPurchase()
     },
