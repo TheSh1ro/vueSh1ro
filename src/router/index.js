@@ -8,6 +8,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import TipsView from '../views/TipsView.vue'
 import Md5View from '../views/Md5View.vue'
+import DashBoardView from '../views/DashBoardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/payment',
       name: 'Payment',
       component: PaymentView
+    },
+    {
+      path: '/dashboard',
+      name: 'DashBoard',
+      component: DashBoardView
     }
   ]
 })
