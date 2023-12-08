@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main ref="serviceAbout">
     <div class="form-block payment-block">
       <h2 class="block-title payment-title">Forma de pagamento</h2>
       <template v-for="method in paymentMethods" :key="method">
@@ -33,7 +33,7 @@
 
     <div class="form-block button-block">
       <button class="button" @click="handleCancel" :style="{ 'grid-column': visibleForm ? '1/3' : 'auto' }">Voltar</button>
-      <button class="button" @click="toggleVisibleForm(checkbox)" v-if="!visibleForm">Continuar</button>
+      <button class="button" @click="toggleVisibleForm(checkbox), scrollNext()" v-if="!visibleForm">Continuar</button>
     </div>
   </main>
 </template>
@@ -104,6 +104,19 @@ export default {
     handleCancel() {
       this.clearPurchaseStore() // Limpar todas as seleções de elo feitas
       this.goToPreviousPage() // Voltar para a página anterior (escolha de elo)
+    },
+    scrollNext() {
+      if (window.innerWidth > 745) return
+
+      const formHeight = this.$refs.serviceAbout.clientHeight
+      console.log(formHeight)
+
+      setTimeout(() => {
+        window.scroll({
+          top: formHeight + 90,
+          behavior: 'smooth'
+        })
+      }, 200)
     }
   }
 }
@@ -122,9 +135,9 @@ main {
   display: flex;
   flex-direction: column;
 
+  width: 290px;
   min-height: 420px;
-  max-width: 320px;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 20px;
 
   gap: 15px;

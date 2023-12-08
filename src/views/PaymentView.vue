@@ -171,22 +171,23 @@ export default {
 
 <style scoped>
 #main {
-  background-color: rgba(0, 0, 0, 0.8);
-
   display: grid;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 2vh 2vw 10vh 2vw;
 }
 
 .content {
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  margin-inline: 3vw;
-  gap: 5vh 5vw;
+  align-items: center;
+  justify-content: center;
 
+  width: fit-content;
+  margin: auto;
   flex-wrap: wrap;
+
+  gap: 30px;
+
+  flex-grow: 1;
 }
 
 /* Transition classes */

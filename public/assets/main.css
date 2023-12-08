@@ -10,7 +10,8 @@
   --blue: rgb(0, 180, 255);
 }
 
-html {
+html,
+body {
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Linear+B&display=swap');
   font-family: 'Noto Sans Linear B', sans-serif;
   scroll-behavior: smooth;
@@ -39,4 +40,10 @@ select:-webkit-autofill {
 
   background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_30.jpg);
   background-size: cover;
+}
+
+@media (max-width: 768px) {
+  main {
+    font-size: 14px;
+  }
 }

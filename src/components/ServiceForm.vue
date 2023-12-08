@@ -120,9 +120,9 @@ main {
   display: flex;
   flex-direction: column;
 
+  width: 290px;
   min-height: 420px;
-  max-width: 320px;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 20px 30px;
 
   gap: 15px;
