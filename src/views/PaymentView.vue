@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import OrderService from '@/services/order'
+
 import { useAuthStore, usePurchaseStore } from '../stores/store.js'
 import ServiceAbout from '../components/ServiceAbout.vue'
 import ServiceForm from '../components/ServiceForm.vue'
@@ -150,7 +152,7 @@ export default {
       this.sendToBackend()
     },
 
-    sendToBackend() {
+    async sendToBackend() {
       // Handle confirm logic here
       const dataToBackend = {
         // Informações de elo
@@ -190,21 +192,18 @@ export default {
         // "status": 0
       }
 
-      axios
-        .post('http://192.168.0.95:19003/servico/', dataToBackend)
-        .then((response) => {
-          // Lógica de sucesso
-          console.log('Resposta do backend:', response.data)
-        })
-        .catch((error) => {
-          // Lógica de erro
-          console.error('Erro ao enviar para o backend:', error)
-        })
-        .finally(() => {
-          console.log(dataToBackend)
-          this.clearPurchaseStore()
-        })
-      this.sentOrder = true
+      try {
+        const response = await OrderService.createOrder(dataToBackend)
+        // Lógica de sucesso
+        console.log('Resposta do backend:', response)
+        this.clearPurchaseStore()
+        this.sentOrder = true
+      } catch (error) {
+        // Lógica de erro
+        console.error('Erro ao enviar para o backend:', error)
+      } finally {
+        console.log(dataToBackend)
+      }
     }
   }
 }
