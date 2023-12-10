@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     isAuthenticated() {
-      return useAuthStore().isAuthenticated
+      return useAuthStore().loggedIn
     },
     username() {
       const authStore = useAuthStore()

@@ -3,7 +3,7 @@
     <div class="container" @keyup.enter="handleLoginSubmit">
       <h2>Login</h2>
       <div class="row">
-        <input class="input-text" ref="username" id="username" v-model="username" type="text" placeholder="Insira seu usuário" @input="restrictSpecialCharacters" />
+        <input class="input-text" ref="email" id="email" v-model="email" type="text" placeholder="Insira seu email" @input="restrictSpaceCharacter" />
         <img class="input-icon" :style="{ left: inputSpace }" src="/assets/people.png" alt="Imagem de login" />
       </div>
       <div class="row">
@@ -34,7 +34,7 @@ export default {
       rememberPassword: true,
 
       // login form data
-      username: null,
+      email: null,
       password: null
     }
   },
@@ -62,14 +62,12 @@ export default {
       this.resetFieldClasses()
       this.hasInvalidField = false
 
-      const username = this.username
+      const email = this.email
       const password = this.password
-      const email = 'usuarioteste@gmail.com'
-      const fullname = 'Garry A. Leeds'
 
-      if (!username || username.length < 5) {
+      if (!email || email.length < 5) {
         this.hasInvalidField = true
-        this.$refs.username.classList.add('invalid-field')
+        this.$refs.email.classList.add('invalid-field')
       }
 
       if (!password || password.length < 5) {
@@ -79,13 +77,21 @@ export default {
 
       if (this.hasInvalidField) return
 
-      authStore.login(username, password, email, fullname)
-
-      if (this.previousPath) {
-        this.$router.push(this.previousPath)
-      } else {
-        this.$router.push('/')
-      }
+      // Chame a ação de login da store com o nome de usuário e senha
+      authStore
+        .login({ email, password })
+        .then(() => {
+          // Se o login for bem-sucedido, redirecione para a rota anterior ou a rota padrão
+          if (this.previousPath) {
+            this.$router.push(this.previousPath)
+          } else {
+            this.$router.push('/')
+          }
+        })
+        .catch((error) => {
+          // Se houver um erro no login, você pode lidar com ele aqui
+          console.error('Erro ao fazer login:', error)
+        })
     },
 
     resetFieldClasses() {
