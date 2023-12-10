@@ -6,14 +6,12 @@
         <h1 class="hiddenName">ShiroJobs</h1>
       </RouterLink>
       <section class="user">
-        <!-- <RouterLink to="/register" class="user-item" v-if="!isAuthenticated">Criar conta</RouterLink> -->
         <div class="user-item" @click="handleLogin">
           <span to="/login">{{ username }}</span>
           <img src="/assets/people.png" alt="Foto de usuário" v-if="isAuthenticated" />
         </div>
       </section>
       <section ref="dropdown" class="dropdown" v-if="showDropdown">
-        <!-- <RouterLink to="/account" class="dropdown-item" @click="hideDropdown">Minha conta</RouterLink> -->
         <RouterLink to="/dashboard" class="dropdown-item" @click="hideDropdown">Dashboard</RouterLink>
         <span class="dropdown-item" @click="handleLogout(), hideDropdown()">Desconectar</span>
       </section>
@@ -32,11 +30,15 @@ export default {
   },
   computed: {
     isAuthenticated() {
-      return useAuthStore().loggedIn
+      return useAuthStore().isAuthenticated
     },
     username() {
       const authStore = useAuthStore()
-      return authStore.user ? authStore.user.username : 'Iniciar sessão'
+
+      const userEmail = authStore.user ? authStore.user.email : 'Iniciar sessão'
+      const username = userEmail.split('@')[0]
+
+      return username
     }
   },
   methods: {
