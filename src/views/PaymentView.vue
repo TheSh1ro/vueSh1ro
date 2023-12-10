@@ -37,6 +37,9 @@ export default {
   components: { ServiceAbout, ServiceForm },
   data() {
     return {
+      // from AuthStore
+      user: null,
+
       // Last page absolute URL ( /elojob or /duojob )
       previousPage: null,
 
@@ -164,7 +167,7 @@ export default {
         riot_id: this.riot_id,
         riot_tag: this.riot_tag,
         time: this.time,
-        user: 1,
+        user: this.user.id,
         service: this.serviceId,
         queue: this.queueId,
         status: 1

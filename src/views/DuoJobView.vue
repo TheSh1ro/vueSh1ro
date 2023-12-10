@@ -152,7 +152,8 @@ export default {
       const currentElo = this.selectedElo.current
       const targetElo = this.selectedElo.target
 
-      // Caso o elo atual selecionado seja maior que o elo desejado selecionado, limpa o elo desejado
+      // Caso o elo atual selecionado seja maior que o elo desejado se
+      lecionado, limpa o elo desejado
       if ((currentElo.eloIndex == targetElo.eloIndex && currentElo.leagueIndex <= targetElo.leagueIndex) || currentElo.eloIndex > targetElo.eloIndex || (currentElo.isHigh && currentElo.eloIndex == targetElo.eloIndex)) {
         this.selectedElo.target = []
       }
