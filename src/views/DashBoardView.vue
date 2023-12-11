@@ -109,6 +109,7 @@ main {
   background-color: rgba(20, 20, 35, 0.75);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
 }
 
 .card {
@@ -116,15 +117,16 @@ main {
   flex-direction: column;
   margin: 1em;
   border: 1px solid orange;
+  height: fit-content;
 }
 
 .header {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
   background-color: rgb(25, 25, 40);
   border-bottom: 1px solid orange;
   justify-content: space-between;
+  height: 100%;
 }
 h1 {
   font-size: 1.3em;
@@ -158,7 +160,6 @@ ul {
 button {
   border: none;
   background-color: transparent;
-  height: 100%;
   padding-inline: 1em;
   border-left: 1px solid orange;
   color: white;
@@ -169,6 +170,5 @@ button:hover {
   background-color: transparent;
   background-color: orange;
   color: black;
-  border-bottom-left-radius: 0px;
 }
 </style>
