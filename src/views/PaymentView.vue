@@ -195,14 +195,12 @@ export default {
       try {
         const response = await OrderService.createOrder(dataToBackend)
         // Lógica de sucesso
-        console.log('Resposta do backend:', response)
+        console.log('Post em /api/servico realizado:', response)
         this.clearPurchaseStore()
         this.sentOrder = true
       } catch (error) {
         // Lógica de erro
         console.error('Erro ao enviar para o backend:', error)
-      } finally {
-        console.log(dataToBackend)
       }
     }
   }

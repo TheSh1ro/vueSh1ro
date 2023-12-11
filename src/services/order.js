@@ -13,6 +13,17 @@ class OrderService {
     }
   }
 
+  async getOrder() {
+    try {
+      const response = await api.get('/servico/')
+      const orderData = response.data
+      return orderData
+    } catch (error) {
+      console.error('Erro ao criar nova ordem de serviço:', error)
+      throw error
+    }
+  }
+
   // async createElo(data) {
   //   try {
   //     const response = await api.post('/elo/', data)

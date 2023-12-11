@@ -3,32 +3,32 @@
     <div class="container" v-if="services">
       <template v-for="service in services.results" :key="service">
         <div class="card">
-          <header>
-            <div>
-              <img :src="service.current_elo_image" alt="" />
-              <h2>{{ service.current_elo }} ao {{ service.target_elo }}</h2>
-              <img :src="service.target_elo_image" alt="" />
+          <div class="header">
+            <h1>{{ service.current_elo }} ao {{ service.target_elo }}</h1>
+            <button>{{ service.status ? 'Em andamento' : 'Concluído' }}</button>
+          </div>
+          <div class="body">
+            <div class="important">
+              <ul>
+                <li>Prazo restante:</li>
+                <li>Nick da conta:</li>
+                <li>Comprador:</li>
+                <li>Data inicial:</li>
+                <li>Data final:</li>
+              </ul>
+              <ul>
+                <li>{{ calculateRemainingDays(calculateDeadlineDate(service.purchase_date, service.time)) }} dias</li>
+                <li>{{ service.riot_id + service.riot_tag }}</li>
+                <li>User ID: {{ service.user }}</li>
+                <li>{{ formatDate(service.purchase_date) }}</li>
+                <li>{{ formatDate(calculateDeadlineDate(service.purchase_date, service.time)) }}</li>
+              </ul>
             </div>
-          </header>
-          <body>
-            <div class="body-date">
-              <h5>{{ service.purchase_date }}</h5>
+            <div class="description">
+              <p v-if="service.description">{{ service.description }}</p>
+              <p v-if="!service.description">Sem descrição</p>
             </div>
-            <div class="body-info">
-              <h4>Descrição do serviço</h4>
-              <p>{{ service.description }}</p>
-            </div>
-          </body>
-          <footer>
-            <div class="footer-time">
-              <h5>{{ service.time }} dias</h5>
-            </div>
-            <div class="footer-user">
-              <h5>
-                {{ service.riot_id + service.riot_tag }}
-              </h5>
-            </div>
-          </footer>
+          </div>
         </div>
       </template>
     </div>
@@ -36,8 +36,9 @@
 </template>
 
 <script>
+import OrderService from '@/services/order'
+
 import { useAuthStore } from '../stores/store.js'
-import axios from 'axios'
 
 export default {
   data() {
@@ -46,15 +47,13 @@ export default {
       user: null
     }
   },
-  mounted() {
-    axios
-      .get('http://0.0.0.0:19003/servico/')
-      .then((response) => {
-        this.services = response.data
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error)
-      })
+  async mounted() {
+    try {
+      const response = await OrderService.getOrder()
+      this.services = response
+    } catch (error) {
+      console.error('Error fetching order data:', error)
+    }
   },
   created() {
     const authStore = useAuthStore()
@@ -73,110 +72,103 @@ export default {
       return useAuthStore().isAuthenticated
     }
   },
-  methods: {}
+  methods: {
+    formatDate(date) {
+      const [year, month, day] = date.split('-')
+      return `${day}/${month}/${year}`
+    },
+    calculateDeadlineDate(startDate, daysToAdd) {
+      const startDateObject = new Date(startDate)
+      const deadlineDate = new Date(startDateObject.getTime() + daysToAdd * 24 * 60 * 60 * 1000)
+      return deadlineDate.toISOString().split('T')[0] // Retorna a data no formato 'YYYY-MM-DD'
+    },
+    calculateRemainingDays(deadlineDate) {
+      const currentDate = new Date()
+      const deadline = new Date(deadlineDate)
+      const timeDifference = deadline.getTime() - currentDate.getTime()
+      const remainingDays = Math.ceil(timeDifference / (24 * 60 * 60 * 1000))
+      return remainingDays > 0 ? remainingDays : 0
+    }
+  }
 }
 </script>
 
 <style scoped>
+img {
+  height: 36px;
+}
+
 main {
   background-color: rgba(0, 0, 0, 0.8);
 
-  display: flex;
-  flex-direction: column;
-  padding-block: 20px 20vh;
+  display: grid;
+  padding: 1em;
 }
+
 .container {
+  background-color: rgba(20, 20, 35, 0.75);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  justify-items: center;
-  gap: 20px;
-  margin-inline: 5vw;
+  grid-template-columns: 1fr 1fr;
 }
+
 .card {
-  border-bottom: 1px solid white;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-img {
-  height: 38px;
-}
-header {
-  display: flex;
-  border: 1px solid white;
-}
-header div {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-header div h2 {
-  margin-inline: 10px;
-}
-
-body {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  align-items: center;
-  height: fit-content;
-}
-.body-date {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-inline: 1px solid white;
-  height: 100%;
-  width: 100%;
-  flex-grow: 1;
-}
-.body-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  gap: 5px;
-  flex-grow: 1;
-
-  border-right: 1px solid white;
-  height: 100%;
-  padding-block: 20px;
-}
-body h4 {
-  margin-bottom: 15px;
-}
-body p {
-  color: rgb(200, 200, 200);
+  margin: 1em;
+  border: 1px solid orange;
 }
 
-footer {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 50px;
-  align-items: center;
-  height: fit-content;
-}
-
-.footer-time {
+.header {
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  border-inline: 1px solid white;
-  border-top: 1px solid white;
-  height: 100%;
-  width: 100%;
-  color: blueviolet;
+  gap: 0.5rem;
+  background-color: rgb(25, 25, 40);
+  border-bottom: 1px solid orange;
+  justify-content: space-between;
 }
-.footer-user {
+h1 {
+  font-size: 1.3em;
+  color: orange;
+  padding-block: 0.5em;
+  padding-left: 1em;
+}
+.body {
+  display: flex;
+}
+.body .important {
+  display: flex;
+  gap: 20px;
+  border-right: 1px solid orange;
+  padding: 1em;
+}
+.important > :first-child {
+  font-weight: bold;
+  text-align: stat;
+}
+.description {
+  flex-grow: 1;
+  padding: 1em;
+}
+
+ul {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  gap: 5px;
-  flex-grow: 1;
+  gap: 3px;
+}
+button {
+  border: none;
+  background-color: transparent;
   height: 100%;
-
-  border-top: 1px solid white;
-  border-right: 1px solid white;
-  color: yellow;
+  padding-inline: 1em;
+  border-left: 1px solid orange;
+  color: white;
+  cursor: pointer;
+  border-bottom-left-radius: 10px;
+}
+button:hover {
+  background-color: transparent;
+  background-color: orange;
+  color: black;
+  border-bottom-left-radius: 0px;
 }
 </style>
