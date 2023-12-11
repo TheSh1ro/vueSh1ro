@@ -108,39 +108,43 @@ main {
 .container {
   background-color: rgba(20, 20, 35, 0.75);
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 240px;
+  gap: 3em 1em;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   margin: 1em;
-  border: 1px solid orange;
-  height: fit-content;
+  border: 1px solid rgb(255, 255, 255, 0.5);
+  height: 100%;
 }
 
 .header {
   display: flex;
   gap: 0.5rem;
   background-color: rgb(25, 25, 40);
-  border-bottom: 1px solid orange;
+  border-bottom: 1px solid rgb(255, 255, 255, 0.5);
   justify-content: space-between;
   height: 100%;
 }
 h1 {
+  align-self: center;
   font-size: 1.3em;
-  color: orange;
+  color: white;
   padding-block: 0.5em;
   padding-left: 1em;
 }
 .body {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 .body .important {
   display: flex;
+  justify-content: center;
   gap: 20px;
-  border-right: 1px solid orange;
+  border-right: 1px solid rgb(255, 255, 255, 0.5);
   padding: 1em;
 }
 .important > :first-child {
@@ -148,8 +152,10 @@ h1 {
   text-align: stat;
 }
 .description {
+  display: flex;
   flex-grow: 1;
   padding: 1em;
+  justify-content: center;
 }
 
 ul {
@@ -161,14 +167,14 @@ button {
   border: none;
   background-color: transparent;
   padding-inline: 1em;
-  border-left: 1px solid orange;
+  border-left: 1px solid rgb(255, 255, 255, 0.5);
   color: white;
   cursor: pointer;
   border-bottom-left-radius: 10px;
 }
 button:hover {
   background-color: transparent;
-  background-color: orange;
+  background-color: rgb(255, 255, 255, 0.5);
   color: black;
 }
 </style>
