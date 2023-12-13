@@ -1,11 +1,12 @@
 <template>
   <main>
-    <div class="container" v-if="services">
-      <template v-for="service in services.results" :key="service">
+    <div class="container" v-if="orders">
+      <template v-for="order in orders.results" :key="order">
         <div class="card">
           <div class="header">
-            <h1>{{ service.current_elo }} ao {{ service.target_elo }}</h1>
-            <button>{{ service.status ? 'Em andamento' : 'Concluído' }}</button>
+            <p style="position: absolute">[{{ order.id }}]</p>
+            <h1>{{ order.current_elo }} ao {{ order.target_elo }}</h1>
+            <button @click="toggleOrderStatus(order.id)">{{ order.status ? 'Em andamento' : 'Finalizado' }}</button>
           </div>
           <div class="body">
             <div class="important">
@@ -17,16 +18,16 @@
                 <li>Data final:</li>
               </ul>
               <ul>
-                <li>{{ calculateRemainingDays(calculateDeadlineDate(service.purchase_date, service.time)) }} dias</li>
-                <li>{{ service.riot_id + service.riot_tag }}</li>
-                <li>User ID: {{ service.user }}</li>
-                <li>{{ formatDate(service.purchase_date) }}</li>
-                <li>{{ formatDate(calculateDeadlineDate(service.purchase_date, service.time)) }}</li>
+                <li>{{ calculateRemainingDays(calculateDeadlineDate(order.purchase_date, order.time)) }} dias</li>
+                <li>{{ order.riot_id + order.riot_tag }}</li>
+                <li>User ID: {{ order.user }}</li>
+                <li>{{ formatDate(order.purchase_date) }}</li>
+                <li>{{ formatDate(calculateDeadlineDate(order.purchase_date, order.time)) }}</li>
               </ul>
             </div>
             <div class="description">
-              <p v-if="service.description">{{ service.description }}</p>
-              <p v-if="!service.description">Sem descrição</p>
+              <p v-if="order.description">{{ order.description }}</p>
+              <p v-if="!order.description">Sem descrição</p>
             </div>
           </div>
         </div>
@@ -36,21 +37,21 @@
 </template>
 
 <script>
-import OrderService from '@/services/order'
+import orderApi from '@/services/order'
 
 import { useAuthStore } from '../stores/store.js'
 
 export default {
   data() {
     return {
-      services: null,
+      orders: null,
       user: null
     }
   },
   async mounted() {
     try {
-      const response = await OrderService.getAllOrders()
-      this.services = response
+      const response = await orderApi.getAllOrders()
+      this.orders = response
     } catch (error) {
       console.error('Error fetching order data:', error)
     }
@@ -88,7 +89,8 @@ export default {
       const timeDifference = deadline.getTime() - currentDate.getTime()
       const remainingDays = Math.ceil(timeDifference / (24 * 60 * 60 * 1000))
       return remainingDays > 0 ? remainingDays : 0
-    }
+    },
+    toggleOrderStatus(order) {}
   }
 }
 </script>
@@ -125,6 +127,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 2fr;
   background-color: rgb(25, 25, 40);
+  position: relative;
 }
 h1 {
   border-right: 1px solid transparent;
