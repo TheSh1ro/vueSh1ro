@@ -1,6 +1,7 @@
 import { reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import authService from '../services/auth'
+import api from '../plugins/api' // Certifique-se de importar a instância do api
 
 export const useAuthStore = defineStore('auth', () => {
   const state = reactive({
@@ -47,7 +48,19 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { isAuthenticated, token, user, login, logout }
+  const updateToken = async () => {
+    try {
+      const refreshResponse = await authService.refreshToken(state.token.refresh)
+      state.token.access = refreshResponse.access
+
+      // Atualizar o token de acesso na instância do Axios
+      api.defaults.headers.common['Authorization'] = `Bearer ${refreshResponse.access}`
+    } catch (error) {
+      console.error('Erro ao atualizar o token de acesso:', error)
+    }
+  }
+
+  return { isAuthenticated, token, user, login, logout, updateToken }
 })
 
 export const usePurchaseStore = defineStore('purchase', {

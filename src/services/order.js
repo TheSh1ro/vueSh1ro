@@ -22,6 +22,16 @@ class OrderService {
     }
   }
 
+  async toggleOrderStatus(orderId, status) {
+    try {
+      const { data } = await api.patch(`/servico/${orderId}/`, { status })
+      return data
+    } catch (error) {
+      console.error('Erro ao alterar status da ordem de serviço:', error)
+      throw error
+    }
+  }
+
   // async createElo(data) {
   //   try {
   //     const response = await api.post('/elo/', data)

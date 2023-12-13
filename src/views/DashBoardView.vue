@@ -1,12 +1,12 @@
 <template>
   <main>
     <div class="container" v-if="orders">
-      <template v-for="order in orders.results" :key="order">
-        <div class="card">
+      <template v-for="order in orders.results" :key="order.id">
+        <div class="card" :class="{ finalizado: order.status == 2 }">
           <div class="header">
-            <p style="position: absolute">[{{ order.id }}]</p>
+            <p style="position: absolute; left: 2px; top: 2px">[{{ order.id }}]</p>
             <h1>{{ order.current_elo }} ao {{ order.target_elo }}</h1>
-            <button @click="toggleOrderStatus(order.id)">{{ order.status ? 'Em andamento' : 'Finalizado' }}</button>
+            <button @click="toggleOrderStatus(order)">{{ order.status == 1 ? 'Em andamento' : 'Finalizado' }}</button>
           </div>
           <div class="body">
             <div class="important">
@@ -90,7 +90,19 @@ export default {
       const remainingDays = Math.ceil(timeDifference / (24 * 60 * 60 * 1000))
       return remainingDays > 0 ? remainingDays : 0
     },
-    toggleOrderStatus(order) {}
+    async toggleOrderStatus(order) {
+      try {
+        const newStatus = order.status == 1 ? 2 : 1
+
+        // Altere o status do pedido usando a API
+        await orderApi.toggleOrderStatus(order.id, newStatus)
+
+        console.log(`Order ${order.id} status toggled to ${newStatus === 1 ? 'Em andamento' : 'Finalizado'}`)
+        order.status = newStatus
+      } catch (error) {
+        console.error('Error toggling order status:', error)
+      }
+    }
   }
 }
 </script>
@@ -139,15 +151,17 @@ h1 {
 }
 .body {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 23em 1fr;
   padding-block: 1em;
   gap: 2em;
+  flex-wrap: wrap;
 }
 .important {
   display: flex;
   justify-content: space-evenly;
   border-right: 1px solid rgb(255, 255, 255, 0.5);
   padding-inline: 1em;
+  gap: 1em;
 }
 .important > :first-child {
   font-weight: bold;
@@ -168,5 +182,9 @@ button:hover {
   background-color: transparent;
   background-color: rgb(255, 255, 255, 0.5);
   color: black;
+}
+
+.finalizado {
+  border-color: rgb(255, 0, 0);
 }
 </style>
