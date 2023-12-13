@@ -114,7 +114,7 @@ export default {
 .service {
   padding: 25px;
   min-width: 220px;
-  max-width: 18vw;
+  max-width: 14vw;
   min-height: 380px;
 
   display: flex;
