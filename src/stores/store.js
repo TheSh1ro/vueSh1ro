@@ -40,8 +40,8 @@ export const useAuthStore = defineStore('auth', () => {
   const getUserData = async () => {
     try {
       const userData = await authService.getUserData()
-      console.log(userData)
       state.user = userData
+      console.log('getUserData: ' + userData.email)
     } catch (error) {
       console.error('Erro ao obter informações do usuário:', error)
     }

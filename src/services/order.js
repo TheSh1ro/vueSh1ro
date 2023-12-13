@@ -5,19 +5,17 @@ class OrderService {
   async createOrder(data) {
     try {
       const response = await api.post('/servico/', data)
-      const orderData = response.data
-      return orderData
+      return response.data
     } catch (error) {
       console.error('Erro ao criar nova ordem de serviço:', error)
       throw error
     }
   }
 
-  async getOrder() {
+  async getAllOrders() {
     try {
-      const response = await api.get('/servico/')
-      const orderData = response.data
-      return orderData
+      const { data } = await api.get('/servico/')
+      return data
     } catch (error) {
       console.error('Erro ao criar nova ordem de serviço:', error)
       throw error

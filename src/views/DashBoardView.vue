@@ -49,7 +49,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await OrderService.getOrder()
+      const response = await OrderService.getAllOrders()
       this.services = response
     } catch (error) {
       console.error('Error fetching order data:', error)
