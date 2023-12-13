@@ -99,78 +99,67 @@ img {
 }
 
 main {
+  display: flex;
   background-color: rgba(0, 0, 0, 0.8);
-
-  display: grid;
-  padding: 1em;
+  padding-inline: 1em;
+  padding-block: 1em;
 }
 
 .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
   background-color: rgba(20, 20, 35, 0.75);
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-auto-rows: 240px;
-  gap: 3em 1em;
+  gap: 1em;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  margin: 1em;
+  flex: 1;
   border: 1px solid rgb(255, 255, 255, 0.5);
-  height: 100%;
 }
 
 .header {
-  display: flex;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   background-color: rgb(25, 25, 40);
-  border-bottom: 1px solid rgb(255, 255, 255, 0.5);
-  justify-content: space-between;
-  height: 100%;
 }
 h1 {
-  align-self: center;
+  border-right: 1px solid transparent;
+  text-align: center;
   font-size: 1.3em;
-  color: white;
   padding-block: 0.5em;
+  color: whitesmoke;
   padding-left: 1em;
 }
 .body {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
+  padding-block: 1em;
+  gap: 2em;
 }
-.body .important {
+.important {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-evenly;
   border-right: 1px solid rgb(255, 255, 255, 0.5);
-  padding: 1em;
+  padding-inline: 1em;
 }
 .important > :first-child {
   font-weight: bold;
-  text-align: stat;
 }
 .description {
-  display: flex;
-  flex-grow: 1;
-  padding: 1em;
-  justify-content: center;
+  padding-inline: 1em;
 }
 
 ul {
-  display: flex;
-  flex-direction: column;
   gap: 3px;
 }
 button {
   border: none;
-  background-color: transparent;
-  padding-inline: 1em;
-  border-left: 1px solid rgb(255, 255, 255, 0.5);
-  color: white;
   cursor: pointer;
-  border-bottom-left-radius: 10px;
+  background-color: rgb(25, 25, 40);
 }
 button:hover {
   background-color: transparent;
